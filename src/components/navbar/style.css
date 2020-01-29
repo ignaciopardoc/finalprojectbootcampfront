@@ -1,0 +1,11 @@
+.linknavbar {
+  margin-right: 10%;
+  width: 10% !important;
+}
+.linknavbar p {
+  margin-left: -230%;
+}
+
+nav {
+  padding-left: 10%;
+}
