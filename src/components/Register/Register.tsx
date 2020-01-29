@@ -1,10 +1,12 @@
 import React from "react";
 import "./style.css";
 import validate from "validate.js";
+import { Link } from "react-router-dom";
 
-const API_URL = "http://localhost:3000/user/register";
+const API_URL = "http://localhost:3000/auth/register";
 
-interface IProps {}
+interface IProps {
+}
 
 interface IState {
   email: string;
@@ -37,8 +39,10 @@ class Register extends React.PureComponent<IProps, IState> {
     };
   }
 
-  register = async () => {
+  register = async (isBusiness: number) => {
     const { email, password, username } = this.state;
+
+
     try {
       await fetch(API_URL, {
         method: "POST",
@@ -48,9 +52,11 @@ class Register extends React.PureComponent<IProps, IState> {
         body: JSON.stringify({
           username,
           email,
-          password
+          password,
+          isBusiness
         })
       });
+    
     } catch (e) {
       console.log(e);
     }
@@ -95,16 +101,26 @@ class Register extends React.PureComponent<IProps, IState> {
     return (
       <div className="container-fluid register">
         <div className="row">
-          <div className="col-6 "></div>
+          <div className="col-6 ">
+            <Link to={"/register/business"}>
+              <button className="btn btn-light">Soy empresa</button>
+            </Link>
+          </div>
           <div className="col-5">
-            <h1 className="">¡Regístrate!</h1>
-            <form onSubmit={this.register}>
+            <Link to={"/register/"}>
+              <button className="btn btn-danger">Tengo un perro</button>
+            </Link>
+
+            <h1 className="">¡Regístrate USUARIO!</h1>
+            <div className="formulario">
               <div className="row">
                 <div className="col">
                   <input
                     value={this.state.email}
                     onChange={e => {
                       this.setState({ email: e.target.value });
+                    }}
+                    onBlur={() => {
                       const validation = validate(
                         { from: this.state.email },
                         constraints
@@ -196,11 +212,11 @@ class Register extends React.PureComponent<IProps, IState> {
               <button
                 disabled={!isAllOk}
                 className="btn-lg btn btn-success"
-                type="submit"
+                onClick={() => this.register(0)}
               >
                 Enviar
               </button>
-            </form>
+            </div>
           </div>
         </div>
       </div>

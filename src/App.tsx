@@ -1,12 +1,13 @@
 import React from "react";
 import "./App.css";
-import Navbar from "./components/navbar/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
 import Provider from "react";
 import { Router, Switch, Route } from "react-router-dom";
+import BusinessRegister from "./components/BusinessRegister/BusinessRegister";
 
-class App extends React.PureComponent {
+class App extends React.PureComponent<any, any> {
   render() {
     return (
       <div>
@@ -15,6 +16,11 @@ class App extends React.PureComponent {
           <Route exact path="/register">
             <Register />
           </Route>
+          <Route exact path="/register/business/">
+            <BusinessRegister />
+          </Route>
+
+
           <Route exact path="/login">
             <Login />
           </Route>

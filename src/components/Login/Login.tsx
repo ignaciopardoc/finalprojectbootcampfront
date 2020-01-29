@@ -3,7 +3,7 @@ import "./style.css";
 import { connect } from "react-redux";
 import { setTokenAction } from "../../redux/actions";
 import { IToken } from "../../interfaces/IToken";
-const API_URL = "http://localhost:3000/user/auth";
+const API_URL = "http://localhost:3000/auth/auth";
 
 interface IProps {
   setToken(token: IToken): void
@@ -49,9 +49,9 @@ class Login extends React.PureComponent<IProps, IState> {
         <div className="col-4">
           <h1>¡Bienvenido de nuevo!</h1>
 
-          <p>Usuario</p>
+          <p>Usuario o email</p>
           <input
-            placeholder="Nombre de usuario"
+            placeholder="Nombre de usuario o email"
             className="form-control"
             type="text"
             value={this.state.username}

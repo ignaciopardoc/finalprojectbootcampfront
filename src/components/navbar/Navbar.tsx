@@ -1,15 +1,10 @@
-import React from "react";
 import logo from "../../images/logo.png";
 import "./style.css";
-import validate from "validate.js";
+import React from "react";
 import { Link } from "react-router-dom";
 
 class Navbar extends React.PureComponent {
   render() {
-
-    
-
-
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#">
@@ -70,9 +65,21 @@ class Navbar extends React.PureComponent {
               </a>
             </li>
           </ul>
+
           <form className="form-inline my-2 my-lg-0 linknavbar">
-            <Link to="/register"><p>Registro</p></Link>
-            <Link to="/login"> <p> Login</p></Link>
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link to="/register">
+                Registro
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/login">
+                  {" "}
+                   Login
+                </Link>
+              </li>
+            </ul>
           </form>
         </div>
       </nav>

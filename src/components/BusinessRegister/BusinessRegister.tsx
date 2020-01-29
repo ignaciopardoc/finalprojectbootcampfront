@@ -1,8 +1,9 @@
 import React from "react";
 import "./style.css";
 import validate from "validate.js";
+import { Link } from "react-router-dom";
 
-const API_URL = "http://localhost:3000/business/register";
+const API_URL = "http://localhost:3000/auth/register";
 
 interface IProps {}
 
@@ -19,7 +20,7 @@ interface IState {
   isValidPassword: boolean;
 }
 
-class Register extends React.PureComponent<IProps, IState> {
+class BusinessRegister extends React.PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -37,7 +38,7 @@ class Register extends React.PureComponent<IProps, IState> {
     };
   }
 
-  register = async () => {
+  register = async (isBusiness: number) => {
     const { email, password, username } = this.state;
     try {
       await fetch(API_URL, {
@@ -48,7 +49,8 @@ class Register extends React.PureComponent<IProps, IState> {
         body: JSON.stringify({
           username,
           email,
-          password
+          password,
+          isBusiness
         })
       });
     } catch (e) {
@@ -93,18 +95,22 @@ class Register extends React.PureComponent<IProps, IState> {
     };
     let mediumRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})");
     return (
-      <div className="container-fluid register">
+      <div className="container-fluid registerBusiness">
         <div className="row">
-          <div className="col-6 "></div>
-          <div className="col-5">
-            <h1 className="">¡Regístrate!</h1>
-            <form onSubmit={this.register}>
+          <div className="col-5 ">
+            <Link to={"/register/business"}>
+              <button className="btn btn-danger">Soy empresa</button>
+            </Link>
+            <h1 className="">¡Regístrate EMPRESA!</h1>
+            <div className="formulario">
               <div className="row">
                 <div className="col">
                   <input
                     value={this.state.email}
                     onChange={e => {
                       this.setState({ email: e.target.value });
+                    }}
+                    onBlur={() => {
                       const validation = validate(
                         { from: this.state.email },
                         constraints
@@ -196,11 +202,17 @@ class Register extends React.PureComponent<IProps, IState> {
               <button
                 disabled={!isAllOk}
                 className="btn-lg btn btn-success"
-                type="submit"
+                onClick={() => this.register(1)}
               >
                 Enviar
               </button>
-            </form>
+            </div>
+          </div>
+          <div className="col-1"></div>
+          <div className="col-5">
+            <Link to={"/register/"}>
+              <button className="btn btn-light">Tengo un perro</button>
+            </Link>
           </div>
         </div>
       </div>
@@ -208,4 +220,4 @@ class Register extends React.PureComponent<IProps, IState> {
   }
 }
 
-export default Register;
+export default BusinessRegister;

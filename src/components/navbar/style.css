@@ -1,9 +1,15 @@
 .linknavbar {
-  margin-right: 10%;
   width: 10% !important;
 }
-.linknavbar p {
-  margin-left: -230%;
+.linknavbar li {
+  margin-right: 20%;
+}
+.linknavbar li a {
+  color: rgba(0, 0, 0, 0.5);
+}
+.linknavbar li a:hover {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.7);
 }
 
 nav {
