@@ -3,10 +3,11 @@ import "./style.css";
 import { connect } from "react-redux";
 import { setTokenAction } from "../../redux/actions";
 import { IToken } from "../../interfaces/IToken";
+import Swal from "sweetalert2";
 const API_URL = "http://localhost:3000/auth/auth";
 
 interface IProps {
-  setToken(token: IToken): void
+  setToken(token: IToken): void;
 }
 
 interface IState {
@@ -36,10 +37,15 @@ class Login extends React.PureComponent<IProps, IState> {
         password
       })
     });
-    const json = await response.json();
-    console.log(json);
-    localStorage.setItem("token", json);
-    this.props.setToken(json)
+    if (response.status === 403) {
+      Swal.fire({ icon: "error", title: "Usuario o contraseña no válidos" });
+    } else if (response.status === 200) {
+      Swal.fire({ icon: "success", title: "Logueado correctamente" });
+      const json = await response.json();
+      localStorage.setItem("token", json);
+      this.props.setToken(json);
+    }
+    console.log(response);
   };
 
   render() {
@@ -75,8 +81,8 @@ class Login extends React.PureComponent<IProps, IState> {
   }
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = () => ({});
 
-const mapDispatchToProps = { setToken: setTokenAction}
+const mapDispatchToProps = { setToken: setTokenAction };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

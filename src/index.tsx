@@ -6,9 +6,10 @@ import {createStore} from "redux"
 import {Provider} from "react-redux"
 import reducers from './redux/reducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { Router, BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import history from './utils/history';
 
 const store = createStore(reducers, composeWithDevTools())
 
-ReactDOM.render(<BrowserRouter><Provider store={store}><App /></Provider></BrowserRouter>, document.getElementById('root'));
+ReactDOM.render(<Router history={history}><Provider store={store}><App /></Provider></Router>, document.getElementById('root'));
 

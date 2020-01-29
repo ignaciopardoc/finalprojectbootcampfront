@@ -2,6 +2,7 @@ import React from "react";
 import "./style.css";
 import validate from "validate.js";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const API_URL = "http://localhost:3000/auth/register";
 
@@ -41,7 +42,7 @@ class BusinessRegister extends React.PureComponent<IProps, IState> {
   register = async (isBusiness: number) => {
     const { email, password, username } = this.state;
     try {
-      await fetch(API_URL, {
+      let response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -53,8 +54,20 @@ class BusinessRegister extends React.PureComponent<IProps, IState> {
           isBusiness
         })
       });
+      if (response.status === 409) {
+        Swal.fire({ icon: "error", title: "Usuario o email ya registrado" });
+      } else {
+        Swal.fire({
+          icon: "success",
+          title: "Registrado correctamente"
+        });
+      }
     } catch (e) {
       console.log(e);
+      Swal.fire({
+        icon: "error",
+        title: "Error en el registro"
+      });
     }
   };
   render() {

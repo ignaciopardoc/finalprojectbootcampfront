@@ -1,12 +1,16 @@
 import React from "react";
 import "./style.css";
 import validate from "validate.js";
-import { Link } from "react-router-dom";
+import { Link, Redirect, withRouter } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import history from "../../utils/history";
+
+const MySwal = withReactContent(Swal);
 
 const API_URL = "http://localhost:3000/auth/register";
 
-interface IProps {
-}
+interface IProps {}
 
 interface IState {
   email: string;
@@ -42,9 +46,8 @@ class Register extends React.PureComponent<IProps, IState> {
   register = async (isBusiness: number) => {
     const { email, password, username } = this.state;
 
-
     try {
-      await fetch(API_URL, {
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -56,9 +59,23 @@ class Register extends React.PureComponent<IProps, IState> {
           isBusiness
         })
       });
-    
+      console.log(response);
+
+      if (response.status === 409) {
+        Swal.fire({ icon: "error", title: "Usuario o email ya registrado" });
+      } else {
+        Swal.fire({
+          icon: "success",
+          title: "Registrado correctamente"
+        });
+        history.push("/login")
+      }
     } catch (e) {
       console.log(e);
+      Swal.fire({
+        icon: "error",
+        title: "Error en el registro"
+      });
     }
   };
   render() {
