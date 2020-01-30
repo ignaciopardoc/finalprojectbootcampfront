@@ -1,17 +1,24 @@
-.linknavbar {
-  width: 10% !important;
-}
 .linknavbar li {
   margin-right: 20%;
 }
-.linknavbar li a {
-  color: rgba(0, 0, 0, 0.5);
-}
-.linknavbar li a:hover {
-  text-decoration: none;
-  color: rgba(0, 0, 0, 0.7);
+.linknavbar img {
+  margin-left: 30px;
+  height: 30px;
 }
 
 nav {
   padding-left: 10%;
+}
+
+.logoutIcon {
+  cursor: pointer;
+}
+
+a {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+a:hover {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.7);
 }

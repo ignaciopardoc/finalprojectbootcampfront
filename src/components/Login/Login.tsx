@@ -6,26 +6,26 @@ import { IUser } from "../../interfaces/IToken";
 import Swal from "sweetalert2";
 import { ILogged } from "../../interfaces/ILogged";
 import { IStore } from "../../interfaces/IStore";
+import history from "../../utils/history";
 const API_URL = "http://localhost:3000/auth/auth";
 
 interface IProps {
   setToken(token: IUser): void;
-  setLogged(logged: ILogged): void
- 
-  
+  setLogged(logged: ILogged): void;
 }
 
 interface IGlobalProps {
-  logged: ILogged
-  
+  logged: ILogged;
 }
 
-type TProps = IProps & IGlobalProps
+type TProps = IProps & IGlobalProps;
 
 interface IState {
   username: string;
   password: string;
 }
+
+
 
 class Login extends React.PureComponent<TProps, IState> {
   constructor(props: TProps) {
@@ -36,6 +36,9 @@ class Login extends React.PureComponent<TProps, IState> {
       password: ""
     };
   }
+
+  
+  
 
   login = async () => {
     const { username, password } = this.state;
@@ -52,17 +55,24 @@ class Login extends React.PureComponent<TProps, IState> {
     if (response.status === 403) {
       Swal.fire({ icon: "error", title: "Usuario o contraseña no válidos" });
     } else if (response.status === 200) {
-      Swal.fire({ icon: "success", title: "Logueado correctamente" });
       const json = await response.json();
       localStorage.setItem("token", json);
       this.props.setToken(json);
-      this.props.setLogged({logged:true});
+      this.props.setLogged({ logged: true });
+      history.push("/")
+      Swal.fire({ icon: "success", title: "Logueado correctamente" });
     }
     console.log(response);
   };
 
+  
+    
+  
+
   render() {
-    console.log(this.props.logged.logged)
+    if(this.props.logged.logged){
+      history.push("/")
+    }
     return (
       <div className="row login">
         <div className="col-6"></div>
@@ -77,7 +87,7 @@ class Login extends React.PureComponent<TProps, IState> {
             value={this.state.username}
             onChange={e => this.setState({ username: e.target.value })}
           />
-          {!this.props.logged.logged && <p>Contraseña</p>}
+          <p>Contraseña</p>
           <input
             placeholder="Contraseña"
             className="form-control"
@@ -95,10 +105,13 @@ class Login extends React.PureComponent<TProps, IState> {
   }
 }
 
-const mapStateToProps = ({logged} :IStore) : IGlobalProps => ({
+const mapStateToProps = ({ logged }: IStore): IGlobalProps => ({
   logged
 });
 
-const mapDispatchToProps = { setToken: setTokenAction, setLogged: setLoggedAction };
+const mapDispatchToProps = {
+  setToken: setTokenAction,
+  setLogged: setLoggedAction
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

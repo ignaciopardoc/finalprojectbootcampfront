@@ -2,10 +2,33 @@ import logo from "../../images/logo.png";
 import "./style.css";
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { IStore } from "../../interfaces/IStore";
+import { ILogged } from "../../interfaces/ILogged";
+import { setLoggedAction } from "../../redux/actions";
+import logoutIcon from "../../icons/logout.svg";
+import history from "../../utils/history";
 
-class Navbar extends React.PureComponent {
+interface IGlobalProps {
+  logged: ILogged;
+}
+
+interface IProps {
+  setLogged(logged: ILogged): void;
+}
+
+type TProps = IGlobalProps & IProps;
+
+class Navbar extends React.PureComponent<TProps> {
+  logout = () => {
+    this.props.setLogged({ logged: false });
+    localStorage.removeItem("token");
+    history.push("/")
+  };
+
   render() {
     return (
+      <div className="container-fluid">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#">
           <img src={logo} height="50" alt="" />
@@ -65,26 +88,45 @@ class Navbar extends React.PureComponent {
               </a>
             </li>
           </ul>
-
           <form className="form-inline my-2 my-lg-0 linknavbar">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link to="/register">
-                Registro
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/login">
-                  {" "}
-                   Login
-                </Link>
-              </li>
-            </ul>
+            {!this.props.logged.logged && (
+              <ul className="navbar-nav mr-auto">
+                <li className="nav-item">
+                  <Link to="/register">Registro</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/login"> Login</Link>
+                </li>
+              </ul>
+            )}
+
+            {this.props.logged.logged && (
+              <div>
+                {" "}
+                <Link to="/profile"><a>Perfil</a></Link>
+                <img
+                  className="logoutIcon"
+                  
+                  src={logoutIcon}
+                  onClick={this.logout}
+                />
+                
+              </div>
+            )}
           </form>
         </div>
       </nav>
+      </div>
     );
   }
 }
 
-export default Navbar;
+const mapStateToProps = ({ logged }: IStore): IGlobalProps => ({
+  logged
+});
+
+const mapDispatchToProps = {
+  setLogged: setLoggedAction
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
