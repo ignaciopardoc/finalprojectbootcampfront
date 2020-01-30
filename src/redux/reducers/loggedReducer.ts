@@ -2,14 +2,14 @@ import { TAction } from "../types"
 
 
 const initialState = {
-    token: "",
+    logged: false
 }
 
 export default(state = initialState, action: TAction) => {
     switch (action.type) {
-        case "SET_TOKEN": 
+        case "SET_LOGGED": 
            return action.payload
-        default:
+           default:
             return state
     }
     

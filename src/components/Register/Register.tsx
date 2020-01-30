@@ -44,8 +44,7 @@ class Register extends React.PureComponent<IProps, IState> {
   }
 
   register = async (isBusiness: number) => {
-    const { email, password, username } = this.state;
-
+    const { email, password, username } = this.state
     try {
       const response = await fetch(API_URL, {
         method: "POST",
@@ -59,8 +58,6 @@ class Register extends React.PureComponent<IProps, IState> {
           isBusiness
         })
       });
-      console.log(response);
-
       if (response.status === 409) {
         Swal.fire({ icon: "error", title: "Usuario o email ya registrado" });
       } else {

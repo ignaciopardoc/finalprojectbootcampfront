@@ -1,5 +1,7 @@
-import { IToken } from "./IToken";
+import { IUser } from "./IToken";
+import { ILogged } from "./ILogged";
 
 export interface IStore {
-    token: IToken
+    token: IUser
+    logged: ILogged
 }

@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
 import Provider from "react";
-import { Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import BusinessRegister from "./components/BusinessRegister/BusinessRegister";
 
 class App extends React.PureComponent<any, any> {
@@ -19,8 +19,6 @@ class App extends React.PureComponent<any, any> {
           <Route exact path="/register/business/">
             <BusinessRegister />
           </Route>
-
-
           <Route exact path="/login">
             <Login />
           </Route>
