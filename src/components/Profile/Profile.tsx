@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { IStore } from "../../interfaces/IStore";
 import { ILogged } from "../../interfaces/ILogged";
 import history from "../../utils/history";
+import "./style.css"
+import BusinessProfile from "./BusinessProfile/BusinessProfile";
 
 interface IGlobalProps {
   logged: ILogged;
@@ -20,11 +22,7 @@ class Profile extends React.PureComponent<TProps> {
   }
   render() {
     return (
-      <div className="row">
-        <div className="col-1 profileNavbar">NAVBAR</div>
-
-        <div className="col-11">PROFILE</div>
-      </div>
+      <BusinessProfile />
     );
   }
 }
