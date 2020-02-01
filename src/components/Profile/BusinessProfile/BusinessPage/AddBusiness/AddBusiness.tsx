@@ -24,9 +24,11 @@ interface IState {
   email: string;
   categories: [];
   zoom: number;
-  latlon: any,
-  lat: number
-  lon: number
+  latlon: any;
+  lat: number;
+  lon: number;
+  completeAddress: string;
+  postcode: number;
 }
 
 class AddBusiness extends React.PureComponent<TProps, IState> {
@@ -36,6 +38,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
     this.state = {
       businessName: "",
       address: "",
+      completeAddress: "",
       city: "",
       description: "",
       category: "",
@@ -46,23 +49,48 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
       latlon: undefined,
       zoom: 0,
       lat: 0,
-      lon: 0
+      lon: 0,
+      postcode: 0
     };
   }
+
+  createBusiness = async () => {
+    const {
+      businessName,
+      completeAddress,
+      description,
+      category,
+      telephone,
+      email,
+      lat,
+      lon,
+      city,
+      postcode
+    } = this.state;
+
+    
+  };
 
   searchByAdress = async (address: string) => {
     fetch(
       `https://nominatim.openstreetmap.org/search/${address}?format=json&addressdetails=1&limit=1&polygon_svg=1`
-    ).then( async (response) => {
-       const json = await response.json()
-      console.log(json)
+    ).then(async response => {
+      const json = await response.json();
+      console.log(json);
+      //Result is only used for the map
+      const result = [json[0].lat, json[0].lon];
+      this.setState({ latlon: result });
+      this.setState({ zoom: 17 });
 
-        const result = [json[0].lat, json[0].lon];
-        this.setState({lat: json[0].lat})
-        this.setState({lon: json[0].lon})
-        this.setState({latlon: result });
-        this.setState({ zoom: 17 });
-    })  
+      //This goes to the db
+      this.setState({ lat: json[0].lat });
+      this.setState({ lon: json[0].lon });
+      this.setState({
+        completeAddress: `${json[0].address.road}, ${json[0].address.house_number}`
+      });
+      this.setState({ postcode: json[0].address.postcode });
+      this.setState({ city: json[0].address.city });
+    });
   };
 
   getCategories = async () => {
@@ -76,7 +104,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
   }
 
   render() {
-    console.log(this.state)
+    console.log(this.state);
     return (
       <Fragment>
         <div className="row addBusinessContainer">
@@ -181,8 +209,11 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
             </div>
           </div>
           <div className="col-6 leaflet-container">
-            <MapExample searchByAdress={this.searchByAdress} zoom={this.state.zoom} latlon={this.state.latlon}/>
-            
+            <MapExample
+              searchByAdress={this.searchByAdress}
+              zoom={this.state.zoom}
+              latlon={this.state.latlon}
+            />
           </div>
         </div>
       </Fragment>
