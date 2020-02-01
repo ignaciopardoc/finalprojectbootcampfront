@@ -4,42 +4,28 @@ import "./style.css";
 import { Map, SVGOverlay, TileLayer, Marker, Popup } from "react-leaflet";
 
 interface IState {
-  lat: number;
-  lon: number;
-  zoom: number;
-  searchResult: any;
+  
   searchInput: string;
 }
 
-export default class SimpleExample extends Component<{}, IState> {
+interface IProps {
+  searchByAdress(address: string): void
+  zoom: number
+  latlon: any
+}
+
+export default class SimpleExample extends Component<IProps, IState> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      searchResult: undefined,
-      lat: 0,
-      lon: 0,
-      zoom: 0,
+      
+      
       searchInput: ""
     };
   }
 
-  searchByAdress = async (address: string) => {
-    fetch(
-      `https://nominatim.openstreetmap.org/search/${address}?format=json&addressdetails=1&limit=1&polygon_svg=1`
-    ).then( async (response) => {
-       const json = await response.json()
-      console.log(json)
-     
-        const result = [json[0].lat, json[0].lon];
-        this.setState({searchResult: result });
-        this.setState({ zoom: 17 });
-     
-      
-    
-    })
-    
-  };
+  
 
   render() {
     return (
@@ -48,16 +34,14 @@ export default class SimpleExample extends Component<{}, IState> {
           style={{ minHeight: "500px" }}
           onClick={(e: any) => {}}
           center={
-            this.state.searchResult 
+            this.props.latlon 
           }
-          zoom={this.state.zoom}
+          zoom={this.props.zoom}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <Marker
             position={
-              this.state.searchResult !== null
-                ? this.state.searchResult
-                : [this.state.lat, this.state.lon]
+              this.props.latlon 
             }
           >
             <Popup>
@@ -69,7 +53,7 @@ export default class SimpleExample extends Component<{}, IState> {
           <input
             onChange={e => this.setState({ searchInput: e.target.value })}
             onKeyDown={e => {
-              if (e.keyCode === 13) this.searchByAdress(this.state.searchInput);
+              if (e.keyCode === 13) this.props.searchByAdress(this.state.searchInput);
             }}
             type="text"
             className="form-control"

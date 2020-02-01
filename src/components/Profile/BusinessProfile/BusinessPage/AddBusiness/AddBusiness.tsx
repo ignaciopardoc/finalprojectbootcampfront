@@ -23,9 +23,10 @@ interface IState {
   instagram: string;
   email: string;
   categories: [];
-  lat: number;
-  lng: number;
   zoom: number;
+  latlon: any,
+  lat: number
+  lon: number
 }
 
 class AddBusiness extends React.PureComponent<TProps, IState> {
@@ -42,12 +43,27 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
       instagram: "",
       email: "",
       categories: [],
-
-      lat: 51.505,
-      lng: -0.09,
-      zoom: 13
+      latlon: undefined,
+      zoom: 0,
+      lat: 0,
+      lon: 0
     };
   }
+
+  searchByAdress = async (address: string) => {
+    fetch(
+      `https://nominatim.openstreetmap.org/search/${address}?format=json&addressdetails=1&limit=1&polygon_svg=1`
+    ).then( async (response) => {
+       const json = await response.json()
+      console.log(json)
+
+        const result = [json[0].lat, json[0].lon];
+        this.setState({lat: json[0].lat})
+        this.setState({lon: json[0].lon})
+        this.setState({latlon: result });
+        this.setState({ zoom: 17 });
+    })  
+  };
 
   getCategories = async () => {
     const response = await fetch(API_URL);
@@ -60,7 +76,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
   }
 
   render() {
-    const position = [this.state.lat, this.state.lng];
+    console.log(this.state)
     return (
       <Fragment>
         <div className="row addBusinessContainer">
@@ -165,7 +181,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
             </div>
           </div>
           <div className="col-6 leaflet-container">
-            <MapExample />
+            <MapExample searchByAdress={this.searchByAdress} zoom={this.state.zoom} latlon={this.state.latlon}/>
             
           </div>
         </div>
