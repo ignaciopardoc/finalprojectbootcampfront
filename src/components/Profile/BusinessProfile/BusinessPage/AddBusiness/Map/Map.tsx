@@ -16,7 +16,7 @@ export default class SimpleExample extends Component<{}, IState> {
     super(props);
 
     this.state = {
-      searchResult: null,
+      searchResult: undefined,
       lat: 0,
       lon: 0,
       zoom: 0,
@@ -25,15 +25,20 @@ export default class SimpleExample extends Component<{}, IState> {
   }
 
   searchByAdress = async (address: string) => {
-    const response = await fetch(
+    fetch(
       `https://nominatim.openstreetmap.org/search/${address}?format=json&addressdetails=1&limit=1&polygon_svg=1`
-    );
-
-    let json = await response.json();
-    console.log(json);
-    const result = [json[0].lat, json[0].lon];
-    this.setState({ searchResult: result });
-    this.setState({ zoom: 17 });
+    ).then( async (response) => {
+       const json = await response.json()
+      console.log(json)
+     
+        const result = [json[0].lat, json[0].lon];
+        this.setState({searchResult: result });
+        this.setState({ zoom: 17 });
+     
+      
+    
+    })
+    
   };
 
   render() {
@@ -43,16 +48,16 @@ export default class SimpleExample extends Component<{}, IState> {
           style={{ minHeight: "500px" }}
           onClick={(e: any) => {}}
           center={
-            this.state.searchResult !== null
-              ? this.state.searchResult
-              : [this.state.lat, this.state.lon]
+            this.state.searchResult 
           }
           zoom={this.state.zoom}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <Marker
             position={
-              this.state.searchResult !== null ? this.state.searchResult : [this.state.lat, this.state.lon]
+              this.state.searchResult !== null
+                ? this.state.searchResult
+                : [this.state.lat, this.state.lon]
             }
           >
             <Popup>
@@ -62,8 +67,10 @@ export default class SimpleExample extends Component<{}, IState> {
         </Map>
         <div className="form-group">
           <input
-            onChange={e => this.setState({searchInput: e.target.value})}
-            onKeyDown={e => {if(e.keyCode === 13) this.searchByAdress(this.state.searchInput)}}
+            onChange={e => this.setState({ searchInput: e.target.value })}
+            onKeyDown={e => {
+              if (e.keyCode === 13) this.searchByAdress(this.state.searchInput);
+            }}
             type="text"
             className="form-control"
             placeholder="Buscar dirección"
