@@ -3,32 +3,66 @@ import { connect } from "react-redux";
 import { IStore } from "../../interfaces/IStore";
 import { ILogged } from "../../interfaces/ILogged";
 import history from "../../utils/history";
-import "./style.css"
+import "./style.css";
 import BusinessProfile from "./BusinessProfile/BusinessProfile";
+import { setTokenAction } from "../../redux/actions";
+import { IUser } from "../../interfaces/IToken";
+import jwt from "jsonwebtoken";
 
 interface IGlobalProps {
   logged: ILogged;
+  token: IUser;
 }
+
+
 
 interface IProps {}
 
 type TProps = IGlobalProps & IProps;
 
-class Profile extends React.PureComponent<TProps> {
+interface IState {
+  isBusiness: boolean | null;
+}
+
+class Profile extends React.PureComponent<TProps, IState> {
+  constructor(props: TProps) {
+    super(props);
+
+    this.state = {
+      isBusiness: null
+    };
+  }
+
   componentDidMount() {
-    if (!this.props.logged.logged) {
-      history.push("/login");
-    }
+    setTimeout(() => {
+      if (!this.props.logged.logged) {
+        history.push("/login");
+      }
+      let token = localStorage.getItem("token")
+      
+      if(token){
+        const {isBusiness}: any = jwt.decode(token)
+        this.setState({isBusiness: isBusiness})
+          
+      }
+    }, 1);
   }
   render() {
     return (
-      <BusinessProfile />
-    );
+     <div>
+       {this.state.isBusiness && <BusinessProfile />}
+     </div>
+    )
   }
 }
 
-const mapStateToProps = ({ logged }: IStore): IGlobalProps => ({
-  logged
+const mapStateToProps = ({ logged, token }: IStore): IGlobalProps => ({
+  logged,
+  token
 });
+
+const mapDispatchToProps = {
+  setToken: setTokenAction
+};
 
 export default connect(mapStateToProps)(Profile);

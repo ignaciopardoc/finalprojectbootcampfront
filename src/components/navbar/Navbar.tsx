@@ -28,8 +28,9 @@ class Navbar extends React.PureComponent<TProps> {
 
   render() {
     return (
-      <div className="container-fluid">
+      
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container-fluid">
         <a className="navbar-brand" href="#">
           <img src={logo} height="50" alt="" />
         </a>
@@ -115,8 +116,9 @@ class Navbar extends React.PureComponent<TProps> {
             )}
           </form>
         </div>
+        </div>
       </nav>
-      </div>
+      
     );
   }
 }

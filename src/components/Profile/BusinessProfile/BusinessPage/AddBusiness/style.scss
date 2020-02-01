@@ -1,0 +1,38 @@
+.addBusinessContainer {
+    margin-top: 15px;
+    border: 1px lightgrey solid;
+    border-radius: 0.5%;
+    padding: 10px;
+    position: relative;
+  textarea {
+    resize: none;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .instagramInput {
+    background: url("../../../../../icons/instagram.svg") no-repeat scroll 7px
+      7px;
+    background-size: 10%;
+    padding-left: 35px;
+    padding-right: 30px;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+  }
+  .instagramInput:focus {
+    box-shadow: none !important;
+  }
+
+  #mapid { height: 180px; }
+}
+
+.leaflet-container{
+  padding: 0px !important;
+  .form-group{
+    margin-bottom: 0px !important;
+  }
+}

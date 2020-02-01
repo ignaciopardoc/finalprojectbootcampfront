@@ -1,0 +1,12 @@
+.row {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+.row .profileNavbar {
+  height: 91vh;
+  background-color: black;
+  color: white;
+}
+.row .profileSelection {
+  background-color: lightgrey;
+}
