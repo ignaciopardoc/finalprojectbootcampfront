@@ -1,12 +1,16 @@
 .row {
   margin-left: 0px !important;
   margin-right: 0px !important;
+  
   .profileNavbar {
+    padding-top: 20px;
     height: 91vh;
     background-color: black;
     color: white;
+    hr{
+      border-color: white;
+    }
   }
-  .profileSelection{
-      background-color: lightgrey
-  }
+
+  
 }

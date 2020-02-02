@@ -36,7 +36,8 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
     };
   }
   getBusinessInfo = async () => {
-    const token = this.props.token.token;
+    const token = this.props.token.token
+    
     const response = await fetch(API_URL, {
       method: "GET",
       headers: new Headers({
@@ -45,7 +46,7 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
       })
     });
     const json = await response.json();
-    this.setState({ business: json });
+    this.setState({...this.state, business: json });
   };
 
   componentDidMount() {
@@ -55,6 +56,7 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
   }
 
   render() {
+    console.log(this.props.token.token)
     return (
       <div>
         <div className="row">

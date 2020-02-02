@@ -26,8 +26,9 @@ class BusinessProfile extends React.PureComponent<any, IState> {
             className="row"
             onClick={() => this.setState({ selectedNavbar: 0 })}
           >
-            User Info
+            Información de usuario
           </div>
+          <hr/>
           <div
             className="row"
             onClick={() => this.setState({ selectedNavbar: 1 })}

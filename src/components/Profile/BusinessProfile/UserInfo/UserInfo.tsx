@@ -35,7 +35,7 @@ class UserInfo extends React.PureComponent<TProps, IState> {
     };
   }
   getuserinfo = async () => {
-    const token = this.props.token.token;
+    const token = this.props.token.token
     const response = await fetch(API_URL, {
       method: "GET",
       headers: new Headers({
@@ -49,7 +49,7 @@ class UserInfo extends React.PureComponent<TProps, IState> {
     
     
   };
-  componentWillMount() {
+  componentDidMount() {
     setTimeout(() => {
       this.getuserinfo();
     }, 1);

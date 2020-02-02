@@ -57,7 +57,7 @@ class Login extends React.PureComponent<TProps, IState> {
     } else if (response.status === 200) {
       const json = await response.json();
       localStorage.setItem("token", json);
-      this.props.setToken(json);
+      this.props.setToken({token:json});
       this.props.setLogged({ logged: true });
       history.push("/")
       Swal.fire({ icon: "success", title: "Logueado correctamente" });

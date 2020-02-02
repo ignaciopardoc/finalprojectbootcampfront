@@ -10,7 +10,7 @@ interface IState {
 }
 
 interface IProps {
-  searchByAdress(address: string): void;
+  changelatlng(lat: number, lon: number): void
   zoom: number;
   latlon: any;
 }
@@ -34,11 +34,16 @@ export default class SimpleExample extends Component<IProps, IState> {
       
   });
     return (
-      
       <Fragment>
+      <label>Por favor, comprueba que la ubicación en el mapa es la correcta</label>
+      <div className="leaflet-container">
+        
         <Map
           style={{ minHeight: "500px" }}
-          onClick={(e: any) => {}}
+          onClick={(e: any) => {
+            console.log(e)
+            this.props.changelatlng(e.latlng.lat, e.latlng.lng)
+          }}
           center={this.props.latlon}
           zoom={this.props.zoom}        >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -50,19 +55,9 @@ export default class SimpleExample extends Component<IProps, IState> {
             </Popup>
           </Marker>
         </Map>
-        <div className="form-group">
-          <input
-            onChange={e => this.setState({ searchInput: e.target.value })}
-            onKeyDown={e => {
-              if (e.keyCode === 13)
-                this.props.searchByAdress(this.state.searchInput);
-            }}
-            type="text"
-            className="form-control"
-            placeholder="Buscar dirección"
-          />
         </div>
-      </Fragment>
+        </Fragment>
+      
     );
   }
 }

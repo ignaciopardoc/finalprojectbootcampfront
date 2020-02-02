@@ -3,10 +3,11 @@
   margin-right: 0px !important;
 }
 .row .profileNavbar {
+  padding-top: 20px;
   height: 91vh;
   background-color: black;
   color: white;
 }
-.row .profileSelection {
-  background-color: lightgrey;
+.row .profileNavbar hr {
+  border-color: white;
 }
