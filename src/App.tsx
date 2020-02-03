@@ -50,7 +50,7 @@ class App extends React.PureComponent<TProps, any> {
           <Route exact path="/login">
             <Login />
           </Route>
-          <Route exact path="/profile">
+          <Route path="/profile">
             <Profile />
           </Route>
         </Switch>

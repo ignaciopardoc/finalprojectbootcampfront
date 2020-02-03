@@ -4,7 +4,9 @@ import { IStore } from "../../../../interfaces/IStore";
 import { IUser } from "../../../../interfaces/IToken";
 import { disconnect } from "cluster";
 import AddBusiness from "./AddBusiness/AddBusiness";
+import "./style.css"
 const API_URL = "http://localhost:3000/business/getInfoUserBusiness";
+
 
 interface IGlobalProps {
   token: IUser;
@@ -19,6 +21,7 @@ interface IBusinessDB {
   address: string;
   city: string;
   category: string;
+  mainImagePath: string
 }
 
 interface IState {
@@ -36,8 +39,8 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
     };
   }
   getBusinessInfo = async () => {
-    const token = this.props.token.token
-    
+    const token = this.props.token.token;
+
     const response = await fetch(API_URL, {
       method: "GET",
       headers: new Headers({
@@ -46,7 +49,7 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
       })
     });
     const json = await response.json();
-    this.setState({...this.state, business: json });
+    this.setState({ ...this.state, business: json });
   };
 
   componentDidMount() {
@@ -56,13 +59,13 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
   }
 
   render() {
-    console.log(this.props.token.token)
+    console.log(this.props.token.token);
     return (
       <div>
-        <div className="row">
+        <div className="row mainContainer">
           {!this.state.showAddBusiness && (
             <button
-            className="btn btn-success"
+              className="btn btn-success"
               onClick={() =>
                 this.setState(({ showAddBusiness }) => ({
                   showAddBusiness: !showAddBusiness
@@ -73,29 +76,38 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
             </button>
           )}
           {this.state.showAddBusiness && (
-            <button className="btn btn-danger"
-              onClick={() =>
+            <button
+              className="btn btn-danger"
+              onClick={() =>{
+                this.getBusinessInfo()
                 this.setState(({ showAddBusiness }) => ({
                   showAddBusiness: !showAddBusiness
-                }))
+                }))}
               }
             >
               CLOSE ADD BUSINESS
             </button>
           )}
-          
         </div>
         {this.state.showAddBusiness && <AddBusiness />}
-        <div className="row">
+        {!this.state.showAddBusiness && <div className="row cardContainer">
           {this.state.business.map(b => (
             <div>
-              <div className="col">{b.businessName}</div>
-              <div className="col">{b.address}</div>
-              <div className="col">{b.city}</div>
-              <div className="col">{b.category}</div>
+              <div className="card businessCard">
+                <div className="card-img-top divimagetop" style={{backgroundImage: `url(http://localhost:3000/public/avatar/${b.mainImagePath})` }} />
+                <div className="card-body">
+                  <h5 className="card-title">{b.businessName}</h5>
+                  <p className="card-text">{b.address}</p>
+                  <p className="card-text">{b.city}</p>
+                  <p className="card-text">{b.category}</p>
+                  <a href="#" className="btn btn-primary">
+                    Go somewhere
+                  </a>
+                </div>
+              </div>
             </div>
           ))}
-        </div>
+        </div>}
       </div>
     );
   }

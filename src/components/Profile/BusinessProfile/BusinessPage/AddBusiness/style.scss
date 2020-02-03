@@ -1,9 +1,11 @@
 .addBusinessContainer {
-    margin-top: 15px;
+    margin-top: 7px;
     border: 1px lightgrey solid;
     border-radius: 0.5%;
     padding: 10px;
-    position: relative;
+    position: absolute !important;
+    z-index: 1;
+    background-color: rgb(250, 250, 250);
   textarea {
     resize: none;
   }
@@ -26,7 +28,19 @@
   .instagramInput:focus {
     box-shadow: none !important;
   }
-
+  
   #mapid { height: 180px; }
+
+  .mapInput{
+    span{
+      color: grey
+    }
+    input{
+      margin-top: 10px
+    }
+    button{
+      margin-top: 10px;
+    }
+  }
 }
 

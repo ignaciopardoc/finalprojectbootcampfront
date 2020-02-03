@@ -3,6 +3,7 @@ import "./style.css";
 import { throws } from "assert";
 import UserInfo from "./UserInfo/UserInfo";
 import BusinessPage from "./BusinessPage/BusinessPage";
+import { Route, match, Link } from "react-router-dom";
 
 interface IState {
   selectedNavbar: number;
@@ -22,24 +23,26 @@ class BusinessProfile extends React.PureComponent<any, IState> {
     return (
       <div className="row">
         <div className="col-1 profileNavbar">
+          <Link to="/profile">
           <div
             className="row"
-            onClick={() => this.setState({ selectedNavbar: 0 })}
+            
           >
             Información de usuario
           </div>
+          </Link>
           <hr/>
+          <Link to="/profile/businessPage">
           <div
             className="row"
-            onClick={() => this.setState({ selectedNavbar: 1 })}
           >
             BusinessPage
           </div>
-          
+          </Link>
         </div>
         <div className="col-11">
-            {this.state.selectedNavbar === 0 && <UserInfo />}
-            {this.state.selectedNavbar === 1 && <BusinessPage />}
+            <Route exact path={"/profile"}><UserInfo /></Route>
+            <Route exact path={"/profile/businessPage"}> <BusinessPage /> </Route>
         </div>
       </div>
     );

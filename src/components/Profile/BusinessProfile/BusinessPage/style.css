@@ -1,0 +1,14 @@
+.mainContainer {
+  margin-top: 10px;
+}
+
+.businessCard {
+  width: 18rem;
+  margin-top: 20px;
+}
+.businessCard .divimagetop {
+  height: 200px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: top;
+}

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, createRef } from "react";
 import "./style.css";
 import { Map, TileLayer, Marker, Popup } from "leaflet";
 import SVGOverlayExample from "./Map/Map";
@@ -8,10 +8,11 @@ import { connect } from "react-redux";
 import { IStore } from "../../../../../interfaces/IStore";
 import { IUser } from "../../../../../interfaces/IToken";
 import Swal from "sweetalert2";
-
+import { myFetchFiles } from "../../../../../utils/MyFetch";
 const API_URL = "http://localhost:3000/business/getCategories";
 const API_URL2 = "http://localhost:3000/business/insertBusiness";
 const GOOGLE_KEY = "AIzaSyB9kYRWo5-GTwGabX8aY33HmZ1NPjaVhkY";
+const API_URL3 = "http://localhost:3000/business/caca";
 
 interface IGlobalProps {
   token: IUser;
@@ -41,8 +42,11 @@ interface IState {
 }
 
 class AddBusiness extends React.PureComponent<TProps, IState> {
+  avatar: React.RefObject<HTMLInputElement>;
   constructor(props: TProps) {
     super(props);
+
+    this.avatar = createRef();
 
     this.state = {
       businessName: "",
@@ -55,21 +59,22 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
       instagram: "",
       email: "",
       categories: [],
-      latlon: 0,
-      zoom: 0,
+      // latlon: [40.41664, -3.70327],
+      latlon: undefined,
+      zoom: 6,
       lat: 0,
       lon: 0,
       postcode: "",
       allFilled: false
     };
   }
-
+  //Send information to the database
   createBusiness = async () => {
     const token = this.props.token.token;
 
     const {
       businessName,
-      completeAddress,
+      address,
       description,
       category,
       telephone,
@@ -82,7 +87,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
     } = this.state;
     console.log(businessName);
     try {
-      fetch(API_URL2, {
+      const response = await fetch(API_URL2, {
         method: "POST",
         headers: new Headers({
           Authorization: `Bearer ${token}`,
@@ -90,7 +95,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
         }),
         body: JSON.stringify({
           businessName,
-          completeAddress,
+          address,
           description,
           category,
           telephone,
@@ -102,11 +107,56 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
           instagram
         })
       });
+
+      const {insertId} = await response.json();
+      this.uploadMain(insertId)
+
+      //   if (this.avatar.current?.files) {
+      //     console.log(response)
+      //     const formData = new FormData();
+      //     const path = this.avatar.current.files[0];
+      //     const token = sessionStorage.getItem("token");
+      //     console.log(path);
+      //     formData.append("avatar", path);
+      //     myFetchFiles({
+      //       method: "POST",
+      //       token: token as string,
+      //       path: "business/setMainPhoto",
+      //       formData
+      //     }).then(json => {
+      //       if (json) {
+      //         console.log("aaaaaaaaaaaaa");
+      //         console.log(json);
+      //       }
+      //     });
+      //   }
     } catch (e) {
       console.log(e);
     }
   };
 
+  uploadMain(business_id: string) {
+    if (this.avatar.current?.files) {
+      const formData = new FormData();
+      const path = this.avatar.current.files[0];
+      
+      console.log(path);
+      formData.append("avatar", path);
+      myFetchFiles({
+        method: "POST",
+        path: `business/setMainPhoto/${business_id}`,
+        formData
+         
+      }).then(json => {
+        if (json) {
+          
+          console.log(json);
+        }
+      });
+    }
+  }
+
+  //Change address acording to the click the user does on the map
   changelatlng = async (lat: number, lon: number) => {
     const latlng = [lat, lon];
     this.setState({ latlon: latlng });
@@ -116,16 +166,16 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
     ).then(async response => {
       const json = await response.json();
       console.log(json);
-
+      if (this.state.zoom < 17) {
+        this.setState({ zoom: 17 });
+      }
       if (json.address.pedestrian) {
         this.setState({
           address: `${json.address.pedestrian}${
             json.address.house_number ? `, ${json.address.house_number}` : ""
           }`
         });
-      }
-
-      else if (json.address.road) {
+      } else if (json.address.road) {
         this.setState({
           address: `${json.address.road}${
             json.address.house_number ? `, ${json.address.house_number}` : ""
@@ -228,7 +278,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
   // componentDidMount() {
   //   this.getCategories();
   // }
-
+  //Search addres by the input the user insert on input fields
   searchByAdress = async () => {
     const address = `${this.state.address} ${this.state.city} ${this.state.postcode}`;
     console.log(address);
@@ -241,8 +291,8 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
         //Separate second length to avoid crash of the app
         if (json.length) {
           //Result is only used for the map
-          const result = [json[0].lat, json[0].lon];
-          this.setState({ latlon: result });
+          this.setState({ lat: json[0].lat, lon: json[0].lon });
+          this.setState({ latlon: [this.state.lat, this.state.lon] });
           this.setState({ zoom: 17 });
           if (json[0].address.pedestrian) {
             this.setState({
@@ -275,6 +325,24 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
     });
   };
 
+  // uploadMain = async () => {
+  //   if (this.mainImage.current?.files?.length) {
+  //     const formData = new FormData();
+  //     console.log(this.mainImage.current?.files[0])
+  //     formData.append("avatar", this.mainImage.current?.files[0]);
+
+  //     await fetch(API_URL3, {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data'
+  //       },
+  //       method: "POST",
+  //       body: formData
+  //     });
+  //     this.mainImage.current.value = "";
+  //   }
+  // };
+  
+  //Get the categories from the enum on the DB
   getCategories = async () => {
     const response = await fetch(API_URL);
     const json = await response.json();
@@ -339,13 +407,13 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
                 </select>
               </div>
             </div>
-            <button
-              onClick={() => this.createBusiness()}
-              className="btn btn-primary"
-            >
-              Añadir
-            </button>
+            <label>Foto principal de su negocio</label>
+            <input type="file" name="avatar" id="mainImage" ref={this.avatar} />
+
+            
+           
           </div>
+
           {/* Second Column */}
           <div className="col-3">
             <div className="row">
@@ -383,7 +451,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
                 <label>Redes sociales</label>
                 <div className="form-group">
                   <input
-                    maxLength={12}
+                    maxLength={400}
                     type="text"
                     className="form-control instagramInput"
                     value={this.state.instagram}
@@ -393,7 +461,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
                     placeholder=" Perfil de instagram"
                   />
                 </div>
-                <div className="form-group">
+                <div className="form-group mapInput">
                   <div className="row">
                     <label>Dirección de tu empresa</label>
                     <span>
@@ -439,14 +507,24 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
               </div>
             </div>
           </div>
-
+          {/* Map column */}
           <div className="col-6">
             <MapExample
               changelatlng={this.changelatlng}
               zoom={this.state.zoom}
-              latlon={this.state.latlon}
+              latlon={
+                this.state.latlon !== undefined
+                  ? this.state.latlon
+                  : [40.41664, -3.70327]
+              }
             />
           </div>
+          <button
+            onClick={() => this.createBusiness()}
+            className="btn btn-primary"
+          >
+            Añadir empresa
+          </button>
         </div>
       </Fragment>
     );

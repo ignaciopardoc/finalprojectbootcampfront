@@ -6,7 +6,8 @@
     padding-top: 20px;
     height: 91vh;
     background-color: black;
-    color: white;
+    overflow: hidden;
+    .row{color: white;}
     hr{
       border-color: white;
     }

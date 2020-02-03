@@ -6,6 +6,9 @@
   padding-top: 20px;
   height: 91vh;
   background-color: black;
+  overflow: hidden;
+}
+.row .profileNavbar .row {
   color: white;
 }
 .row .profileNavbar hr {

@@ -1,9 +1,11 @@
 .addBusinessContainer {
-  margin-top: 15px;
+  margin-top: 7px;
   border: 1px lightgrey solid;
   border-radius: 0.5%;
   padding: 10px;
-  position: relative;
+  position: absolute !important;
+  z-index: 1;
+  background-color: #fafafa;
 }
 .addBusinessContainer textarea {
   resize: none;
@@ -27,4 +29,13 @@
 }
 .addBusinessContainer #mapid {
   height: 180px;
+}
+.addBusinessContainer .mapInput span {
+  color: grey;
+}
+.addBusinessContainer .mapInput input {
+  margin-top: 10px;
+}
+.addBusinessContainer .mapInput button {
+  margin-top: 10px;
 }
