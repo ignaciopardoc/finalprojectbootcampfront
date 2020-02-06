@@ -3,6 +3,7 @@ import "./style.css";
 import validate from "validate.js";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import history from "../../utils/history";
 
 const API_URL = "http://localhost:3000/auth/register";
 
@@ -61,6 +62,7 @@ class BusinessRegister extends React.PureComponent<IProps, IState> {
           icon: "success",
           title: "Registrado correctamente"
         });
+        history.push("/")
       }
     } catch (e) {
       console.log(e);

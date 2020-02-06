@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import HomeMap from "./HomeMap/HomeMap";
 import CardSection from "../CardSection/CardSection ";
 import "./style.css";
+import Swal from "sweetalert2";
 
 const URL_GET_MAP = "http://localhost:3000/business/getBusinessMap";
 
@@ -61,6 +62,8 @@ class Home extends React.Component<any, IState> {
           //Result is only used for the map
           console.log(json);
           this.setState({latlon: [json[0].lat, json[0].lon], zoom: 15})
+        }else{
+          Swal.fire({title: "No se ha encontrado ninguna dirección", text: "Inténtelo de nuevo", icon: "warning"})
         }
       }
     });
