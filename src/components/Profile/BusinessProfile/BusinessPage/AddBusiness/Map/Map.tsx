@@ -31,6 +31,8 @@ export default class SimpleExample extends React.PureComponent<IProps, IState> {
       iconAnchor: [22, 79]
     });
 
+  
+
     return (
       <Fragment>
         <label>

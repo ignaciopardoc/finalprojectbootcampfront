@@ -13,6 +13,7 @@ import { ILogged } from "./interfaces/ILogged";
 import { IStore } from "./interfaces/IStore";
 import { connect } from "react-redux";
 import { IUser } from "./interfaces/IToken";
+import Home from "./components/Home/Home";
 
 interface IGlobalProps {
   
@@ -41,6 +42,7 @@ class App extends React.PureComponent<TProps, any> {
       <div>
         <Navbar />
         <Switch>
+          <Route exact path="/"><Home /></Route>
           <Route exact path="/register">
             <Register />
           </Route>

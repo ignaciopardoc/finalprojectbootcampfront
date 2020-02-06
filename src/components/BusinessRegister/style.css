@@ -1,9 +1,10 @@
 .registerBusiness {
   background-image: url("../../images/businessregister.jpg");
-  height: 89.3vh;
+  height: 92vh;
   width: 100vw;
   background-size: 100%;
   background-position: right;
+  overflow: hidden;
 }
 .registerBusiness .row {
   margin-top: 0px;
