@@ -163,6 +163,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
     }, 500);
   }
   render() {
+    const {name, surname, address, city, postcode } = this.state.user
     return (
       <Fragment>
         <div className="row shadow-lg pb-4 pt-4 mt-5">
@@ -320,6 +321,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
               <button
                 className="btn btn-success mt-2 "
                 onClick={() => this.addPersonalInfo()}
+                disabled={!name || !surname || !address || !city || !postcode}
               >
                 Guardar
               </button>
