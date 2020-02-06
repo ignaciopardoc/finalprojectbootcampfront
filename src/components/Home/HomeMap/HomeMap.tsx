@@ -1,8 +1,8 @@
-import React, { Fragment } from "react"
+import React, { Fragment } from "react";
 import pin from "../../../icons/GREEN_PIN.svg";
 import { Map, SVGOverlay, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import "./style.css"
+import "./style.css";
 interface businessDB {
   id: number;
   businessName: string;
@@ -20,32 +20,34 @@ interface businessDB {
   user_id: number;
 }
 
-
 interface IProps {
-    getBusinessesByCoord(latBottom: number,
-        latTop: number,
-        lonLeft: number,
-        lonRight: number): void;
+  getBusinessesByCoord(
+    latBottom: number,
+    latTop: number,
+    lonLeft: number,
+    lonRight: number
+  ): void;
 
-        businessOnMap: businessDB[]
-        
+  businessOnMap: businessDB[];
+  latlon: number[];
+  zoom: number | null;
 }
 
 class HomeMap extends React.PureComponent<IProps> {
-    render(){
-      console.log(this.props.businessOnMap)
-        const myIcon = L.icon({
-            iconUrl: pin,
-            iconSize: [43, 100],
-            iconAnchor: [22, 79]
-          });
-      
-          const lat = 40.4183083;
-          const lon = -3.70275;
-          const zoom = 5;
-        return(
-            <Fragment>
-            <div className="leaflet-container">
+  render() {
+    console.log(this.props.businessOnMap);
+    const myIcon = L.icon({
+      iconUrl: pin,
+      iconSize: [43, 100],
+      iconAnchor: [22, 79]
+    });
+
+    const lat = 40.4183083;
+    const lon = -3.70275;
+    const zoom = 5;
+    return (
+      <Fragment>
+        <div className="leaflet-container">
           <Map
             style={{ minHeight: "500px" }}
             OnMoveEnd={
@@ -56,9 +58,9 @@ class HomeMap extends React.PureComponent<IProps> {
                   e.target.getBounds()._southWest.lng,
                   e.target.getBounds()._northEast.lng
                 );
-                console.log("HOLA")
+                console.log("HOLA");
               }
-              
+
               // const latBottom = e.target.getBounds()._southWest.lat;
               // const latTop = e.target.getBounds()._northEast.lat;
               // const lonLeft = e.target.getBounds()._southWest.lng;
@@ -71,8 +73,12 @@ class HomeMap extends React.PureComponent<IProps> {
             //   -45.87890625,
             //   38.49609375000001
             // )}
-            center={[lat, lon]}
-            zoom={zoom}
+            center={
+              this.props.latlon.length
+                ? [this.props.latlon[0], this.props.latlon[1]]
+                : [lat, lon]
+            }
+            zoom={this.props.zoom !== null ? this.props.zoom as number : zoom}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
@@ -88,9 +94,7 @@ class HomeMap extends React.PureComponent<IProps> {
                     />
                     <div className="card-body">
                       <h5 className="card-title">{b.businessName}</h5>
-                      <p className="card-text">
-                        {b.description}
-                      </p>
+                      <p className="card-text">{b.description}</p>
                       <a href="#" className="btn btn-primary">
                         Go somewhere
                       </a>
@@ -101,9 +105,9 @@ class HomeMap extends React.PureComponent<IProps> {
             ))}
           </Map>
         </div>
-        </Fragment>
-        )
-    }
+      </Fragment>
+    );
+  }
 }
 
-export default HomeMap
+export default HomeMap;

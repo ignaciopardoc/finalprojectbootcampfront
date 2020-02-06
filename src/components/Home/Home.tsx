@@ -1,5 +1,7 @@
 import React, { Fragment } from "react";
 import HomeMap from "./HomeMap/HomeMap";
+import CardSection from "../CardSection/CardSection ";
+import "./style.css";
 
 const URL_GET_MAP = "http://localhost:3000/business/getBusinessMap";
 
@@ -26,7 +28,9 @@ interface IState {
   latTop: number | null;
   lonRight: number | null;
   lonLeft: number | null;
-  lastCall: number | null;
+  searchInput: string;
+  latlon: number[]
+  zoom: number | null
 }
 
 class Home extends React.Component<any, IState> {
@@ -39,9 +43,28 @@ class Home extends React.Component<any, IState> {
       latTop: null,
       lonRight: null,
       lonLeft: null,
-      lastCall: null
+      searchInput: "",
+      latlon: [],
+      zoom: null
     };
   }
+
+  searchByAdress = async () => {
+    fetch(
+      `https://nominatim.openstreetmap.org/search/${this.state.searchInput}?format=json&addressdetails=1&limit=1&polygon_svg=1`
+    ).then(async response => {
+      const json = await response.json();
+      console.log(json);
+      if (json !== undefined) {
+        //Separate second length to avoid crash of the app
+        if (json.length) {
+          //Result is only used for the map
+          console.log(json);
+          this.setState({latlon: [json[0].lat, json[0].lon], zoom: 15})
+        }
+      }
+    });
+  };
 
   // getBusinessesByCoord = async () => {
   //   const {latBottom,
@@ -84,15 +107,36 @@ class Home extends React.Component<any, IState> {
       })
     }).then(async response => {
       const json = await response.json();
-      this.setState({...this.state, businessOnMap: json });
+      this.setState({ ...this.state, businessOnMap: json });
     });
   };
 
   render() {
-    
     return (
       <Fragment>
-        <HomeMap businessOnMap={this.state.businessOnMap} getBusinessesByCoord={this.getBusinessesByCoord}/>
+        <div className="container">
+          <h1>Descubre los mejores lugares para perros de tu ciudad</h1>
+
+          <input
+            type="text"
+            className="form-control"
+            onChange={e => this.setState({ searchInput: e.target.value })}
+            value={this.state.searchInput}
+            onKeyDown={e => {
+              if (e.keyCode === 13) {
+                this.searchByAdress();
+              }
+            }}
+            placeholder="Buscar por dirección"
+          />
+          <HomeMap
+            businessOnMap={this.state.businessOnMap}
+            getBusinessesByCoord={this.getBusinessesByCoord}
+            latlon={this.state.latlon}
+            zoom={this.state.zoom}
+          />
+          {/* <CardSection  /> */}
+        </div>
       </Fragment>
     );
   }
