@@ -8,6 +8,8 @@ import BusinessProfile from "./BusinessProfile/BusinessProfile";
 import { setTokenAction } from "../../redux/actions";
 import { IUser } from "../../interfaces/IToken";
 import jwt from "jsonwebtoken";
+import OwnerProfile from "./OwnerProfile/DogOwnerProfile";
+
 
 interface IGlobalProps {
   logged: ILogged;
@@ -48,8 +50,10 @@ class Profile extends React.PureComponent<TProps, IState> {
     }, 1);
   }
   render() {
+    console.log(`isBusiness: ${this.state.isBusiness}`)
     return (
      <div>
+       {!this.state.isBusiness && <OwnerProfile />}
        {this.state.isBusiness && <BusinessProfile />}
      </div>
     )

@@ -11,16 +11,23 @@ import Swal from "sweetalert2";
 import { myFetchFiles } from "../../../../../utils/MyFetch";
 import history from "../../../../../utils/history";
 const API_URL = "http://localhost:3000/business/getCategories";
-const API_URL2 = "http://localhost:3000/business/insertBusiness";
-const GOOGLE_KEY = "AIzaSyB9kYRWo5-GTwGabX8aY33HmZ1NPjaVhkY";
+const API_URL2 = "http://localhost:3000/business/updateBusiness";
+const API_GET_ONE = "http://localhost:3000/business/getOneBusiness/"
+const API_DELETE = "http://localhost:3000/business/deleteBusiness/"
 
 interface IGlobalProps {
   token: IUser;
 }
 
-interface IProps {
-  businessCreated(): void;
-}
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+})
+
+interface IProps {}
 
 type TProps = IGlobalProps & IProps;
 
@@ -40,10 +47,11 @@ interface IState {
   lon: number;
   completeAddress: string;
   postcode: string;
+  id: number | undefined
   allFilled: boolean;
 }
 
-class AddBusiness extends React.PureComponent<TProps, IState> {
+class EditBusiness extends React.PureComponent<TProps, IState> {
   avatar: React.RefObject<HTMLInputElement>;
   constructor(props: TProps) {
     super(props);
@@ -67,13 +75,14 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
       lat: 0,
       lon: 0,
       postcode: "",
-      allFilled: false
+      allFilled: false,
+      id: undefined
     };
   }
   //Send information to the database
-  createBusiness = async () => {
+  updateBusiness = async () => {
     const token = this.props.token.token;
-
+    const id = history.location.pathname.split("/").slice(-1)[0]
     const {
       businessName,
       address,
@@ -89,13 +98,14 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
     } = this.state;
     console.log(businessName);
     try {
-      const response = await fetch(API_URL2, {
+      await fetch(API_URL2, {
         method: "POST",
         headers: new Headers({
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
         }),
         body: JSON.stringify({
+          id,
           businessName,
           address,
           description,
@@ -110,41 +120,24 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
         })
       });
 
-      const { insertId } = await response.json();
-      this.uploadMain(insertId);
-
-      this.props.businessCreated();
-
-      //   if (this.avatar.current?.files) {
-      //     console.log(response)
-      //     const formData = new FormData();
-      //     const path = this.avatar.current.files[0];
-      //     const token = sessionStorage.getItem("token");
-      //     console.log(path);
-      //     formData.append("avatar", path);
-      //     myFetchFiles({
-      //       method: "POST",
-      //       token: token as string,
-      //       path: "business/setMainPhoto",
-      //       formData
-      //     }).then(json => {
-      //       if (json) {
-      //         console.log("aaaaaaaaaaaaa");
-      //         console.log(json);
-      //       }
-      //     });
-      //   }
+      
+      this.uploadMain(id)
+      history.push("/profile/businessPage")
     } catch (e) {
       console.log(e);
     }
   };
 
+  deleteBusiness = async (businessId: number) =>{
+    const response = await fetch(`${API_DELETE}${businessId}`)
+    const json = await response.json()
+    console.log(json)
+  }
+
   uploadMain(business_id: string) {
     if (this.avatar.current?.files) {
       const formData = new FormData();
       const path = this.avatar.current.files[0];
-
-      console.log(path);
       formData.append("avatar", path);
       myFetchFiles({
         method: "POST",
@@ -152,6 +145,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
         formData
       }).then(json => {
         if (json) {
+          
           console.log(json);
         }
       });
@@ -197,89 +191,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
     });
   };
 
-  // searchByAdress = async (address: string) => {
-  //   fetch(
-  //     `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_KEY}`
-  //   ).then(async response => {
-  //     const json = await response.json();
-  //     console.log(json);
-  //     if (json.result[0].status !== -3) {
-  //       //Result is only used for the map
-  //       const result = [json.result[0].latitude, json.result[0].longitude];
-  //       console.log(json);
-  //       this.setState({ latlon: result });
-  //       this.setState({ zoom: 17 });
 
-  //       //This goes to the db
-  //       this.setState({ lat: json.result[0].latitude });
-  //       this.setState({ lon: json.result[0].longitude });
-  //       this.setState({ completeAddress: `${json.result[0].road_name}, ${json.result[0].numpk_name}`    });
-
-  //       this.setState({ postcode: json.result[0].zip });
-  //       this.setState({ city: json.result[0].municipality });
-  //     } else {
-  //       Swal.fire({ icon: "error", title: "No se ha encontrado la dirección" });
-  //     }
-  //   });
-  // };
-
-  // searchByAdress = async (address: string) => {
-  //   fetch(
-  //     `http://www.cartociudad.es/CartoGeocoder/Geocode?address=${address}`
-  //   ).then(async response => {
-  //     const json = await response.json();
-  //     console.log(json);
-  //     if (json.result[0].status !== -3) {
-  //       //Result is only used for the map
-  //       const result = [json.result[0].latitude, json.result[0].longitude];
-  //       console.log(json);
-  //       this.setState({ latlon: result });
-  //       this.setState({ zoom: 17 });
-
-  //       //This goes to the db
-  //       this.setState({ lat: json.result[0].latitude });
-  //       this.setState({ lon: json.result[0].longitude });
-  //       this.setState({ completeAddress: `${json.result[0].road_name}, ${json.result[0].numpk_name}`    });
-
-  //       this.setState({ postcode: json.result[0].zip });
-  //       this.setState({ city: json.result[0].municipality });
-  //     } else {
-  //       Swal.fire({ icon: "error", title: "No se ha encontrado la dirección" });
-  //     }
-  //   });
-  // };
-
-  // searchByAdress = async (address: string) => {
-  //   fetch(
-  //     `https://nominatim.openstreetmap.org/search/${address}?format=json&addressdetails=1&limit=1&polygon_svg=1`
-  //   ).then(async response => {
-  //     const json = await response.json();
-  //     console.log(json);
-  //     //Result is only used for the map
-  //     const result = [json[0].lat, json[0].lon];
-  //     this.setState({ latlon: result });
-  //     this.setState({ zoom: 17 });
-
-  //     //This goes to the db
-  //     this.setState({ lat: json[0].lat });
-  //     this.setState({ lon: json[0].lon });
-  //     this.setState({
-  //       completeAddress: `${json[0].address.road}, ${json[0].address.house_number}`
-  //     });
-  //     this.setState({ postcode: json[0].address.postcode });
-  //     this.setState({ city: json[0].address.city });
-  //   });
-  // };
-
-  // getCategories = async () => {
-  //   const response = await fetch(API_URL);
-  //   const json = await response.json();
-  //   this.setState({ categories: json });
-  // };
-
-  // componentDidMount() {
-  //   this.getCategories();
-  // }
   //Search addres by the input the user insert on input fields
   searchByAdress = async () => {
     const address = `${this.state.address} ${this.state.city} ${this.state.postcode}`;
@@ -327,23 +239,6 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
     });
   };
 
-  // uploadMain = async () => {
-  //   if (this.mainImage.current?.files?.length) {
-  //     const formData = new FormData();
-  //     console.log(this.mainImage.current?.files[0])
-  //     formData.append("avatar", this.mainImage.current?.files[0]);
-
-  //     await fetch(API_URL3, {
-  //       headers: {
-  //         'Content-Type': 'multipart/form-data'
-  //       },
-  //       method: "POST",
-  //       body: formData
-  //     });
-  //     this.mainImage.current.value = "";
-  //   }
-  // };
-
   //Get the categories from the enum on the DB
   getCategories = async () => {
     const response = await fetch(API_URL);
@@ -351,8 +246,22 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
     this.setState({ categories: json });
   };
 
+  //Charge the information from the selected business
+  getBusinessInfo = async () => {
+   const businessId = history.location.pathname.split("/").slice(-1)[0]
+   console.log(businessId)
+   const response = await fetch(`${API_GET_ONE}${businessId}`)
+   const json = await response.json()
+   console.log(json)
+   this.setState(this.state = json)
+   this.setState({latlon: [this.state.lat, this.state.lon]})
+   this.setState({zoom: 17})
+  }
+
+
   componentDidMount() {
     this.getCategories();
+    this.getBusinessInfo()
   }
 
   render() {
@@ -399,6 +308,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
                 <select
                   className="custom-select"
                   onChange={e => this.setState({ category: e.target.value })}
+                  value={this.state.category}
                 >
                   <option value="null">Seleccione Categoría</option>
                   {this.state.categories.map((c, i) => (
@@ -411,6 +321,9 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
             </div>
             <label>Foto principal de su negocio</label>
             <input type="file" name="avatar" id="mainImage" ref={this.avatar} />
+
+            
+           
           </div>
 
           {/* Second Column */}
@@ -512,18 +425,43 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
               changelatlng={this.changelatlng}
               zoom={this.state.zoom}
               latlon={
-                this.state.latlon !== undefined
-                  ? this.state.latlon
-                  : [40.41664, -3.70327]
+                this.state.latlon 
               }
             />
           </div>
           <button
-            onClick={() => this.createBusiness()}
+            onClick={() => this.updateBusiness()}
             className="btn btn-primary"
           >
-            Añadir empresa
+            Actualizar información
           </button>
+          <button
+          className="btn btn-danger"
+          onClick={()=> {
+            swalWithBootstrapButtons.fire({
+              title: '¿Seguro que quieres eliminarlo?',
+              text: "La información se perderá",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Confirmar',
+              cancelButtonText: 'Cancelar',
+              reverseButtons: true
+            }).then((result) => {
+              if (result.value) {
+                this.deleteBusiness(Number(this.state.id))
+                history.push("/profile/businessPage")
+              // } else if (
+              //   /* Read more about handling dismissals below */
+              //   result.dismiss === Swal.DismissReason.cancel
+              // ) {
+              //   swalWithBootstrapButtons.fire(
+              //     'Cancelled',
+              //     'Your imaginary file is safe :)',
+              //     'error'
+              //   )
+              }
+            })
+          }}>Eliminar empresa</button>
         </div>
       </Fragment>
     );
@@ -536,4 +474,4 @@ const mapStateToProps = ({ token }: IStore): IGlobalProps => ({
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddBusiness);
+export default connect(mapStateToProps, mapDispatchToProps)(EditBusiness);

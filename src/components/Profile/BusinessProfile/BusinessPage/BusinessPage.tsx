@@ -4,9 +4,9 @@ import { IStore } from "../../../../interfaces/IStore";
 import { IUser } from "../../../../interfaces/IToken";
 import { disconnect } from "cluster";
 import AddBusiness from "./AddBusiness/AddBusiness";
-import "./style.css"
+import "./style.css";
+import { Link } from "react-router-dom";
 const API_URL = "http://localhost:3000/business/getInfoUserBusiness";
-
 
 interface IGlobalProps {
   token: IUser;
@@ -21,7 +21,8 @@ interface IBusinessDB {
   address: string;
   city: string;
   category: string;
-  mainImagePath: string
+  mainImagePath: string;
+  id: number;
 }
 
 interface IState {
@@ -58,6 +59,11 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
     }, 1);
   }
 
+  businessCreated = () =>{
+    this.setState((showAddBusiness) => ({showAddBusiness: !showAddBusiness}))
+    this.getBusinessInfo()
+  }
+
   render() {
     console.log(this.props.token.token);
     return (
@@ -72,42 +78,49 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
                 }))
               }
             >
-              + ADD BUSINESS
+              Añadir empresa
             </button>
           )}
           {this.state.showAddBusiness && (
             <button
               className="btn btn-danger"
-              onClick={() =>{
-                this.getBusinessInfo()
+              onClick={() => {
+                this.getBusinessInfo();
                 this.setState(({ showAddBusiness }) => ({
                   showAddBusiness: !showAddBusiness
-                }))}
-              }
+                }));
+              }}
             >
-              CLOSE ADD BUSINESS
+              Cerrar
             </button>
           )}
         </div>
-        {this.state.showAddBusiness && <AddBusiness />}
-        {!this.state.showAddBusiness && <div className="row cardContainer">
-          {this.state.business.map(b => (
-            <div>
-              <div className="card businessCard">
-                <div className="card-img-top divimagetop" style={{backgroundImage: `url(http://localhost:3000/public/avatar/${b.mainImagePath})` }} />
-                <div className="card-body">
-                  <h5 className="card-title">{b.businessName}</h5>
-                  <p className="card-text">{b.address}</p>
-                  <p className="card-text">{b.city}</p>
-                  <p className="card-text">{b.category}</p>
-                  <a href="#" className="btn btn-primary">
-                    Go somewhere
-                  </a>
+        {this.state.showAddBusiness && <AddBusiness businessCreated={this.businessCreated} />}
+        {!this.state.showAddBusiness && (
+          <div className="row cardContainer">
+            {this.state.business.map(b => (
+              <div className="col-2">
+                <div className="card businessCard">
+                  <div
+                    className="card-img-top divimagetop"
+                    style={{
+                      backgroundImage: `url(http://localhost:3000/public/avatar/${b.mainImagePath})`
+                    }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{b.businessName}</h5>
+                    <p className="card-text">{b.address}</p>
+                    <p className="card-text">{b.city}</p>
+                    <p className="card-text">{b.category}</p>
+                    <Link to={`/profile/editBusiness/${b.id}`}>
+                      <a className="btn btn-primary">Editar</a>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>}
+            ))}
+          </div>
+        )}
       </div>
     );
   }

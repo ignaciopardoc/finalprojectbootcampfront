@@ -1,9 +1,10 @@
 import React from "react";
 import "./style.css";
-import { throws } from "assert";
-import UserInfo from "./UserInfo/UserInfo";
 import BusinessPage from "./BusinessPage/BusinessPage";
-import { Route, match, Link } from "react-router-dom";
+
+import { Route, Link } from "react-router-dom";
+import EditBusiness from "./BusinessPage/EditBusiness/EditBusiness";
+import BusinessOwnerInfo from "./UserInfo/BusinessOwnerInfo";
 
 interface IState {
   selectedNavbar: number;
@@ -41,8 +42,11 @@ class BusinessProfile extends React.PureComponent<any, IState> {
           </Link>
         </div>
         <div className="col-11">
-            <Route exact path={"/profile"}><UserInfo /></Route>
+            <Route exact path={"/profile"}><BusinessOwnerInfo /></Route>
             <Route exact path={"/profile/businessPage"}> <BusinessPage /> </Route>
+            <Route exact path={"/profile/editBusiness/:business_id"}>
+              <EditBusiness/>
+            </Route>
         </div>
       </div>
     );

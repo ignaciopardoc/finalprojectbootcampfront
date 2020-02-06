@@ -17,8 +17,8 @@
 }
 .addBusinessContainer .instagramInput {
   background: url("../../../../../icons/instagram.svg") no-repeat scroll 7px 7px;
-  background-size: 10%;
-  padding-left: 35px;
+  background-size: 7%;
+  padding-left: 40px;
   padding-right: 30px;
   border-left: none;
   border-top: none;
@@ -38,7 +38,4 @@
 }
 .addBusinessContainer .mapInput button {
   margin-top: 10px;
-}
-.addBusinessContainer button {
-  margin-right: 10px;
 }

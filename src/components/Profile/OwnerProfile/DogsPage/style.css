@@ -1,0 +1,17 @@
+.cardContainer {
+  margin-top: 10px !important;
+}
+.cardContainer .dogCard {
+  width: 18rem;
+  margin-top: 15px;
+  min-height: 500px;
+}
+.cardContainer .dogCard a {
+  color: white;
+}
+.cardContainer .dogCard .dogImage {
+  height: 200px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: top;
+}

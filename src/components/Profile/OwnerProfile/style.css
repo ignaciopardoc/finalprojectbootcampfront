@@ -1,0 +1,16 @@
+.row {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+.row .profileNavbar {
+  padding-top: 20px;
+  height: 91vh;
+  background-color: black;
+  overflow: hidden;
+}
+.row .profileNavbar .row {
+  color: white;
+}
+.row .profileNavbar hr {
+  border-color: white;
+}

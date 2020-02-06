@@ -2,9 +2,16 @@
   margin-top: 10px;
 }
 
+.col-2 {
+  margin-left: 50px;
+}
+
 .businessCard {
   width: 18rem;
   margin-top: 20px;
+}
+.businessCard a {
+  color: white !important;
 }
 .businessCard .divimagetop {
   height: 200px;
