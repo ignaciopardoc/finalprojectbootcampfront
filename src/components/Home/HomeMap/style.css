@@ -12,3 +12,12 @@
   background-repeat: no-repeat;
   background-position: top;
 }
+
+.modalContainer {
+  width: 500px;
+}
+.modalContainer .modalImg {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}

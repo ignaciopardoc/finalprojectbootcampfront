@@ -161,7 +161,7 @@ class Home extends React.Component<any, IState> {
     return (
       <Fragment>
         <div className="container">
-          <h1>Descubre los mejores lugares para perros de tu ciudad</h1>
+          <h1 className="text-center pt-3">Descubre los mejores lugares para perros de tu ciudad</h1>
           <div className="row">
             <div className="col-9">
               <input
@@ -185,7 +185,6 @@ class Home extends React.Component<any, IState> {
                   setTimeout(() => {
                     this.getBusinessesByCoordAndCategory();
                   }, 20);
-                  
                 }}
               >
                 <option value="null">Filtrar por categoría</option>
@@ -203,6 +202,10 @@ class Home extends React.Component<any, IState> {
             latlon={this.state.latlon}
             zoom={this.state.zoom}
           />
+          
+
+
+
           {/* <CardSection  /> */}
         </div>
       </Fragment>
