@@ -1,7 +1,8 @@
 h1 {
   color: #35c68f;
 }
-input {
+input,
+select {
   margin-top: 3rem;
   margin-bottom: 1rem;
 }
@@ -9,5 +10,4 @@ input {
 .container {
   background-color: whitesmoke !important;
   min-height: 100vh;
-
 }
