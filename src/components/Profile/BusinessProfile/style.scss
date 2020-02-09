@@ -1,17 +1,22 @@
 .row {
   margin-left: 0px !important;
   margin-right: 0px !important;
-  
+
   .profileNavbar {
     padding-top: 20px;
-    height: 91vh;
-    background-color: black;
+    height: 100vh;
+    background-color: #121212;
     overflow: hidden;
-    .row{color: white;}
-    hr{
+    position: fixed;
+    display: block;
+    .row {
+      color: white;
+    }
+    hr {
       border-color: white;
     }
   }
-
-  
+}
+body {
+  overflow: unset;
 }

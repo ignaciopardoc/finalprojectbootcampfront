@@ -160,13 +160,13 @@ class Home extends React.Component<any, IState> {
   render() {
     return (
       <Fragment>
-        <div className="container">
+        <div className="container containerHome">
           <h1 className="text-center pt-3">Descubre los mejores lugares para perros de tu ciudad</h1>
           <div className="row">
             <div className="col-9">
               <input
                 type="text"
-                className="form-control"
+                className="form-control inputHome"
                 onChange={e => this.setState({ searchInput: e.target.value })}
                 value={this.state.searchInput}
                 onKeyDown={e => {
@@ -179,7 +179,7 @@ class Home extends React.Component<any, IState> {
             </div>
             <div className="col-3">
               <select
-                className="custom-select"
+                className="custom-select inputHome"
                 onChange={e => {
                   this.setState({ category: e.target.value });
                   setTimeout(() => {

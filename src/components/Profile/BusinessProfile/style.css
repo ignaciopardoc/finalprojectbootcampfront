@@ -4,13 +4,19 @@
 }
 .row .profileNavbar {
   padding-top: 20px;
-  height: 91vh;
-  background-color: black;
+  height: 100vh;
+  background-color: #121212;
   overflow: hidden;
+  position: fixed;
+  display: block;
 }
 .row .profileNavbar .row {
   color: white;
 }
 .row .profileNavbar hr {
   border-color: white;
+}
+
+body {
+  overflow: unset;
 }

@@ -8,9 +8,13 @@ import { ILogged } from "../../interfaces/ILogged";
 import { setLoggedAction } from "../../redux/actions";
 import logoutIcon from "../../icons/logout.svg";
 import history from "../../utils/history";
+import { IUser } from "../../interfaces/IToken";
+
+const API_GET_USER = "http://localhost:3000/auth/getInfoUser/";
 
 interface IGlobalProps {
   logged: ILogged;
+  token: IUser;
 }
 
 interface IProps {
@@ -19,113 +23,209 @@ interface IProps {
 
 type TProps = IGlobalProps & IProps;
 
-class Navbar extends React.PureComponent<TProps> {
+interface IState {
+  profilePicture: string;
+  name: string;
+}
+
+class Navbar extends React.PureComponent<TProps, IState> {
+  constructor(props: TProps) {
+    super(props);
+
+    this.state = {
+      name: "",
+      profilePicture: ""
+    };
+  }
+
   logout = () => {
     this.props.setLogged({ logged: false });
     localStorage.removeItem("token");
     history.push("/");
   };
 
+  getuserinfo = async () => {
+    const token = this.props.token.token;
+    const response = await fetch(API_GET_USER, {
+      method: "GET",
+      headers: new Headers({
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded"
+      })
+    });
+    const json = await response.json();
+    console.log(json);
+
+    if (json.name) {
+      this.setState({ ...this.state, name: json.name });
+    } else {
+      this.setState({ name: json.username });
+    }
+
+    if (json.profilePicture) {
+      this.setState({ ...this.state, profilePicture: json.profilePicture });
+    } else {
+      this.setState({ ...this.state, profilePicture: "noAvatar.svg" });
+    }
+  };
+
+  componentDidMount() {
+    setTimeout(() => {
+      if (this.props.logged.logged) {
+        this.getuserinfo();
+      }
+    }, 1);
+  }
+
   render() {
+    console.log(this.state);
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light navbarPersonalized sticky-top">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            <img src={logo} height="50" alt="" />
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+          <div className="d-flex flex-grow-1">
+            <span className="w-100 d-lg-none d-block"></span>
+            <Link to="/">
+              <a className="navbar-brand" href="#">
+                <img src={logo} height="50" alt="" />
+              </a>
+            </Link>
+            <div className="w-100 text-right">
+              <button
+                className="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#myNavbar7"
+              >
+                <span className="navbar-toggler-icon"></span>
+              </button>
+            </div>
+          </div>
+          <div
+            className="collapse navbar-collapse flex-grow-1 text-right"
+            id="myNavbar7"
           >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
-                <Link to="/">
-                  <a className="nav-link">
-                    Home <span className="sr-only">(current)</span>
+            {/* Right part when logged */}
+            {this.props.logged.logged && (
+              <ul className="navbar-nav ml-auto flex-nowrap">
+                <li className="nav-item mr-2">
+                  <p className="nav-link">{`¡Hola, ${this.state.name}!`}</p>
+                </li>
+                <li className="nav-item mr-2">
+                  <div
+                    style={{
+                      backgroundImage: `url(http://localhost:3000/public/userAvatar/${this.state.profilePicture})`
+                    }}
+                    className="logoutIcon navbarImage"
+                  />
+                </li>
+                <li className="nav-item mr-2">
+                  <a href="#" className="nav-link">
+                    <Link to="/profile">Perfil</Link>
                   </a>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Link
-                </a>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Dropdown
-                </a>
-                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a className="dropdown-item" href="#">
-                    Action
+                </li>
+                <li className="nav-item">
+                  <a href="#" className="nav-link">
+                    <img
+                      className="logoutIcon"
+                      src={logoutIcon}
+                      onClick={this.logout}
+                    />
                   </a>
-                  <a className="dropdown-item" href="#">
-                    Another action
-                  </a>
-                  <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </div>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link disabled" href="#">
-                  Disabled
-                </a>
-              </li>
-            </ul>
-            <form className="form-inline my-2 my-lg-0 linknavbar">
-              {!this.props.logged.logged && (
-                <div>
+                </li>
+              </ul>
+            )}
+            {/* Right not logged */}
+            {!this.props.logged.logged && (
+              <ul className="navbar-nav ml-auto flex-nowrap">
+                <li className="nav-item mr-3">
                   <Link to="/register">
-                    <a> Registro</a>
+                    <p> Registro</p>
                   </Link>
-
+                </li>
+                <li className="nav-item">
                   <Link to="/login">
                     {" "}
-                    <a>Login</a>
+                    <p>Login</p>
                   </Link>
-                </div>
-              )}
-
-              {this.props.logged.logged && (
-                <div>
-                  <Link to="/profile">
-                    <a>Perfil</a>
-                  </Link>
-                  <img
-                    className="logoutIcon"
-                    src={logoutIcon}
-                    onClick={this.logout}
-                  />
-                </div>
-              )}
-            </form>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </nav>
+
+      // <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      //   <div className="container-fluid">
+      //     <a className="navbar-brand" href="#">
+      //       <img src={logo} height="50" alt="" />
+      //     </a>
+      //     <button
+      //       className="navbar-toggler"
+      //       type="button"
+      //       data-toggle="collapse"
+      //       data-target="#navbarSupportedContent"
+      //       aria-controls="navbarSupportedContent"
+      //       aria-expanded="false"
+      //       aria-label="Toggle navigation"
+      //     >
+      //       <span className="navbar-toggler-icon"></span>
+      //     </button>
+
+      //     <div className="collapse navbar-collapse" id="navbarSupportedContent">
+      //       <ul className="navbar-nav">
+      //         <li className="nav-item active">
+      //           <Link to="/">
+      //             <a className="nav-link">
+      //               Home <span className="sr-only">(current)</span>
+      //             </a>
+      //           </Link>
+      //         </li>
+
+      //       </ul>
+      //       <form className="form-inline my-2 my-lg-0 linknavbar">
+      //         {!this.props.logged.logged && (
+      //           <div>
+      //             <Link to="/register">
+      //               <a> Registro</a>
+      //             </Link>
+
+      //             <Link to="/login">
+      //               {" "}
+      //               <a>Login</a>
+      //             </Link>
+      //           </div>
+      //         )}
+
+      //         {this.props.logged.logged && (
+      //           <ul className="nav justify-content-end">
+      //            <li className="nav-item"> <p>{`¡Hola, ${this.state.name}!`}</p></li>
+      //            <li className="nav-item"> <img src={`http://localhost:3000/public/userAvatar/${this.state.profilePicture}`} className="logoutIcon" alt=""/> </li>
+      //            <li className="nav-item">
+      //             <Link to="/profile">
+      //               <a>Perfil</a>
+      //             </Link>
+      //             </li>
+      //             <li className="nav-item">
+      //             <img
+      //               className="logoutIcon"
+      //               src={logoutIcon}
+      //               onClick={this.logout}
+      //             />
+      //             </li>
+      //             </ul>
+
+      //         )}
+      //       </form>
+      //     </div>
+      //   </div>
+      // </nav>
     );
   }
 }
 
-const mapStateToProps = ({ logged }: IStore): IGlobalProps => ({
-  logged
+const mapStateToProps = ({ logged, token }: IStore): IGlobalProps => ({
+  logged,
+  token
 });
 
 const mapDispatchToProps = {

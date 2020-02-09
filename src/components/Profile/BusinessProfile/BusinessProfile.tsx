@@ -19,34 +19,29 @@ class BusinessProfile extends React.PureComponent<any, IState> {
   }
 
   render() {
-
-    
     return (
       <div className="row">
+        <div className="col-1"></div>{" "}
         <div className="col-1 profileNavbar">
           <Link to="/profile">
-          <div
-            className="row"
-            
-          >
-            Información de usuario
-          </div>
+            <div className="row">Información de usuario</div>
           </Link>
-          <hr/>
+          <hr />
           <Link to="/profile/businessPage">
-          <div
-            className="row"
-          >
-            BusinessPage
-          </div>
+            <div className="row">Tus negocios</div>
           </Link>
         </div>
         <div className="col-11">
-            <Route exact path={"/profile"}><BusinessOwnerInfo /></Route>
-            <Route exact path={"/profile/businessPage"}> <BusinessPage /> </Route>
-            <Route exact path={"/profile/editBusiness/:business_id"}>
-              <EditBusiness/>
-            </Route>
+          <Route exact path={"/profile"}>
+            <BusinessOwnerInfo />
+          </Route>
+          <Route exact path={"/profile/businessPage"}>
+            {" "}
+            <BusinessPage />{" "}
+          </Route>
+          <Route exact path={"/profile/editBusiness/:business_id"}>
+            <EditBusiness />
+          </Route>
         </div>
       </div>
     );

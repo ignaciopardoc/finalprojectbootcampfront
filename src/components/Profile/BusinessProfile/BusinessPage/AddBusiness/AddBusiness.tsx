@@ -410,7 +410,15 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
               </div>
             </div>
             <label>Foto principal de su negocio</label>
-            <input type="file" name="avatar" id="mainImage" ref={this.avatar} />
+            <div className="custom-file">
+              <input
+                type="file"
+                className="custom-file-input"
+                id="customFile"
+                ref={this.avatar}
+              />
+              <label className="custom-file-label">Elija una foto</label>
+            </div>
           </div>
 
           {/* Second Column */}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { IStore } from "../../../../interfaces/IStore";
 import { IUser } from "../../../../interfaces/IToken";
@@ -59,47 +59,56 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
     }, 1);
   }
 
-  businessCreated = () =>{
-    this.setState((showAddBusiness) => ({showAddBusiness: !showAddBusiness}))
-    this.getBusinessInfo()
-  }
+  businessCreated = () => {
+    this.setState(showAddBusiness => ({ showAddBusiness: !showAddBusiness }));
+    this.getBusinessInfo();
+  };
 
   render() {
     console.log(this.props.token.token);
     return (
-      <div>
-        <div className="row mainContainer">
-          {!this.state.showAddBusiness && (
-            <button
-              className="btn btn-success"
-              onClick={() =>
-                this.setState(({ showAddBusiness }) => ({
-                  showAddBusiness: !showAddBusiness
-                }))
-              }
-            >
-              Añadir empresa
-            </button>
-          )}
-          {this.state.showAddBusiness && (
-            <button
-              className="btn btn-danger"
-              onClick={() => {
-                this.getBusinessInfo();
-                this.setState(({ showAddBusiness }) => ({
-                  showAddBusiness: !showAddBusiness
-                }));
-              }}
-            >
-              Cerrar
-            </button>
-          )}
+      <Fragment>
+        <div className="row mainContainer pl-3">
+          <div className="col-2">
+            {!this.state.showAddBusiness && (
+              <button
+                className="buttonAddBusiness"
+                onClick={() =>
+                  this.setState(({ showAddBusiness }) => ({
+                    showAddBusiness: !showAddBusiness
+                  }))
+                }
+              >
+                + Añadir empresa
+              </button>
+            )}
+
+            {/* Button to close AddBusiness */}
+            {this.state.showAddBusiness && (
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  this.getBusinessInfo();
+                  this.setState(({ showAddBusiness }) => ({
+                    showAddBusiness: !showAddBusiness
+                  }));
+                }}
+              >
+                Cerrar
+              </button>
+            )}
+          </div>
         </div>
-        {this.state.showAddBusiness && <AddBusiness businessCreated={this.businessCreated} />}
+
+        {this.state.showAddBusiness && (
+          <AddBusiness businessCreated={this.businessCreated} />
+        )}
+
+        {/* CARD container */}
         {!this.state.showAddBusiness && (
-          <div className="row cardContainer">
+          <div className="row cardContainer container-fluid">
             {this.state.business.map(b => (
-              <div className="col-2">
+              <div className="col-2 mr-5 container-fluid">
                 <div className="card businessCard">
                   <div
                     className="card-img-top divimagetop"
@@ -113,15 +122,24 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
                     <p className="card-text">{b.city}</p>
                     <p className="card-text">{b.category}</p>
                     <Link to={`/profile/editBusiness/${b.id}`}>
-                      <a className="btn btn-primary">Editar</a>
+                      <a className="btn float-right editButton">Editar</a>
                     </Link>
                   </div>
                 </div>
               </div>
             ))}
+            <div className="col-2 justify-content-center">
+            <div onClick={() =>
+                  this.setState(({ showAddBusiness }) => ({
+                    showAddBusiness: !showAddBusiness
+                  }))
+                } className="card card-body h-50 justify-content-center businessCard addBusinessCard">
+               <h1>+</h1> 
+            </div>
           </div>
+            </div>
         )}
-      </div>
+      </Fragment>
     );
   }
 }

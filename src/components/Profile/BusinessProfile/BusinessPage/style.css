@@ -2,8 +2,23 @@
   margin-top: 10px;
 }
 
+.buttonAddBusiness {
+  background-color: transparent;
+  border: none;
+  font-weight: 500;
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.buttonAddBusiness:hover {
+  text-decoration: underline !important;
+}
+
 .col-2 {
   margin-left: 50px;
+}
+.col-2 .addBusinessCard {
+  align-items: center;
 }
 
 .businessCard {
@@ -11,6 +26,10 @@
   margin-top: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.businessCard .editButton {
+  background-color: #35C68F;
+  width: 100%;
 }
 .businessCard a {
   color: white !important;

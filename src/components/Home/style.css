@@ -2,13 +2,12 @@ h1 {
   color: #35c68f;
 }
 
-input,
-select {
+.inputHome {
   margin-top: 3rem;
   margin-bottom: 1rem;
 }
 
-.container {
+.containerHome {
   background-color: whitesmoke !important;
   min-height: 100vh;
 }
