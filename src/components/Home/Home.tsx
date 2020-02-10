@@ -80,28 +80,6 @@ class Home extends React.Component<any, IState> {
     });
   };
 
-  // getBusinessesByCoord = async () => {
-  //   const {latBottom,
-  //     latTop,
-  //     lonLeft,
-  //     lonRight} = this.state
-  //   await fetch(URL_GET_MAP, {
-  //     method: "POST",
-  //     headers: new Headers({
-  //       "Content-Type": "application/json"
-  //     }),
-  //     body: JSON.stringify({
-  //       latBottom,
-  //       latTop,
-  //       lonLeft,
-  //       lonRight
-  //     })
-  //   }).then(async response => {
-  //     const json = await response.json();
-  //     this.setState({ businessOnMap: json });
-  //   });
-  // };
-
   getCategories = async () => {
     const response = await fetch(API_CATEGORIES);
     const json = await response.json();

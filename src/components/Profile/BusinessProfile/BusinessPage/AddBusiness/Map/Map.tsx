@@ -5,25 +5,21 @@ import pin from "../../../../../../icons/GREEN_PIN.svg";
 import { Map, SVGOverlay, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 
-interface IState {
-  
-}
+interface IState {}
 
 interface IProps {
   changelatlng(lat: number, lon: number): void;
-  zoom: number;
-  latlon: any;
+  zoom: number | null
+  latlon: number[];
 }
 
-export default class SimpleExample extends React.PureComponent<IProps, IState> {
+ class SimpleExample extends React.Component<IProps, IState> {
   constructor(props: any) {
     super(props);
 
-    this.state = {
-      
-    };
+    this.state = {};
   }
-  
+
   render() {
     const myIcon = L.icon({
       iconUrl: pin,
@@ -31,13 +27,15 @@ export default class SimpleExample extends React.PureComponent<IProps, IState> {
       iconAnchor: [22, 79]
     });
 
-  
+    const lat = 40.4183083;
+    const lon = -3.70275;
+    const zoom = 5;
 
     return (
       <Fragment>
-        <label>
+        {/* <label>
           Por favor, comprueba que la ubicación en el mapa es la correcta
-        </label>
+        </label> */}
         <div className="leaflet-container">
           <Map
             style={{ minHeight: "500px" }}
@@ -45,18 +43,28 @@ export default class SimpleExample extends React.PureComponent<IProps, IState> {
               console.log(e);
               this.props.changelatlng(e.latlng.lat, e.latlng.lng);
             }}
-            zoom={this.props.zoom}
-            center={ this.props.latlon }
+            center={
+              this.props.latlon.length
+                ? [this.props.latlon[0], this.props.latlon[1]]
+                : [lat, lon]
+            }
+            zoom={this.props.zoom !== null ? (this.props.zoom as number) : zoom}
           >
+            {" "}
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            <Marker position={this.props.latlon} icon={myIcon}>
-              <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
-              </Popup>
-            </Marker>
+            {this.props.latlon.map(() => (
+              <Marker
+                position={[this.props.latlon[0], this.props.latlon[1]]}
+                icon={myIcon}
+              >
+                <Popup>Aquí va la información de tu empresa</Popup>
+              </Marker>
+            ))}
           </Map>
         </div>
       </Fragment>
     );
   }
 }
+
+export default SimpleExample

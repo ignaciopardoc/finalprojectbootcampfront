@@ -34,8 +34,8 @@ interface IState {
   instagram: string;
   email: string;
   categories: [];
-  zoom: number;
-  latlon: any;
+  zoom: number | null;
+  latlon: number[];
   lat: number;
   lon: number;
   completeAddress: string;
@@ -61,9 +61,9 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
       instagram: "",
       email: "",
       categories: [],
-      // latlon: [40.41664, -3.70327],
-      latlon: undefined,
-      zoom: 6,
+     
+      latlon: [],
+      zoom: null,
       lat: 0,
       lon: 0,
       postcode: "",
@@ -114,26 +114,6 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
       this.uploadMain(insertId);
 
       this.props.businessCreated();
-
-      //   if (this.avatar.current?.files) {
-      //     console.log(response)
-      //     const formData = new FormData();
-      //     const path = this.avatar.current.files[0];
-      //     const token = sessionStorage.getItem("token");
-      //     console.log(path);
-      //     formData.append("avatar", path);
-      //     myFetchFiles({
-      //       method: "POST",
-      //       token: token as string,
-      //       path: "business/setMainPhoto",
-      //       formData
-      //     }).then(json => {
-      //       if (json) {
-      //         console.log("aaaaaaaaaaaaa");
-      //         console.log(json);
-      //       }
-      //     });
-      //   }
     } catch (e) {
       console.log(e);
     }
@@ -168,7 +148,8 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
     ).then(async response => {
       const json = await response.json();
       console.log(json);
-      if (this.state.zoom < 17) {
+      
+      if (this.state.zoom !== null && this.state.zoom < 17) {
         this.setState({ zoom: 17 });
       }
       if (json.address.pedestrian) {
@@ -197,89 +178,6 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
     });
   };
 
-  // searchByAdress = async (address: string) => {
-  //   fetch(
-  //     `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${GOOGLE_KEY}`
-  //   ).then(async response => {
-  //     const json = await response.json();
-  //     console.log(json);
-  //     if (json.result[0].status !== -3) {
-  //       //Result is only used for the map
-  //       const result = [json.result[0].latitude, json.result[0].longitude];
-  //       console.log(json);
-  //       this.setState({ latlon: result });
-  //       this.setState({ zoom: 17 });
-
-  //       //This goes to the db
-  //       this.setState({ lat: json.result[0].latitude });
-  //       this.setState({ lon: json.result[0].longitude });
-  //       this.setState({ completeAddress: `${json.result[0].road_name}, ${json.result[0].numpk_name}`    });
-
-  //       this.setState({ postcode: json.result[0].zip });
-  //       this.setState({ city: json.result[0].municipality });
-  //     } else {
-  //       Swal.fire({ icon: "error", title: "No se ha encontrado la dirección" });
-  //     }
-  //   });
-  // };
-
-  // searchByAdress = async (address: string) => {
-  //   fetch(
-  //     `http://www.cartociudad.es/CartoGeocoder/Geocode?address=${address}`
-  //   ).then(async response => {
-  //     const json = await response.json();
-  //     console.log(json);
-  //     if (json.result[0].status !== -3) {
-  //       //Result is only used for the map
-  //       const result = [json.result[0].latitude, json.result[0].longitude];
-  //       console.log(json);
-  //       this.setState({ latlon: result });
-  //       this.setState({ zoom: 17 });
-
-  //       //This goes to the db
-  //       this.setState({ lat: json.result[0].latitude });
-  //       this.setState({ lon: json.result[0].longitude });
-  //       this.setState({ completeAddress: `${json.result[0].road_name}, ${json.result[0].numpk_name}`    });
-
-  //       this.setState({ postcode: json.result[0].zip });
-  //       this.setState({ city: json.result[0].municipality });
-  //     } else {
-  //       Swal.fire({ icon: "error", title: "No se ha encontrado la dirección" });
-  //     }
-  //   });
-  // };
-
-  // searchByAdress = async (address: string) => {
-  //   fetch(
-  //     `https://nominatim.openstreetmap.org/search/${address}?format=json&addressdetails=1&limit=1&polygon_svg=1`
-  //   ).then(async response => {
-  //     const json = await response.json();
-  //     console.log(json);
-  //     //Result is only used for the map
-  //     const result = [json[0].lat, json[0].lon];
-  //     this.setState({ latlon: result });
-  //     this.setState({ zoom: 17 });
-
-  //     //This goes to the db
-  //     this.setState({ lat: json[0].lat });
-  //     this.setState({ lon: json[0].lon });
-  //     this.setState({
-  //       completeAddress: `${json[0].address.road}, ${json[0].address.house_number}`
-  //     });
-  //     this.setState({ postcode: json[0].address.postcode });
-  //     this.setState({ city: json[0].address.city });
-  //   });
-  // };
-
-  // getCategories = async () => {
-  //   const response = await fetch(API_URL);
-  //   const json = await response.json();
-  //   this.setState({ categories: json });
-  // };
-
-  // componentDidMount() {
-  //   this.getCategories();
-  // }
   //Search addres by the input the user insert on input fields
   searchByAdress = async () => {
     const address = `${this.state.address} ${this.state.city} ${this.state.postcode}`;
@@ -294,7 +192,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
         if (json.length) {
           //Result is only used for the map
           this.setState({ lat: json[0].lat, lon: json[0].lon });
-          this.setState({ latlon: [this.state.lat, this.state.lon] });
+          this.setState({ latlon: [json[0].lat, json[0].lon] });
           this.setState({ zoom: 17 });
           if (json[0].address.pedestrian) {
             this.setState({
@@ -327,22 +225,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
     });
   };
 
-  // uploadMain = async () => {
-  //   if (this.mainImage.current?.files?.length) {
-  //     const formData = new FormData();
-  //     console.log(this.mainImage.current?.files[0])
-  //     formData.append("avatar", this.mainImage.current?.files[0]);
-
-  //     await fetch(API_URL3, {
-  //       headers: {
-  //         'Content-Type': 'multipart/form-data'
-  //       },
-  //       method: "POST",
-  //       body: formData
-  //     });
-  //     this.mainImage.current.value = "";
-  //   }
-  // };
+ 
 
   //Get the categories from the enum on the DB
   getCategories = async () => {
@@ -516,15 +399,12 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
           </div>
           {/* Map column */}
           <div className="col-6">
+          {this.state.zoom &&
             <MapExample
               changelatlng={this.changelatlng}
               zoom={this.state.zoom}
-              latlon={
-                this.state.latlon !== undefined
-                  ? this.state.latlon
-                  : [40.41664, -3.70327]
-              }
-            />
+              latlon={this.state.latlon}
+            />}
           </div>
           <button
             onClick={() => this.createBusiness()}
