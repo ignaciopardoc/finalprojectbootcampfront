@@ -529,6 +529,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                 <label>Introduzca su contraseña</label>
                 <input
                   type="password"
+                  className="form-control"
                   value={this.state.password}
                   onChange={e => this.setState({ password: e.target.value })}
                 />

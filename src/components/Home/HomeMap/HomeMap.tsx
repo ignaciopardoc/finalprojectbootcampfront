@@ -99,19 +99,8 @@ class HomeMap extends React.PureComponent<IProps, IState> {
                 );
                 console.log("HOLA");
               }
-
-              // const latBottom = e.target.getBounds()._southWest.lat;
-              // const latTop = e.target.getBounds()._northEast.lat;
-              // const lonLeft = e.target.getBounds()._southWest.lng;
-              // const lonRight = e.target.getBounds()._northEast.lng;
-              // console.log(latBottom, latTop, lonLeft, lonRight);
             }
-            // onLoad={this.props.getBusinessesByCoord(
-            //   31.50362930577303,
-            //   48.22467264956519,
-            //   -45.87890625,
-            //   38.49609375000001
-            // )}
+           
             center={
               this.props.latlon.length
                 ? [this.props.latlon[0], this.props.latlon[1]]
