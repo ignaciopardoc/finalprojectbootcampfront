@@ -1,8 +1,9 @@
 import React, { Fragment } from "react";
 import HomeMap from "./HomeMap/HomeMap";
-import CardSection from "../CardSection/CardSection ";
+
 import "./style.css";
 import Swal from "sweetalert2";
+
 
 const API_CATEGORIES = "http://localhost:3000/business/getCategories";
 
@@ -203,10 +204,9 @@ class Home extends React.Component<any, IState> {
             zoom={this.state.zoom}
           />
           
+                
+                  
 
-
-
-          {/* <CardSection  /> */}
         </div>
       </Fragment>
     );

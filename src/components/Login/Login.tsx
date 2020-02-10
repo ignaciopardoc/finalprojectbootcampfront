@@ -1,17 +1,27 @@
 import React from "react";
 import "./style.css";
 import { connect } from "react-redux";
-import { setTokenAction, setLoggedAction } from "../../redux/actions";
+import {
+  setTokenAction,
+  setLoggedAction,
+  setUserInfoAction,
+  setPremiumAction
+} from "../../redux/actions";
 import { IUser } from "../../interfaces/IToken";
 import Swal from "sweetalert2";
 import { ILogged } from "../../interfaces/ILogged";
 import { IStore } from "../../interfaces/IStore";
 import history from "../../utils/history";
+import jwt from "jsonwebtoken";
+import { IUserInfo } from "../../interfaces/IUserInfo";
+
 const API_URL = "http://localhost:3000/auth/auth";
 
 interface IProps {
   setToken(token: IUser): void;
   setLogged(logged: ILogged): void;
+  setInfo(UserInfo: IUserInfo): void;
+  setPremium(isPremium: boolean): void;
 }
 
 interface IGlobalProps {
@@ -25,7 +35,12 @@ interface IState {
   password: string;
 }
 
-
+interface IToken {
+  name: string;
+  username: string;
+  profilePicture: string;
+  isPremium: boolean;
+}
 
 class Login extends React.PureComponent<TProps, IState> {
   constructor(props: TProps) {
@@ -36,9 +51,6 @@ class Login extends React.PureComponent<TProps, IState> {
       password: ""
     };
   }
-
-  
-  
 
   login = async () => {
     const { username, password } = this.state;
@@ -56,22 +68,27 @@ class Login extends React.PureComponent<TProps, IState> {
       Swal.fire({ icon: "error", title: "Usuario o contraseña no válidos" });
     } else if (response.status === 200) {
       const json = await response.json();
+      const { name, username, profilePicture, isPremium } = jwt.decode(
+        json
+      ) as IToken;
+      console.log(name, username, profilePicture);
+      this.props.setInfo({
+        name: name,
+        username: username,
+        photo: profilePicture
+      });
+      this.props.setPremium(isPremium);
       localStorage.setItem("token", json);
-      this.props.setToken({token:json});
+      this.props.setToken({ token: json });
       this.props.setLogged({ logged: true });
-      history.push("/")
+      history.push("/");
       Swal.fire({ icon: "success", title: "Logueado correctamente" });
     }
-    console.log(response);
   };
 
-  
-    
-  
-
   render() {
-    if(this.props.logged.logged){
-      history.push("/")
+    if (this.props.logged.logged) {
+      history.push("/");
     }
     return (
       <div className="row login">
@@ -111,7 +128,9 @@ const mapStateToProps = ({ logged }: IStore): IGlobalProps => ({
 
 const mapDispatchToProps = {
   setToken: setTokenAction,
-  setLogged: setLoggedAction
+  setLogged: setLoggedAction,
+  setInfo: setUserInfoAction,
+  setPremium: setPremiumAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

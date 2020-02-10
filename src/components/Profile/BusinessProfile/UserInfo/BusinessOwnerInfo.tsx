@@ -9,12 +9,19 @@ import Swal4 from "sweetalert2";
 import jwt from "jsonwebtoken";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+
+import IBAN from "iban";
+import { setUserInfoAction, setPremiumAction, setTokenAction } from "../../../../redux/actions";
+import { IUserInfo } from "../../../../interfaces/IUserInfo";
 const API_GET_USER = "http://localhost:3000/auth/getInfoUser/";
 const API_UPDATE_PERSONAL =
   "http://localhost:3000/auth/addPersonalInformation/";
+const API_SET_IBAN = "http://localhost:3000/auth/makePremium";
+const API_GET_TOKEN = "http://localhost:3000/auth/auth";
 
 interface IGlobalProps {
   token: IUser;
+  isPremium: boolean;
 }
 
 interface IToken {
@@ -37,9 +44,18 @@ interface IState {
   user: IUserDB;
   editPassword: boolean;
   editPersonalInfo: boolean;
+  showPremium: boolean;
+  acceptedTerms: boolean;
+  iban: string;
+  correctIban: boolean;
+  password: string;
 }
 
-interface IProps {}
+interface IProps {
+  setInfo(userInfo: IUserInfo): void;
+  setPremium(isPremium: boolean): void;
+  setToken(token: IUser): void
+}
 
 type TProps = IGlobalProps & IProps;
 
@@ -61,7 +77,12 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
         postcode: ""
       },
       editPassword: false,
-      editPersonalInfo: false
+      editPersonalInfo: false,
+      showPremium: false,
+      acceptedTerms: false,
+      iban: "",
+      correctIban: false,
+      password: ""
     };
   }
 
@@ -94,14 +115,80 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
         path: `auth/uploadAvatar/${userId}`,
         formData
       })
-        .then(() => {
-          this.getuserinfo();
+        .then(async () => {
+          await this.getuserinfo();
+          this.props.setInfo({
+            photo: this.state.user.profilePicture,
+            username: this.state.user.username,
+            name: this.state.user.name
+          });
         })
         .then(() => {
           if (this.avatar.current !== null) {
             this.avatar.current.value = "";
           }
         });
+    }
+  };
+
+  getNewToken = async () => {
+    const { password } = this.state;
+    const { username } = this.state.user;
+    await fetch(API_GET_TOKEN, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username,
+        password
+      })
+    }).then(async response => {
+      const token = await response.json()
+      localStorage.setItem("token", token)
+      this.props.setToken(token)
+    });
+  };
+
+  // Make send iban after check it
+  makePremium = async () => {
+    const token = this.props.token.token;
+    const { iban, password } = this.state;
+    const { username } = this.state.user;
+
+    try {
+      await fetch(API_GET_TOKEN, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username,
+          password
+        })
+      }).then(async response => {
+        console.log(response);
+        if (response.status === 200) {
+          await fetch(API_SET_IBAN, {
+            method: "POST",
+            headers: new Headers({
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json"
+            }),
+            body: JSON.stringify({
+              iban
+            })
+          }).then(response2 => {
+            console.log(response2);
+            this.props.setPremium(true);
+            this.getNewToken()
+          });
+        } else {
+          Swal.fire({ title: "Contraseña incorrecta", icon: "error" });
+        }
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -123,18 +210,43 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
           city,
           postcode
         })
-      }).then(response => {
+      }).then(async response => {
         if (response.status === 200) {
           Swal4.fire({
             title: "Datos actualizados correctamente",
             icon: "success"
           });
           this.setState({ editPersonalInfo: false });
-          this.getuserinfo();
+          await this.getuserinfo();
+          this.props.setInfo({
+            photo: this.state.user.profilePicture,
+            username: this.state.user.username,
+            name: this.state.user.name
+          });
         }
       });
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  checkUserInfo = async () => {
+    const { name, surname, address, city, postcode } = this.state.user;
+
+    const token = jwt.decode(this.props.token.token) as IToken;
+
+    {
+      token.isBusiness &&
+        !name &&
+        !surname &&
+        !address &&
+        !city &&
+        !postcode &&
+        Swal.fire({
+          title: "Por favor, complete su perfil",
+          icon: "warning"
+        }) &&
+        this.setState({ editPersonalInfo: true });
     }
   };
 
@@ -144,23 +256,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
     }, 1);
 
     setTimeout(() => {
-      const { name, surname, address, city, postcode } = this.state.user;
-
-      const token = jwt.decode(this.props.token.token) as IToken;
-
-      {
-        token.isBusiness &&
-          !name &&
-          !surname &&
-          !address &&
-          !city &&
-          !postcode &&
-          Swal.fire({
-            title: "Por favor, complete su perfil",
-            icon: "warning"
-          }) &&
-          this.setState({ editPersonalInfo: true });
-      }
+      this.checkUserInfo();
     }, 500);
   }
   render() {
@@ -365,29 +461,111 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
             </div>
           </div>
         </div>
-        
-        <div className="container shadow pb-3">
-          <div className="row mt-3 pt-3">
-            <div className="col-4">
-              <h1>Hazte Premium:</h1>
-              <h1></h1>
-            </div>
-            <div className="col-md-6 col-12 ">
-              <h1>Añade eventos</h1>
-              <h1>Destaca tu negocio</h1>
-              <h1>Y mucho más</h1>
-              <h1>Todo por solo 29,99€/mes</h1>
+
+        {!this.state.showPremium && !this.props.isPremium && (
+          <div
+            onClick={async () => {
+              await this.checkUserInfo().then(() => {
+                if (!this.state.editPersonalInfo) {
+                  this.setState({ showPremium: true });
+                }
+              });
+            }}
+            className="container shadow pb-3"
+          >
+            <div className="row mt-3 pt-3">
+              <div className="col-4">
+                <h1>Hazte Premium:</h1>
+              </div>
+              <div className="col-md-6 col-12 ">
+                <h1>Añade eventos</h1>
+                <h1>Destaca tu negocio</h1>
+                <h1>Y mucho más</h1>
+                <h1>Todo por solo 29,99€/mes</h1>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {this.state.showPremium && !this.props.isPremium && (
+          <div className="container shadow pb-3">
+            <div className="row mt-3 pt-3">
+              <div className="col-4">
+                <h1>Hazte Premium:</h1>
+              </div>
+              <div className="col-md-6 col-12 ">
+                <h1>¡Estás a un solo paso!</h1>
+                <input
+                  type="text"
+                  name=""
+                  className="form-control"
+                  placeholder="Introduce tu IBAN"
+                  onChange={e => {
+                    this.setState({
+                      iban: e.target.value.toUpperCase()
+                    });
+                    const validatedIban = IBAN.isValid(
+                      e.target.value as string
+                    );
+                    console.log(validatedIban);
+                    this.setState({ correctIban: validatedIban });
+                  }}
+                  value={this.state.iban}
+                  id=""
+                />
+                <div>
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={this.state.acceptedTerms}
+                    onClick={() =>
+                      this.setState(({ acceptedTerms }) => ({
+                        acceptedTerms: !acceptedTerms
+                      }))
+                    }
+                  />{" "}
+                  <label>Acepto los términos y condiciones</label>
+                </div>
+                <label>Introduzca su contraseña</label>
+                <input
+                  type="password"
+                  value={this.state.password}
+                  onChange={e => this.setState({ password: e.target.value })}
+                />
+
+                <button
+                  onClick={() => this.makePremium()}
+                  disabled={
+                    !this.state.acceptedTerms ||
+                    !this.state.correctIban ||
+                    !this.state.password
+                  }
+                  className="btn btn-success"
+                >
+                  Enviar
+                </button>
+                <button
+                  className="btn btn-danger ml-3"
+                  onClick={() => this.setState({ showPremium: false })}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </Fragment>
     );
   }
 }
-const mapStateToProps = ({ token }: IStore): IGlobalProps => ({
-  token
+const mapStateToProps = ({ token, isPremium }: IStore): IGlobalProps => ({
+  token,
+  isPremium
 });
 
-const mapDispatchToProps = {};
-
+const mapDispatchToProps = {
+  setInfo: setUserInfoAction,
+  setPremium: setPremiumAction,
+  setToken: setTokenAction
+};
 export default connect(mapStateToProps, mapDispatchToProps)(BusinessOwnerInfo);

@@ -9,12 +9,14 @@ import { setLoggedAction } from "../../redux/actions";
 import logoutIcon from "../../icons/logout.svg";
 import history from "../../utils/history";
 import { IUser } from "../../interfaces/IToken";
+import { IUserInfo } from "../../interfaces/IUserInfo";
 
 const API_GET_USER = "http://localhost:3000/auth/getInfoUser/";
 
 interface IGlobalProps {
   logged: ILogged;
   token: IUser;
+  userInfo: IUserInfo
 }
 
 interface IProps {
@@ -108,12 +110,12 @@ class Navbar extends React.PureComponent<TProps, IState> {
             {this.props.logged.logged && (
               <ul className="navbar-nav ml-auto flex-nowrap">
                 <li className="nav-item mr-2">
-                  <p className="nav-link">{`¡Hola, ${this.state.name}!`}</p>
+                  <p className="nav-link">{`¡Hola, ${this.props.userInfo.name ? this.props.userInfo.name : this.props.userInfo.username}!`}</p>
                 </li>
                 <li className="nav-item mr-2">
                   <div
                     style={{
-                      backgroundImage: `url(http://localhost:3000/public/userAvatar/${this.state.profilePicture})`
+                      backgroundImage: `url(http://localhost:3000/public/userAvatar/${this.props.userInfo.photo})`
                     }}
                     className="logoutIcon navbarImage"
                   />
@@ -223,9 +225,10 @@ class Navbar extends React.PureComponent<TProps, IState> {
   }
 }
 
-const mapStateToProps = ({ logged, token }: IStore): IGlobalProps => ({
+const mapStateToProps = ({ logged, token, userInfo }: IStore): IGlobalProps => ({
   logged,
-  token
+  token,
+  userInfo
 });
 
 const mapDispatchToProps = {
