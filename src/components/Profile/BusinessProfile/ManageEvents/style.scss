@@ -1,3 +1,19 @@
 textarea {
   resize: none;
 }
+.addEventButton {
+  cursor: pointer !important;
+}
+
+.addEventButton:after {
+  content: "";
+  width: 0px;
+  height: 1px;
+  display: block;
+  background: black;
+  transition: 300ms;
+}
+
+.addEventButton:after:hover {
+  width: 100%;
+}

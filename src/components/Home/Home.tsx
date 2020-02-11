@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 const API_CATEGORIES = "http://localhost:3000/business/getCategories";
 
 const URL_GET_MAP = "http://localhost:3000/business/getBusinessMap";
+const URL_GET_MAP_PREMIUM = "http://localhost:3000/business/getBusinessPremium"
 
 interface businessDB {
   id: number;
@@ -28,6 +29,7 @@ interface businessDB {
 
 interface IState {
   businessOnMap: businessDB[];
+  businessOnMapPremium: businessDB[]
   latBottom: number | null;
   latTop: number | null;
   lonRight: number | null;
@@ -45,6 +47,7 @@ class Home extends React.Component<any, IState> {
 
     this.state = {
       businessOnMap: [],
+      businessOnMapPremium: [],
       latBottom: 0,
       latTop: 0,
       lonRight: 0,
@@ -110,6 +113,25 @@ class Home extends React.Component<any, IState> {
       const json = await response.json();
       this.setState({ ...this.state, businessOnMap: json });
     });
+
+    await fetch(URL_GET_MAP_PREMIUM, {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify({
+        latBottom,
+        latTop,
+        lonLeft,
+        lonRight,
+        category
+      })
+    }).then(async response => {
+      const json = await response.json();
+      this.setState({ ...this.state, businessOnMapPremium: json });
+    });
+
+
   };
 
   getBusinessesByCoordAndCategory = async () => {
@@ -130,6 +152,25 @@ class Home extends React.Component<any, IState> {
       const json = await response.json();
       this.setState({ ...this.state, businessOnMap: json });
     });
+
+    await fetch(URL_GET_MAP_PREMIUM, {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify({
+        latBottom,
+        latTop,
+        lonLeft,
+        lonRight,
+        category
+      })
+    }).then(async response => {
+      const json = await response.json();
+      this.setState({ ...this.state, businessOnMapPremium: json });
+    });
+
+
   };
 
   componentDidMount() {
@@ -177,6 +218,7 @@ class Home extends React.Component<any, IState> {
           </div>
           <HomeMap
             businessOnMap={this.state.businessOnMap}
+            businessOnMapPremium={this.state.businessOnMapPremium}
             getBusinessesByCoord={this.getBusinessesByCoord}
             latlon={this.state.latlon}
             zoom={this.state.zoom}

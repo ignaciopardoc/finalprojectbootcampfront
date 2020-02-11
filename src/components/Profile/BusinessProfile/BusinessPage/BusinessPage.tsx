@@ -129,15 +129,18 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
               </div>
             ))}
             <div className="col-2 justify-content-center">
-            <div onClick={() =>
+              <div
+                onClick={() =>
                   this.setState(({ showAddBusiness }) => ({
                     showAddBusiness: !showAddBusiness
                   }))
-                } className="card card-body h-50 justify-content-center businessCard addBusinessCard">
-               <h1>+</h1> 
+                }
+                className="card card-body h-50 justify-content-center businessCard addBusinessCard"
+              >
+                <h1>+</h1>
+              </div>
             </div>
           </div>
-            </div>
         )}
       </Fragment>
     );
