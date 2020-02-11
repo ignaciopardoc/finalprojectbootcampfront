@@ -20,3 +20,8 @@
 body {
   overflow: unset;
 }
+
+.notEnabled {
+  pointer-events: none;
+    opacity: 0.4;
+}
