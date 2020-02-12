@@ -37,3 +37,8 @@ nav .navbarImage {
 .navbarPersonalized {
   background-color: #fafafa !important;
 }
+
+.navbar-toggler-icon {
+  background-image: url("../../icons/paw.svg") !important;
+  opacity: 0.4;
+}

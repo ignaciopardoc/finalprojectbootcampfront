@@ -14,3 +14,10 @@
 .row .profileNavbar hr {
   border-color: white;
 }
+
+@media (max-width: 992px) {
+  .profileNavbar {
+    position: unset !important;
+    height: 15vh !important;
+  }
+}

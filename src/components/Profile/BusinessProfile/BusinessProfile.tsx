@@ -8,8 +8,8 @@ import BusinessOwnerInfo from "./UserInfo/BusinessOwnerInfo";
 import ManageEvents from "./ManageEvents/ManageEvents";
 import { connect } from "react-redux";
 import { IStore } from "../../../interfaces/IStore";
-import { IUser } from "../../../interfaces/IToken";
 import Swal from "sweetalert2";
+import EditEvents from "./ManageEvents/EditEvents/EditEvents";
 
 interface IState {
   selectedNavbar: number;
@@ -77,6 +77,9 @@ class BusinessProfile extends React.PureComponent<TProps, IState> {
           </Route>
           <Route exact path="/profile/manageEvents">
             <ManageEvents />
+          </Route>
+          <Route exact path ="/profile/editEvent/:eventId">
+            <EditEvents />
           </Route>
         </div>
       </div>

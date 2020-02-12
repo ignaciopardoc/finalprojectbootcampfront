@@ -115,7 +115,7 @@ class Navbar extends React.PureComponent<TProps, IState> {
                 <li className="nav-item mr-2">
                   <div
                     style={{
-                      backgroundImage: `url(http://localhost:3000/public/userAvatar/${this.props.userInfo.photo})`
+                      backgroundImage: `url(http://localhost:3000/public/userAvatar/${this.props.userInfo.photo ? this.props.userInfo.photo : `noAvatar.svg`})`
                     }}
                     className="logoutIcon navbarImage"
                   />

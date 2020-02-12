@@ -1,4 +1,4 @@
-import React, { Fragment, ChangeEvent } from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { IStore } from "../../../../interfaces/IStore";
 import { IUser } from "../../../../interfaces/IToken";
@@ -6,7 +6,7 @@ import "./style.css";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { registerLocale, setDefaultLocale } from "react-datepicker";
+import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 import { Link } from "react-router-dom";
 registerLocale("es", es);
@@ -120,8 +120,16 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
       endDate
     } = this.state;
 
-    startDate = startDate.toISOString().split("T")[0] as any;
-    endDate = endDate.toISOString().split("T")[0] as any;
+    startDate = startDate
+      .toLocaleDateString()
+      .split("/")
+      .reverse()
+      .join("-") as any;
+    endDate = endDate
+      .toLocaleDateString()
+      .split("/")
+      .reverse()
+      .join("-") as any;
 
     await fetch(API_ADD_EVENT, {
       method: "POST",
@@ -136,9 +144,9 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
         endDate
       })
     }).then(() => {
-      
-      this.getEvents()
-    this.setState({addEvent: false})});
+      this.getEvents();
+      this.setState({ addEvent: false });
+    });
   };
 
   componentDidMount() {
@@ -150,16 +158,26 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
 
   render() {
     console.log(this.state);
+    const today = new Date()
     return (
       <Fragment>
         <div className="row">
           {!this.state.addEvent && (
-            <h1 className="addEventButton" onClick={() => this.setState({ addEvent: true })}>
+            <h1
+              className="addEventButton"
+              onClick={() => this.setState({ addEvent: true })}
+            >
               + Añadir evento
             </h1>
           )}
           {this.state.addEvent && (
-            <h1 onClick={() => this.setState({ addEvent: false })}> Cerrar</h1>
+            <h1
+              className="addEventButton"
+              onClick={() => this.setState({ addEvent: false })}
+            >
+              {" "}
+              Cerrar
+            </h1>
           )}
         </div>
         {this.state.addEvent && (
@@ -195,24 +213,32 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
               <h3>Fecha de comienzo:</h3>
               <div className="ml-3 mr-3">
                 <DatePicker
+                minDate={today}
                   className="form-control"
                   dateFormat="dd/MM/yyyy"
                   selected={this.state.startDate}
-                  onChange={date =>
-                    this.setState({ startDate: new Date(date as Date) })
-                  }
+                  onChange={date => {
+                    this.setState({ startDate: new Date(date as Date) });
+                    if (new Date(date as Date) > new Date(this.state.endDate)) {
+                      this.setState({ endDate: date as Date });
+                    }
+                  }}
                   locale="es"
                 />
               </div>
               <h3>Fecha de finalización:</h3>
               <div className="ml-3 mr-3">
                 <DatePicker
+                minDate={today}
                   className="form-control"
                   dateFormat="dd/MM/yyyy"
                   selected={this.state.endDate}
-                  onChange={date =>
-                    this.setState({ endDate: new Date(date as Date) })
-                  }
+                  onChange={date => {
+                    this.setState({ endDate: new Date(date as Date) });
+                    if (new Date(date as Date) < new Date(this.state.endDate)) {
+                      this.setState({ startDate: date as Date });
+                    }
+                  }}
                   locale="es"
                 />
               </div>
@@ -235,7 +261,9 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
               onClick={() => {
                 this.addEvent();
               }}
-            >Crear evento</button>
+            >
+              Crear evento
+            </button>
           </div>
         )}
 

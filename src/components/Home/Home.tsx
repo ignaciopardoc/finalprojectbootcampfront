@@ -4,11 +4,14 @@ import HomeMap from "./HomeMap/HomeMap";
 import "./style.css";
 import Swal from "sweetalert2";
 
+import instagramLogo from "../../icons/instagram.svg";
+import { throws } from "assert";
+import PremiumBusinessCard from "./PremiumBusinessCard/PremiumBusinessCard";
 
 const API_CATEGORIES = "http://localhost:3000/business/getCategories";
-
+const URL_GET_ONEBUSINESS = "http://localhost:3000/business/getOneBusiness/";
 const URL_GET_MAP = "http://localhost:3000/business/getBusinessMap";
-const URL_GET_MAP_PREMIUM = "http://localhost:3000/business/getBusinessPremium"
+const URL_GET_MAP_PREMIUM = "http://localhost:3000/business/getBusinessPremium";
 
 interface businessDB {
   id: number;
@@ -27,9 +30,10 @@ interface businessDB {
   user_id: number;
 }
 
+
 interface IState {
   businessOnMap: businessDB[];
-  businessOnMapPremium: businessDB[]
+  businessOnMapPremium: businessDB[];
   latBottom: number | null;
   latTop: number | null;
   lonRight: number | null;
@@ -39,6 +43,8 @@ interface IState {
   zoom: number | null;
   categories: [];
   category: string;
+  selectedBusiness: businessDB;
+  
 }
 
 class Home extends React.Component<any, IState> {
@@ -46,6 +52,22 @@ class Home extends React.Component<any, IState> {
     super(props);
 
     this.state = {
+      selectedBusiness: {
+        id: 0,
+        businessName: "",
+        description: "",
+        category: "",
+        address: "",
+        city: "",
+        postcode: "",
+        lat: 0,
+        lon: 0,
+        telephone: "",
+        email: "",
+        instagram: "",
+        mainImagePath: "",
+        user_id: 0
+      },
       businessOnMap: [],
       businessOnMapPremium: [],
       latBottom: 0,
@@ -56,7 +78,8 @@ class Home extends React.Component<any, IState> {
       latlon: [],
       zoom: null,
       categories: [],
-      category: ""
+      category: "",
+      
     };
   }
 
@@ -130,8 +153,6 @@ class Home extends React.Component<any, IState> {
       const json = await response.json();
       this.setState({ ...this.state, businessOnMapPremium: json });
     });
-
-
   };
 
   getBusinessesByCoordAndCategory = async () => {
@@ -169,8 +190,14 @@ class Home extends React.Component<any, IState> {
       const json = await response.json();
       this.setState({ ...this.state, businessOnMapPremium: json });
     });
+  };
 
-
+  getInfo = async (id: number) => {
+    await fetch(`${URL_GET_ONEBUSINESS}${id}`).then(async response => {
+      const json = await response.json();
+      this.setState({ selectedBusiness: json });
+      console.log(this.state.selectedBusiness);
+    });
   };
 
   componentDidMount() {
@@ -178,12 +205,15 @@ class Home extends React.Component<any, IState> {
   }
 
   render() {
+    const { selectedBusiness } = this.state;
     return (
       <Fragment>
         <div className="container containerHome">
-          <h1 className="text-center pt-3">Descubre los mejores lugares para perros de tu ciudad</h1>
+          <h1 className="text-center pt-3">
+            Descubre los mejores lugares para perros de tu ciudad
+          </h1>
           <div className="row">
-            <div className="col-9">
+            <div className="col-md-9 col-12">
               <input
                 type="text"
                 className="form-control inputHome"
@@ -197,7 +227,7 @@ class Home extends React.Component<any, IState> {
                 placeholder="Buscar por dirección"
               />
             </div>
-            <div className="col-3">
+            <div className="col-md-3 col-12">
               <select
                 className="custom-select inputHome"
                 onChange={e => {
@@ -224,10 +254,79 @@ class Home extends React.Component<any, IState> {
             zoom={this.state.zoom}
           />
           
-                
-                  
+           {this.state.businessOnMapPremium.length ? <h1 className="mt-3">Empresas destacadas</h1> : null}
+           <div className="row mt-3">
+            {this.state.businessOnMapPremium.map((business, index) => (
+              
+              <div className="col-md-4 col-12 premiumBusinessCardContainer">
+                {index < 3 && <PremiumBusinessCard business={business} />}
+              </div>
+            ))}
+          </div>
 
+          {/* Modal Information Business */}
+          <div
+            className="modal fade"
+            id="homeBusiness"
+            tabIndex={-1}
+            role="dialog"
+            aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true"
+          >
+            <div
+              className="modal-dialog modal-dialog-centered modalContainer"
+              role="document"
+            >
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLongTitle">
+                    {selectedBusiness.businessName}
+                  </h5>
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <div className="row">
+                    <div
+                      className="col-6 modalImg"
+                      style={{
+                        backgroundImage: `url(http://localhost:3000/public/avatar/${selectedBusiness.mainImagePath})`
+                      }}
+                    ></div>
+                    <div className="col-6">
+                      <p>{selectedBusiness.description}</p>
+                      <p>
+                        {selectedBusiness.address}, {selectedBusiness.postcode}{" "}
+                        {selectedBusiness.city}
+                      </p>
+                      <p>{selectedBusiness.telephone}</p>
+                      <p>{selectedBusiness.email}</p>
+                      <a href={selectedBusiness.instagram} target="_blank">
+                        <img height={40} src={instagramLogo} alt="" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    data-dismiss="modal"
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        {/* End Modal Information Business */}
       </Fragment>
     );
   }
