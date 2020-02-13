@@ -2,9 +2,11 @@ import React from "react";
 import history from "../../../../../utils/history";
 import DatePicker from "react-datepicker";
 import { start } from "repl";
+import Swal from "sweetalert2";
 
 const GET_EVENT_INFO = "http://localhost:3000/event/getEventInfo/";
 const API_UPDATE_EVENT = "http://localhost:3000/event/updateEvent/";
+const API_DELETE_EVENT = "http://localhost:3000/event/deleteEvent/";
 
 interface IProps {}
 
@@ -74,6 +76,34 @@ class EditEvents extends React.PureComponent<IProps, IState> {
       })
     }).then(() => {
       history.push("/profile/manageEvents");
+    });
+  };
+
+  deleteEvent = () => {
+    let { event_id } = this.state;
+
+    fetch(API_DELETE_EVENT, {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify({
+        event_id
+      })
+    }).then(response => {
+      if (response.status === 200) {
+        Swal.fire({
+          title: "Evento eliminado correctamente",
+          icon: "success"
+        });
+        history.push("/profile/manageEvents/")
+      } else {
+        Swal.fire({
+          title: "Ha ocurrido un problema",
+          text: "Inténtelo de nuevo más tarde",
+          icon: "warning"
+        });
+      }
     });
   };
 
@@ -158,7 +188,26 @@ class EditEvents extends React.PureComponent<IProps, IState> {
           Cancelar
         </button>
 
-        {/* TODO eliminar evento */}
+        <button
+        className="btn btn-warning mt-3 ml-2"
+          onClick={() => {
+            Swal.fire({
+              title: "¿Quieres eliminar el evento?",
+              text: "La información se perderá",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              cancelButtonText: "Cancelar",
+              confirmButtonText: "Confirmar"
+            }).then(result => {
+              if (result.value) {
+                this.deleteEvent();
+              }
+            });
+          }}
+        >Eliminar evento</button>
+       
       </div>
     );
   }

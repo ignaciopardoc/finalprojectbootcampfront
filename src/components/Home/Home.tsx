@@ -5,7 +5,6 @@ import "./style.css";
 import Swal from "sweetalert2";
 
 import instagramLogo from "../../icons/instagram.svg";
-import { throws } from "assert";
 import PremiumBusinessCard from "./PremiumBusinessCard/PremiumBusinessCard";
 
 const API_CATEGORIES = "http://localhost:3000/business/getCategories";
@@ -209,7 +208,7 @@ class Home extends React.Component<any, IState> {
     return (
       <Fragment>
         <div className="container containerHome">
-          <h1 className="text-center pt-3">
+          <h1 className=" pt-3">
             Descubre los mejores lugares para perros de tu ciudad
           </h1>
           <div className="row">

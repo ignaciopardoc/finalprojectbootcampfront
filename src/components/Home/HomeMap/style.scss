@@ -13,10 +13,19 @@
     background-position: top;
   }
 }
-.modalContainer{
+.modalContainer {
   width: 500px;
-.modalImg {
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-}}
+  .modalImg {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
+.ratingStars{
+  color: #35c68f
+}
+
+.valorationMessage{
+  cursor: pointer;
+}
