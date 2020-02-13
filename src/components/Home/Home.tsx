@@ -29,7 +29,6 @@ interface businessDB {
   user_id: number;
 }
 
-
 interface IState {
   businessOnMap: businessDB[];
   businessOnMapPremium: businessDB[];
@@ -43,7 +42,6 @@ interface IState {
   categories: [];
   category: string;
   selectedBusiness: businessDB;
-  
 }
 
 class Home extends React.Component<any, IState> {
@@ -77,8 +75,7 @@ class Home extends React.Component<any, IState> {
       latlon: [],
       zoom: null,
       categories: [],
-      category: "",
-      
+      category: ""
     };
   }
 
@@ -134,6 +131,8 @@ class Home extends React.Component<any, IState> {
     }).then(async response => {
       const json = await response.json();
       this.setState({ ...this.state, businessOnMap: json });
+      console.log(this.state.businessOnMap)
+
     });
 
     await fetch(URL_GET_MAP_PREMIUM, {
@@ -151,6 +150,7 @@ class Home extends React.Component<any, IState> {
     }).then(async response => {
       const json = await response.json();
       this.setState({ ...this.state, businessOnMapPremium: json });
+      console.log(this.state.businessOnMapPremium)
     });
   };
 
@@ -168,9 +168,11 @@ class Home extends React.Component<any, IState> {
         lonRight,
         category
       })
-    }).then(async response => {
-      const json = await response.json();
-      this.setState({ ...this.state, businessOnMap: json });
+    }).then(async response1 => {
+      const json1 = await response1.json();
+      this.setState({ ...this.state, businessOnMap: json1 });
+      console.log(this.state.businessOnMap)
+
     });
 
     await fetch(URL_GET_MAP_PREMIUM, {
@@ -185,9 +187,11 @@ class Home extends React.Component<any, IState> {
         lonRight,
         category
       })
-    }).then(async response => {
-      const json = await response.json();
-      this.setState({ ...this.state, businessOnMapPremium: json });
+    }).then(async response2 => {
+      const json2 = await response2.json();
+      this.setState({ ...this.state, businessOnMapPremium: json2 });
+      console.log(this.state.businessOnMapPremium)
+
     });
   };
 
@@ -252,11 +256,12 @@ class Home extends React.Component<any, IState> {
             latlon={this.state.latlon}
             zoom={this.state.zoom}
           />
-          
-           {this.state.businessOnMapPremium.length ? <h1 className="mt-3">Empresas destacadas</h1> : null}
-           <div className="row mt-3">
+
+          {this.state.businessOnMapPremium.length ? (
+            <h1 className="mt-3">Empresas destacadas</h1>
+          ) : null}
+          <div className="row mt-3">
             {this.state.businessOnMapPremium.map((business, index) => (
-              
               <div className="col-md-4 col-12 premiumBusinessCardContainer">
                 {index < 3 && <PremiumBusinessCard business={business} />}
               </div>

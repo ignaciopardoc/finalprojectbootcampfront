@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-import pin from "../../../icons/GREEN_PIN.svg";
-import pinPremium from "../../../icons/BLACK_PIN.svg";
+import pin from "../../../icons/normalpin.svg";
+import pinPremium from "../../../icons/premiumpin.svg";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import Rating from "react-rating";
@@ -9,10 +9,13 @@ import instagramLogo from "../../../icons/instagram.svg";
 import { connect } from "react-redux";
 import { IStore } from "../../../interfaces/IStore";
 import { IUser } from "../../../interfaces/IToken";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+import { ILogged } from "../../../interfaces/ILogged";
 const URL_GET_ONEBUSINESS = "http://localhost:3000/business/getOneBusiness/";
 const URL_GET_EVENTS = "http://localhost:3000/event/getEventFromBusiness/";
 const URL_GET_DOGS = "http://localhost:3000/dog/getDogsFromUser/";
+const URL_SEND_REVIEW = "http://localhost:3000/review/setReview";
+const URL_GET_AVERAGE = "http://localhost:3000/review/getReviewNumber/"
 
 interface businessDB {
   id: number;
@@ -32,13 +35,13 @@ interface businessDB {
 }
 
 interface DogsDB {
-  id: number 
-  name: string
-   description: string
-    photo: string
-     breed: string 
-     sex: string
-      user_id: number
+  id: number;
+  name: string;
+  description: string;
+  photo: string;
+  breed: string;
+  sex: string;
+  user_id: number;
 }
 
 interface EventDB {
@@ -54,9 +57,12 @@ interface IState {
   selectedBusiness: businessDB;
   events: EventDB[];
   review: string;
-  rate: number;
-  dogs: DogsDB[]
-  isBusiness: boolean
+  stars: number;
+  dogs: DogsDB[];
+  isBusiness: boolean;
+  dog_id: string;
+  averageStars: number
+  numberOfReviews: number
 }
 
 interface IProps {
@@ -75,6 +81,7 @@ interface IProps {
 
 interface IGlobalProps {
   token: IUser;
+  logged: ILogged;
 }
 
 type TProps = IGlobalProps & IProps;
@@ -102,9 +109,12 @@ class HomeMap extends React.PureComponent<TProps, IState> {
       },
       events: [],
       review: "",
-      rate: 0,
+      stars: 0,
       dogs: [],
-      isBusiness: false
+      isBusiness: false,
+      dog_id: "",
+      averageStars: 0,
+      numberOfReviews: 0
     };
   }
 
@@ -117,10 +127,10 @@ class HomeMap extends React.PureComponent<TProps, IState> {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/x-www-form-urlencoded"
       })
-    }).then( async response => {
-      const json = await response.json()
-      this.setState({dogs: json as any})
-    })
+    }).then(async response => {
+      const json = await response.json();
+      this.setState({ dogs: json as any });
+    });
   };
 
   getInfo = async (id: number) => {
@@ -129,11 +139,39 @@ class HomeMap extends React.PureComponent<TProps, IState> {
       this.setState({ selectedBusiness: json });
       console.log(this.state.selectedBusiness);
     });
+    await fetch(URL_GET_AVERAGE, {
+      method: "POST", 
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify({
+        id
+      })
+
+    }).then(async response => {
+      const json = await response.json()
+      console.log(json)
+      this.setState({averageStars: json.averageRate, numberOfReviews: json.reviewNumber})
+    })
   };
 
-  // sendReview = async () => {
-  //   fetch
-  // }
+  sendReview = async () => {
+    const { stars, review, dog_id } = this.state;
+    const { id: business_id } = this.state.selectedBusiness;
+
+    fetch(URL_SEND_REVIEW, {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify({
+        stars,
+        review,
+        dog_id,
+        business_id
+      })
+    });
+  };
 
   getEvents = async (id: number) => {
     await fetch(`${URL_GET_EVENTS}${id}`).then(async response => {
@@ -144,12 +182,13 @@ class HomeMap extends React.PureComponent<TProps, IState> {
   };
 
   componentDidMount() {
-   setTimeout(() => {
-    const {isBusiness} = jwt.decode(this.props.token.token) as any
-    console.log(isBusiness)
-    this.setState({isBusiness: isBusiness})
-   }, 1);
-    
+    setTimeout(() => {
+      if (this.props.token.token) {
+        const { isBusiness } = jwt.decode(this.props.token.token) as any;
+        console.log(isBusiness);
+        this.setState({ isBusiness: isBusiness });
+      }
+    }, 1);
   }
 
   render() {
@@ -261,15 +300,19 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                         emptySymbol="fa fa-star-o fa-2x"
                         fullSymbol="fa fa-star fa-2x"
                         fractions={2}
+                        initialRating={this.state.averageStars}
                       />
-                      {!this.state.isBusiness && <label
-                        className="valorationMessage"
-                        data-toggle="modal"
-                        data-target="#ratingModal"
-                        onClick={() => this.getDogs()}
-                      >
-                        ¡Deja tu valoración!
-                      </label>}
+                      {!this.state.isBusiness && this.props.logged.logged && (
+                        <label
+                          className="valorationMessage"
+                          data-toggle="modal"
+                          data-target="#ratingModal"
+                          onClick={() => this.getDogs()}
+                        >
+                          ¡Deja tu valoración!
+                        </label>
+                      )}
+                      <label>Número de valoraciones: {this.state.numberOfReviews}</label>
                       <button
                         type="button"
                         className="btn btn-primary"
@@ -452,19 +495,27 @@ class HomeMap extends React.PureComponent<TProps, IState> {
               <div className="modal-body">
                 <div className="row">
                   <div className="col-12">
-                    <select name="" id="" className="form-control mb-3">
+                    <select
+                      onChange={e =>
+                        this.setState({ dog_id: e.target.value as any })
+                      }
+                      name=""
+                      id=""
+                      className="form-control mb-3"
+                      value={this.state.dog_id}
+                    >
                       <option value="null">Selecciona quien ha ido</option>
                       {this.state.dogs.map(dog => (
                         <option value={dog.id}>{dog.name}</option>
                       ))}
                     </select>
                     <Rating
-                      initialRating={this.state.rate}
+                      initialRating={this.state.stars}
                       className="ratingStars mb-3"
                       emptySymbol="fa fa-star-o fa-2x"
                       fullSymbol="fa fa-star fa-2x"
                       fractions={2}
-                      onChange={rate => this.setState({ rate: rate })}
+                      onChange={rate => this.setState({ stars: rate })}
                     />
                     <textarea
                       name=""
@@ -479,11 +530,21 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                 </div>
               </div>
               <div className="modal-footer">
-                <button  className="btn btn-primary">Enviar</button>
+                <button
+                  onClick={() => {
+                    this.sendReview();
+                    this.setState({stars: 0, review: "", dog_id: "null"})
+                  }}
+                  className="btn btn-primary"
+                  data-dismiss="modal"
+                >
+                  Enviar
+                </button>
                 <button
                   type="button"
                   className="btn btn-danger"
                   data-dismiss="modal"
+                  onClick={() => this.setState({stars: 0, review: "", dog_id: "null"})}
                 >
                   Cerrar
                 </button>
@@ -496,8 +557,9 @@ class HomeMap extends React.PureComponent<TProps, IState> {
     );
   }
 }
-const mapStateToProps = ({ token }: IStore): IGlobalProps => ({
-  token
+const mapStateToProps = ({ token, logged }: IStore): IGlobalProps => ({
+  token,
+  logged
 });
 
 export default connect(mapStateToProps)(HomeMap);
