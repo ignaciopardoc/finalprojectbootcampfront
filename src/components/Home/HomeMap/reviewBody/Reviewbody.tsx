@@ -2,17 +2,10 @@ import React from "react";
 import "./style.css";
 import { throws } from "assert";
 import Rating from "react-rating";
+import { DogsDB } from "../../../../interfaces/dogsDB";
 const GET_DOG_INFO = "http://localhost:3000/dog/getDogInfo/";
 
-interface dogDB {
-  id: number;
-  name: string;
-  description: string;
-  photo: string;
-  breed: string;
-  sex: string;
-  user_id: number;
-}
+
 
 interface reviewDB {
   valoration_id: number;
@@ -27,7 +20,7 @@ interface IProps {
 }
 
 interface IState {
-  dog: dogDB;
+  dog: DogsDB;
 }
 
 class ReviewBody extends React.PureComponent<IProps, IState> {

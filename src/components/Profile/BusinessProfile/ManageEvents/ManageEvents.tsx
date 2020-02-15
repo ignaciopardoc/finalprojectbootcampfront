@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 import { Link } from "react-router-dom";
+import { businessDB } from "../../../../interfaces/businessDB";
 registerLocale("es", es);
 const API_GET_BUSINESS = "http://localhost:3000/business/getInfoUserBusiness";
 const API_ADD_EVENT = "http://localhost:3000/event/addEvent";
@@ -44,7 +45,7 @@ interface IGlobalProps {
 
 interface IState {
   addEvent: boolean;
-  business: IBusinessDB[];
+  business: businessDB[];
   selectedBusiness: string;
   startDate: Date;
   endDate: Date;
@@ -53,14 +54,7 @@ interface IState {
   events: IUserEvent[];
 }
 
-interface IBusinessDB {
-  businessName: string;
-  address: string;
-  city: string;
-  category: string;
-  mainImagePath: string;
-  id: number;
-}
+
 
 type TProps = IGlobalProps & IProps;
 

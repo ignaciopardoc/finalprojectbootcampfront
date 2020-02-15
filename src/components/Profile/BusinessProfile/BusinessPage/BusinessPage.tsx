@@ -6,6 +6,7 @@ import { disconnect } from "cluster";
 import AddBusiness from "./AddBusiness/AddBusiness";
 import "./style.css";
 import { Link } from "react-router-dom";
+import { businessDB } from "../../../../interfaces/businessDB";
 const API_URL = "http://localhost:3000/business/getInfoUserBusiness";
 
 interface IGlobalProps {
@@ -16,17 +17,10 @@ interface IProps {}
 
 type TProps = IGlobalProps & IProps;
 
-interface IBusinessDB {
-  businessName: string;
-  address: string;
-  city: string;
-  category: string;
-  mainImagePath: string;
-  id: number;
-}
+
 
 interface IState {
-  business: IBusinessDB[];
+  business: businessDB[];
   showAddBusiness: boolean;
 }
 

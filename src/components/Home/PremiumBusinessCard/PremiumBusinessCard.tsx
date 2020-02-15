@@ -1,34 +1,11 @@
 import React, { Fragment } from "react";
 import instagramLogo from "../../../icons/instagram.svg";
+import { businessDB } from "../../../interfaces/businessDB";
+import { EventDB } from "../../../interfaces/EventDB";
 
 const URL_GET_ONEBUSINESS = "http://localhost:3000/business/getOneBusiness/";
 const URL_GET_EVENTS = "http://localhost:3000/event/getEventFromBusiness/";
 
-interface EventDB {
-  event_id: string;
-  event_name: string;
-  event_description: string;
-  startDate: string;
-  endDate: string;
-  business_id: string;
-}
-
-interface businessDB {
-  id: number;
-  businessName: string;
-  description: string;
-  category: string;
-  address: string;
-  city: string;
-  postcode: string;
-  lat: number;
-  lon: number;
-  telephone: string;
-  email: string;
-  instagram: string;
-  mainImagePath: string;
-  user_id: number;
-}
 interface IState {
   events: EventDB[];
 }
@@ -54,10 +31,12 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
   };
 
   componentWillMount() {
-    this.getEvents(this.props.business.id);
+    setTimeout(() => {
+      this.getEvents(this.props.business.id);
+    }, 1);
   }
-  componentWillUnmount(){
-    this.setState({events: []})
+  componentWillUnmount() {
+    this.setState({ events: [] });
   }
   render() {
     const { business } = this.props;

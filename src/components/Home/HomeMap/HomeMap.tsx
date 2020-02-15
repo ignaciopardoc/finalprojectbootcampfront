@@ -12,6 +12,9 @@ import { IUser } from "../../../interfaces/IToken";
 import jwt from "jsonwebtoken";
 import { ILogged } from "../../../interfaces/ILogged";
 import ReviewBody from "./reviewBody/Reviewbody";
+import { businessDB } from "../../../interfaces/businessDB";
+import { EventDB } from "../../../interfaces/EventDB";
+import { DogsDB } from "../../../interfaces/dogsDB";
 const URL_GET_ONEBUSINESS = "http://localhost:3000/business/getOneBusiness/";
 const URL_GET_EVENTS = "http://localhost:3000/event/getEventFromBusiness/";
 const URL_GET_DOGS = "http://localhost:3000/dog/getDogsFromUser/";
@@ -19,41 +22,11 @@ const URL_SEND_REVIEW = "http://localhost:3000/review/setReview";
 const URL_GET_AVERAGE = "http://localhost:3000/review/getReviewNumber/";
 const URL_GET_REVIEWS = "http://localhost:3000/review/getReviews/";
 
-interface businessDB {
-  id: number;
-  businessName: string;
-  description: string;
-  category: string;
-  address: string;
-  city: string;
-  postcode: string;
-  lat: number;
-  lon: number;
-  telephone: string;
-  email: string;
-  instagram: string;
-  mainImagePath: string;
-  user_id: number;
-}
 
-interface DogsDB {
-  id: number;
-  name: string;
-  description: string;
-  photo: string;
-  breed: string;
-  sex: string;
-  user_id: number;
-}
 
-interface EventDB {
-  event_id: string;
-  event_name: string;
-  event_description: string;
-  startDate: string;
-  endDate: string;
-  business_id: string;
-}
+
+
+
 
 interface IState {
   selectedBusiness: businessDB;

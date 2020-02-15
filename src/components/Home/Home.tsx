@@ -6,28 +6,14 @@ import Swal from "sweetalert2";
 
 import instagramLogo from "../../icons/instagram.svg";
 import PremiumBusinessCard from "./PremiumBusinessCard/PremiumBusinessCard";
+import { businessDB } from "../../interfaces/businessDB";
 
 const API_CATEGORIES = "http://localhost:3000/business/getCategories";
 const URL_GET_ONEBUSINESS = "http://localhost:3000/business/getOneBusiness/";
 const URL_GET_MAP = "http://localhost:3000/business/getBusinessMap";
 const URL_GET_MAP_PREMIUM = "http://localhost:3000/business/getBusinessPremium";
 
-interface businessDB {
-  id: number;
-  businessName: string;
-  description: string;
-  category: string;
-  address: string;
-  city: string;
-  postcode: string;
-  lat: number;
-  lon: number;
-  telephone: string;
-  email: string;
-  instagram: string;
-  mainImagePath: string;
-  user_id: number;
-}
+
 
 interface IState {
   businessOnMap: businessDB[];
