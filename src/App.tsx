@@ -14,8 +14,9 @@ import { ILogged } from "./interfaces/ILogged";
 
 import { connect } from "react-redux";
 import { IUser } from "./interfaces/IToken";
-import Home from "./components/Home/Home";
+
 import { IUserInfo } from "./interfaces/IUserInfo";
+import Home from "./components/Home/Home";
 
 interface IToken {
   name: string

@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
-import instagramLogo from "../../../icons/instagram.svg";
-import { businessDB } from "../../../interfaces/businessDB";
-import { EventDB } from "../../../interfaces/EventDB";
+import instagramLogo from "../../../../icons/instagram.svg";
+import { businessDB } from "../../../../interfaces/businessDB";
+import { EventDB } from "../../../../interfaces/EventDB";
 
 const URL_GET_ONEBUSINESS = "http://localhost:3000/business/getOneBusiness/";
 const URL_GET_EVENTS = "http://localhost:3000/event/getEventFromBusiness/";
