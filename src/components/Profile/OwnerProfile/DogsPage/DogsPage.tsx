@@ -109,9 +109,9 @@ class DogsPage extends React.PureComponent<TProps, IState> {
                   <div className="card-body">
                     <h5 className="card-title">{d.name}</h5>
                     <p className="card-text">{d.description}</p>
-                    <Link to={`/profile/editDog/${d.id}`}><a className="btn btn-primary">
+                    <Link to={`/profile/editDog/${d.id}`}><p className="btn btn-primary">
                       Editar
-                    </a>
+                    </p>
                     </Link>
                   </div>
                 </div>

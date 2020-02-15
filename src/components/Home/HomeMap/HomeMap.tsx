@@ -11,11 +11,13 @@ import { IStore } from "../../../interfaces/IStore";
 import { IUser } from "../../../interfaces/IToken";
 import jwt from "jsonwebtoken";
 import { ILogged } from "../../../interfaces/ILogged";
+import ReviewBody from "./reviewBody/Reviewbody";
 const URL_GET_ONEBUSINESS = "http://localhost:3000/business/getOneBusiness/";
 const URL_GET_EVENTS = "http://localhost:3000/event/getEventFromBusiness/";
 const URL_GET_DOGS = "http://localhost:3000/dog/getDogsFromUser/";
 const URL_SEND_REVIEW = "http://localhost:3000/review/setReview";
-const URL_GET_AVERAGE = "http://localhost:3000/review/getReviewNumber/"
+const URL_GET_AVERAGE = "http://localhost:3000/review/getReviewNumber/";
+const URL_GET_REVIEWS = "http://localhost:3000/review/getReviews/";
 
 interface businessDB {
   id: number;
@@ -61,8 +63,9 @@ interface IState {
   dogs: DogsDB[];
   isBusiness: boolean;
   dog_id: string;
-  averageStars: number
-  numberOfReviews: number
+  averageStars: number;
+  numberOfReviews: number;
+  reviews: [];
 }
 
 interface IProps {
@@ -112,9 +115,10 @@ class HomeMap extends React.PureComponent<TProps, IState> {
       stars: 0,
       dogs: [],
       isBusiness: false,
-      dog_id: "",
+      dog_id: "null",
       averageStars: 0,
-      numberOfReviews: 0
+      numberOfReviews: 0,
+      reviews: []
     };
   }
 
@@ -137,22 +141,23 @@ class HomeMap extends React.PureComponent<TProps, IState> {
     await fetch(`${URL_GET_ONEBUSINESS}${id}`).then(async response => {
       const json = await response.json();
       this.setState({ selectedBusiness: json });
-      console.log(this.state.selectedBusiness);
     });
     await fetch(URL_GET_AVERAGE, {
-      method: "POST", 
+      method: "POST",
       headers: new Headers({
         "Content-Type": "application/json"
       }),
       body: JSON.stringify({
         id
       })
-
     }).then(async response => {
-      const json = await response.json()
-      console.log(json)
-      this.setState({averageStars: json.averageRate, numberOfReviews: json.reviewNumber})
-    })
+      const json = await response.json();
+      console.log(json);
+      this.setState({
+        averageStars: json.averageRate,
+        numberOfReviews: json.reviewNumber
+      });
+    });
   };
 
   sendReview = async () => {
@@ -173,11 +178,24 @@ class HomeMap extends React.PureComponent<TProps, IState> {
     });
   };
 
+  getReviews = async (id: number) => {
+    await fetch(`${URL_GET_REVIEWS}${id}`, {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      })
+    }).then(async response => {
+      console.log(response);
+      const json = await response.json();
+      this.setState({ ...this.state, reviews: json as any });
+      console.log(this.state.reviews);
+    });
+  };
+
   getEvents = async (id: number) => {
     await fetch(`${URL_GET_EVENTS}${id}`).then(async response => {
       const json = await response.json();
       this.setState({ events: json });
-      console.log(this.state.events);
     });
   };
 
@@ -185,7 +203,6 @@ class HomeMap extends React.PureComponent<TProps, IState> {
     setTimeout(() => {
       if (this.props.token.token) {
         const { isBusiness } = jwt.decode(this.props.token.token) as any;
-        console.log(isBusiness);
         this.setState({ isBusiness: isBusiness });
       }
     }, 1);
@@ -221,7 +238,6 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                 e.target.getBounds()._southWest.lng,
                 e.target.getBounds()._northEast.lng
               );
-              console.log("HOLA");
             }}
             center={
               this.props.latlon.length
@@ -309,10 +325,15 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                           data-target="#ratingModal"
                           onClick={() => this.getDogs()}
                         >
-                          ¡Deja tu valoración!
+                        {this.state.numberOfReviews !== 0 ? "¡Deja tu valoración!" : "¡Sé el primero!"}  
                         </label>
                       )}
-                      <label>Número de valoraciones: {this.state.numberOfReviews}</label>
+                      <label>
+                        Número de valoraciones: {this.state.numberOfReviews}{" "}
+                        {this.state.numberOfReviews !== 0 ? <i data-toggle="modal"
+                        data-target="#businessReviewsModal"
+                        onClick={() => this.getReviews(b.id)} className="far fa-eye"></i> : null}
+                      </label>
                       <button
                         type="button"
                         className="btn btn-primary"
@@ -481,7 +502,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLongTitle">
-                  Puntua a {selectedBusiness.businessName}
+                  Puntúa a {selectedBusiness.businessName}
                 </h5>
                 <button
                   type="button"
@@ -533,10 +554,13 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                 <button
                   onClick={() => {
                     this.sendReview();
-                    this.setState({stars: 0, review: "", dog_id: "null"})
+                    this.setState({ stars: 0, review: "", dog_id: "null" });
                   }}
                   className="btn btn-primary"
                   data-dismiss="modal"
+                  disabled={
+                    this.state.stars === 0 || this.state.dog_id === "null"
+                  }
                 >
                   Enviar
                 </button>
@@ -544,7 +568,9 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                   type="button"
                   className="btn btn-danger"
                   data-dismiss="modal"
-                  onClick={() => this.setState({stars: 0, review: "", dog_id: "null"})}
+                  onClick={() =>
+                    this.setState({ stars: 0, review: "", dog_id: "null" })
+                  }
                 >
                   Cerrar
                 </button>
@@ -553,6 +579,52 @@ class HomeMap extends React.PureComponent<TProps, IState> {
           </div>
         </div>
         {/* End Modal Rating Business */}
+
+        {/* See rate from business modal */}
+        <div
+          className="modal fade"
+          id="businessReviewsModal"
+          tabIndex={-1}
+          role="dialog"
+          aria-labelledby="eventModalTitle"
+          aria-hidden="true"
+        >
+          <div
+            className="modal-dialog modal-xl modal-dialog-centered"
+            role="document"
+          >
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLongTitle">
+                  Valoraciones de {selectedBusiness.businessName}
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                {this.state.reviews.map(review => (
+                  <ReviewBody review={review} />
+                ))}
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  data-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* End See Rate From Business Modal */}
       </Fragment>
     );
   }

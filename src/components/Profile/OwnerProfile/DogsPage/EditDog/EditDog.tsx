@@ -39,12 +39,10 @@ class EditDog extends React.PureComponent<TProps, IState> {
 
   getDogInfo = async () => {
     const businessId = history.location.pathname.split("/").slice(-1)[0]
-    console.log(businessId)
     const response = await fetch(`${API_GET_ONE}${businessId}`)
     const json = await response.json()
     console.log(json)
-    this.setState(this.state = json[0])
-    
+    this.setState(this.state = json)
    }
 
    updateDog = async () => {
@@ -79,7 +77,6 @@ class EditDog extends React.PureComponent<TProps, IState> {
       const formData = new FormData();
       const path = this.avatar.current.files[0];
 
-      console.log(path);
       formData.append("avatar", path);
       myFetchFiles({
         method: "POST",
@@ -98,7 +95,6 @@ class EditDog extends React.PureComponent<TProps, IState> {
   }
 
   render() {
-    console.log(this.state);
     return (
       <Fragment>
         <div className="row">
@@ -137,8 +133,10 @@ class EditDog extends React.PureComponent<TProps, IState> {
               onChange={e => this.setState({ breed: e.target.value })}
               value={this.state.breed}
             />
-            <input type="file" name="" ref={this.avatar} id="" />
-            <button onClick={() => this.updateDog()}>Actualizar mascota</button>
+
+
+            <input className="mt-3" type="file" name="" ref={this.avatar} id="" />
+            <button className="btn btn-success mt-3" onClick={() => this.updateDog()}>Actualizar mascota</button>
           </div>
 
           <div className="row">

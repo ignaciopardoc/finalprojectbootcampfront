@@ -82,7 +82,7 @@ class AddDog extends React.PureComponent<TProps, IState> {
     console.log(this.state);
     return (
       <Fragment>
-        <div className="row">
+        <div className="row mt-3">
           <div className="col-3">
             <p>Nombre de tu mascota</p>
             <input
@@ -118,8 +118,8 @@ class AddDog extends React.PureComponent<TProps, IState> {
               onChange={e => this.setState({ breed: e.target.value })}
               value={this.state.breed}
             />
-            <input type="file" name="" ref={this.avatar} id=""/>
-            <button onClick={() => this.addDog()}>Añadir mascota</button>
+            <input className="mt-3" type="file" name="" ref={this.avatar} id=""/>
+            <button className="btn btn-success mt-3" onClick={() => this.addDog()}>Añadir mascota</button>
           </div>
           
           <div className="row">

@@ -84,12 +84,10 @@ class Home extends React.Component<any, IState> {
       `https://nominatim.openstreetmap.org/search/${this.state.searchInput}?format=json&addressdetails=1&limit=1&polygon_svg=1`
     ).then(async response => {
       const json = await response.json();
-      console.log(json);
       if (json !== undefined) {
         //Separate second length to avoid crash of the app
         if (json.length) {
           //Result is only used for the map
-          console.log(json);
           this.setState({ latlon: [json[0].lat, json[0].lon], zoom: 15 });
         } else {
           Swal.fire({
@@ -131,7 +129,6 @@ class Home extends React.Component<any, IState> {
     }).then(async response => {
       const json = await response.json();
       this.setState({ ...this.state, businessOnMap: json });
-      console.log(this.state.businessOnMap)
 
     });
 
@@ -150,7 +147,6 @@ class Home extends React.Component<any, IState> {
     }).then(async response => {
       const json = await response.json();
       this.setState({ ...this.state, businessOnMapPremium: json });
-      console.log(this.state.businessOnMapPremium)
     });
   };
 
@@ -171,7 +167,6 @@ class Home extends React.Component<any, IState> {
     }).then(async response1 => {
       const json1 = await response1.json();
       this.setState({ ...this.state, businessOnMap: json1 });
-      console.log(this.state.businessOnMap)
 
     });
 
@@ -190,7 +185,6 @@ class Home extends React.Component<any, IState> {
     }).then(async response2 => {
       const json2 = await response2.json();
       this.setState({ ...this.state, businessOnMapPremium: json2 });
-      console.log(this.state.businessOnMapPremium)
 
     });
   };
@@ -199,7 +193,6 @@ class Home extends React.Component<any, IState> {
     await fetch(`${URL_GET_ONEBUSINESS}${id}`).then(async response => {
       const json = await response.json();
       this.setState({ selectedBusiness: json });
-      console.log(this.state.selectedBusiness);
     });
   };
 

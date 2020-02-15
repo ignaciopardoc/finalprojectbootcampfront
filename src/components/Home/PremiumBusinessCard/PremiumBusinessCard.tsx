@@ -49,11 +49,15 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
     await fetch(`${URL_GET_EVENTS}${id}`).then(async response => {
       const json = await response.json();
       this.setState({ events: json });
+      console.log(this.state.events);
     });
   };
 
   componentWillMount() {
     this.getEvents(this.props.business.id);
+  }
+  componentWillUnmount(){
+    this.setState({events: []})
   }
   render() {
     const { business } = this.props;
@@ -75,7 +79,7 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
               type="button"
               className="btn btn-primary"
               data-toggle="modal"
-              data-target="#premiumBusinessModal"
+              data-target={`#premiumBusinessModal${this.props.business.id}`}
             >
               Más información
             </button>
@@ -84,7 +88,7 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
                 type="button"
                 className="btn btn-warning ml-3"
                 data-toggle="modal"
-                data-target="#eventModalCard"
+                data-target={`#eventModalCard${this.props.business.id}`}
               >
                 Eventos
               </button>
@@ -95,7 +99,7 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
         {/* Modal Events */}
         <div
           className="modal fade"
-          id="eventModalCard"
+          id={`eventModalCard${this.props.business.id}`}
           tabIndex={-1}
           role="dialog"
           aria-labelledby="eventModalTitle"
@@ -156,7 +160,7 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
         {/* Modal Information Business */}
         <div
           className="modal fade"
-          id="premiumBusinessModal"
+          id={`premiumBusinessModal${this.props.business.id}`}
           tabIndex={-1}
           role="dialog"
           aria-labelledby="exampleModalCenterTitle"
