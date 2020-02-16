@@ -131,7 +131,7 @@ class PasswordForm extends React.PureComponent<TProps, IState> {
           <button
             disabled={!this.state.allOk}
             onClick={() => this.changePassword()}
-            className="btn btn-success mt-2"
+            className="customButton greenButton mt-2"
           >
             Cambiar contraseña
           </button>

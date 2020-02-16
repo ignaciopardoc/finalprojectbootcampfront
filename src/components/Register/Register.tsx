@@ -114,12 +114,12 @@ class Register extends React.PureComponent<IProps, IState> {
         <div className="row">
           <div className="col-6 ">
             <Link to={"/register/business"}>
-              <button className="btn btn-light">Soy empresa</button>
+              <button className="customButton customButton-light">Soy empresa</button>
             </Link>
           </div>
           <div className="col-5">
             <Link to={"/register/"}>
-              <button className="btn btn-danger">Tengo un perro</button>
+              <button className="customButton customButton-danger">Tengo un perro</button>
             </Link>
 
             <h1>¡Regístrate USUARIO!</h1>
@@ -221,7 +221,7 @@ class Register extends React.PureComponent<IProps, IState> {
               </div>
               <button
                 disabled={!isAllOk}
-                className="btn-lg btn btn-success"
+                className="customButton-lg customButton greenButton"
                 onClick={() => this.register(0)}
               >
                 Enviar

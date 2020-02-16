@@ -213,7 +213,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
             <p>{this.state.user.username}</p>
             {!this.state.editPassword && (
               <button
-                className="btn btn-warning"
+                className="customButton yellowButton"
                 onClick={() => this.setState({ editPassword: true })}
               >
                 Editar contraseña
@@ -221,7 +221,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
             )}
             {this.state.editPassword && (
               <button
-                className="btn btn-danger"
+                className="customButton customButton-danger"
                 onClick={() => this.setState({ editPassword: false })}
               >
                 Cancelar
@@ -249,7 +249,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
               <h5>Código postal</h5>
               <p>{this.state.user.postcode}</p>
               <button
-                className="btn btn-warning mt-2"
+                className="customButton yellowButton mt-2"
                 onClick={() => this.setState({ editPersonalInfo: true })}
               >
                 Editar Información
@@ -338,7 +338,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
                 }}
               />
               <button
-                className="btn btn-danger mt-2 mr-1"
+                className="customButton customButton-danger mt-2 mr-1"
                 onClick={() => {
                   this.getuserinfo();
                   this.setState({ editPersonalInfo: false });
@@ -347,7 +347,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
                 Cancelar
               </button>
               <button
-                className="btn btn-success mt-2 "
+                className="customButton greenButton mt-2 "
                 onClick={() => this.addPersonalInfo()}
                 disabled={!name || !surname || !address || !city || !postcode}
               >
@@ -381,7 +381,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
 
             <div className="row">
               <button
-                className="btn btn-success mt-2"
+                className="customButton greenButton mt-2"
                 onClick={() => this.setPhoto(Number(this.state.user.id))}
               >
                 Cambiar avatar

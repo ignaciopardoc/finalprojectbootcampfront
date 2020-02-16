@@ -227,9 +227,9 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
   render() {
     return (
       <Fragment>
-        <div className="row addBusinessContainer">
+        <div className="row addBusinessContainer mt-4">
           {/* First column */}
-          <div className="col-3">
+          <div className="col-md-3 col-12">
             <div className="row">
               <div className="form-group">
                 <label>Nombre de la empresa</label>
@@ -289,7 +289,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
           </div>
 
           {/* Second Column */}
-          <div className="col-3">
+          <div className="col-md-3 col-12">
             <div className="row">
               <div className="form-group">
                 <label>Teléfono</label>
@@ -372,7 +372,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
                   </div>
                   <button
                     onClick={() => this.searchByAdress()}
-                    className="btn btn-success"
+                    className="customButton greenButton"
                   >
                     {" "}
                     Buscar en el mapa
@@ -382,7 +382,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
             </div>
           </div>
           {/* Map column */}
-          <div className="col-6">
+          <div className="col-md-6 col-12">
             {this.state.zoom && (
               <MapExample
                 changelatlng={this.changelatlng}
@@ -393,7 +393,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
           </div>
           <button
             onClick={() => this.createBusiness()}
-            className="btn btn-primary"
+            className="customButton blackButton mt-3 ml-3"
           >
             Añadir empresa
           </button>

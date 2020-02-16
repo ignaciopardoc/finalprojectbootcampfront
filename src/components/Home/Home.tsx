@@ -20,25 +20,25 @@ class Home extends React.PureComponent<IProps, IState> {
     return (
       <Fragment>
         <div className="container containerHome">
-          <h1 className=" pt-3">
+          <h1 className="text-center pt-3">
             Descubre los mejores lugares para perros de tu ciudad
           </h1>
           <div className="row d-flex justify-content-center mt-3">
             <button
-              className={`mr-5 btn ${
+              className={`mr-5 customButton mb-3 ${
                 this.state.selectedOptionHome === 0
-                  ? `btn-success`
-                  : `btn-light`
+                  ? `greenButton`
+                  : `blackButton`
               }`}
               onClick={() => this.setState({ selectedOptionHome: 0 })}
             >
               Mapa
             </button>
             <button
-              className={`ml-5 btn ${
+              className={`ml-5 customButton mb-3 ${
                 this.state.selectedOptionHome === 1
-                  ? `btn-success`
-                  : `btn-light`
+                  ? `greenButton`
+                  : `blackButton`
               }`}
               onClick={() => this.setState({ selectedOptionHome: 1 })}
             >

@@ -18,13 +18,15 @@ interface IGlobalProps {
 
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
-    confirmButton: "btn btn-success",
-    cancelButton: "btn btn-danger"
+    confirmButton: "customButton greenButton",
+    cancelButton: "customButton customButton-danger"
   },
   buttonsStyling: false
 });
 
-interface IProps {}
+interface IProps {
+  setNavbar(selected: number): void;
+}
 
 type TProps = IGlobalProps & IProps;
 
@@ -247,6 +249,7 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
   componentDidMount() {
     this.getCategories();
     this.getBusinessInfo();
+    this.props.setNavbar(1);
   }
 
   render() {
@@ -390,7 +393,7 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
                   </div>
                   <button
                     onClick={() => this.searchByAdress()}
-                    className="btn btn-success"
+                    className="customButton greenButton"
                   >
                     {" "}
                     Buscar en el mapa
@@ -409,12 +412,12 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
           </div>
           <button
             onClick={() => this.updateBusiness()}
-            className="btn btn-primary"
+            className="customButton blackButton"
           >
             Actualizar información
           </button>
           <button
-            className="btn btn-danger"
+            className="customButton customButton-danger"
             onClick={() => {
               swalWithBootstrapButtons
                 .fire({

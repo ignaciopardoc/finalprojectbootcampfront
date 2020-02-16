@@ -21,3 +21,13 @@
 .dogCard:hover {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
+
+.editButton {
+  background-color: #35c68f;
+  width: 100%;
+  color: white !important;
+}
+
+.editButton:hover {
+  background-color: #33b986;
+}

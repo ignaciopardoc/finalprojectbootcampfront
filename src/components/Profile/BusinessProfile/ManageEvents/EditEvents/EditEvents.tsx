@@ -7,7 +7,9 @@ const GET_EVENT_INFO = "http://localhost:3000/event/getEventInfo/";
 const API_UPDATE_EVENT = "http://localhost:3000/event/updateEvent/";
 const API_DELETE_EVENT = "http://localhost:3000/event/deleteEvent/";
 
-interface IProps {}
+interface IProps {
+  setNavbar(selected: number): void;
+}
 
 interface IState {
   event_id: number;
@@ -106,6 +108,7 @@ class EditEvents extends React.PureComponent<IProps, IState> {
 
   componentDidMount = () => {
     this.getEventInfo();
+    this.props.setNavbar(2);
   };
   render() {
     const today = new Date();
@@ -168,7 +171,7 @@ class EditEvents extends React.PureComponent<IProps, IState> {
           ></textarea>
         </div>
         <button
-          className="btn btn-success mt-3"
+          className="customButton greenButton mt-3"
           onClick={() => {
             this.updateEvent();
           }}
@@ -177,14 +180,14 @@ class EditEvents extends React.PureComponent<IProps, IState> {
         </button>
 
         <button
-          className="btn btn-danger mt-3 ml-2"
+          className="customButton customButton-danger mt-3 ml-2"
           onClick={() => history.push("/profile/manageEvents")}
         >
           Cancelar
         </button>
 
         <button
-          className="btn btn-warning mt-3 ml-2"
+          className="customButton yellowButton mt-3 ml-2"
           onClick={() => {
             Swal.fire({
               title: "¿Quieres eliminar el evento?",

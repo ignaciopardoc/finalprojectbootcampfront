@@ -7,6 +7,8 @@ import { IStore } from "../../interfaces/IStore";
 import { ILogged } from "../../interfaces/ILogged";
 import { setLoggedAction } from "../../redux/actions";
 import logoutIcon from "../../icons/logout.svg";
+import profileIcon from "../../icons/wheel.svg";
+
 import history from "../../utils/history";
 import { IUser } from "../../interfaces/IToken";
 import { IUserInfo } from "../../interfaces/IUserInfo";
@@ -126,9 +128,15 @@ class Navbar extends React.PureComponent<TProps, IState> {
                     className="logoutIcon navbarImage"
                   />
                 </li>
-                <li className="nav-item mr-2">
+                <li className="nav-item ml-1">
                   <p className="nav-link">
-                    <Link to="/profile">Perfil</Link>
+                    <Link to="/profile">
+                      <img
+                        className="logoutIcon"
+                        src={profileIcon}
+                        alt="Logout"
+                      />
+                    </Link>
                   </p>
                 </li>
                 <li className="nav-item">

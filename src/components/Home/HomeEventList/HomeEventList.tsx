@@ -54,7 +54,7 @@ class HomeEventList extends React.PureComponent<IProps, IState> {
     return (
       <Fragment>
         <div className="row mt-4">
-          <div className="col-4">
+          <div className="col-md-4 col-12">
             <h2>Seleccione su ciudad:</h2>
           </div>
           <div className="col-8">

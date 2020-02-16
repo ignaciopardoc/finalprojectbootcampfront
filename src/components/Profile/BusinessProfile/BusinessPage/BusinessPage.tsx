@@ -12,7 +12,9 @@ interface IGlobalProps {
   token: IUser;
 }
 
-interface IProps {}
+interface IProps {
+  setNavbar(selected: number): void;
+}
 
 type TProps = IGlobalProps & IProps;
 
@@ -48,6 +50,7 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
     setTimeout(() => {
       this.getBusinessInfo();
     }, 1);
+    this.props.setNavbar(1);
   }
 
   businessCreated = () => {
@@ -75,8 +78,8 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
 
             {/* Button to close AddBusiness */}
             {this.state.showAddBusiness && (
-              <button
-                className="btn btn-danger"
+              <h1
+                className="addEventButton"
                 onClick={() => {
                   this.getBusinessInfo();
                   this.setState(({ showAddBusiness }) => ({
@@ -85,7 +88,7 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
                 }}
               >
                 Cerrar
-              </button>
+              </h1>
             )}
           </div>
         </div>
@@ -112,7 +115,7 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
                     <p className="card-text">{b.city}</p>
                     <p className="card-text">{b.category}</p>
                     <Link to={`/profile/editBusiness/${b.id}`}>
-                      <p className="btn float-right editButton">Editar</p>
+                      <p className="customButton greenButton float-center text-center">Editar</p>
                     </Link>
                   </div>
                 </div>

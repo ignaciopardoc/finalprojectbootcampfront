@@ -233,7 +233,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                       <p className="card-text">{b.description}</p>
                       <button
                         type="button"
-                        className="btn btn-primary"
+                        className="customButton blackButton"
                         data-toggle="modal"
                         data-target="#exampleModalCenter"
                         onClick={() => this.getInfo(b.id)}
@@ -243,7 +243,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                       {this.state.events.length ? (
                         <button
                           type="button"
-                          className="btn btn-warning ml-3"
+                          className="customButton yellowButton ml-3"
                           data-toggle="modal"
                           data-target="#eventModal"
                           onClick={() => this.getInfo(b.id)}
@@ -310,7 +310,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                       </label>
                       <button
                         type="button"
-                        className="btn btn-primary"
+                        className="customButton blackButton"
                         data-toggle="modal"
                         data-target="#exampleModalCenter"
                         onClick={() => this.getInfo(b.id)}
@@ -320,7 +320,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                       {this.state.events.length ? (
                         <button
                           type="button"
-                          className="btn btn-warning ml-3"
+                          className="customButton yellowButton ml-3"
                           data-toggle="modal"
                           data-target="#eventModal"
                           onClick={() => this.getInfo(b.id)}
@@ -392,7 +392,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="customButton blackButton"
                   data-dismiss="modal"
                 >
                   Cerrar
@@ -453,7 +453,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="customButton blackButton"
                   data-dismiss="modal"
                 >
                   Cerrar
@@ -532,7 +532,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                     this.sendReview();
                     this.setState({ stars: 0, review: "", dog_id: "null" });
                   }}
-                  className="btn btn-primary"
+                  className="customButton blackButton"
                   data-dismiss="modal"
                   disabled={
                     this.state.stars === 0 || this.state.dog_id === "null"
@@ -542,7 +542,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                 </button>
                 <button
                   type="button"
-                  className="btn btn-danger"
+                  className="customButton customButton-danger"
                   data-dismiss="modal"
                   onClick={() =>
                     this.setState({ stars: 0, review: "", dog_id: "null" })
@@ -591,7 +591,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="customButton blackButton"
                   data-dismiss="modal"
                 >
                   Cerrar

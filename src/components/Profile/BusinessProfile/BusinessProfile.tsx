@@ -12,8 +12,7 @@ import Swal from "sweetalert2";
 import EditEvents from "./ManageEvents/EditEvents/EditEvents";
 
 interface IState {
-  selectedNavbar: number;
-  selectedSelection: number;
+  selectedItem: number;
 }
 
 interface IGlobalProps {
@@ -28,8 +27,12 @@ class BusinessProfile extends React.PureComponent<TProps, IState> {
   constructor(props: any) {
     super(props);
 
-    this.state = { selectedNavbar: 0, selectedSelection: 0 };
+    this.state = { selectedItem: 0 };
   }
+
+  setNavbar = (selected: number) => {
+    this.setState({ selectedItem: selected });
+  };
 
   render() {
     const { isPremium } = this.props;
@@ -38,16 +41,32 @@ class BusinessProfile extends React.PureComponent<TProps, IState> {
         <div className="col-md-1 col-12"></div>{" "}
         <div className="col-md-1 col-12 profileNavbar">
           <Link to="/profile">
-            <div className="row">Información de usuario</div>
+            <div
+              className={`row ${
+                this.state.selectedItem === 0 ? `selectedItem` : null
+              }`}
+            >
+              Información de usuario
+            </div>
           </Link>
-          <hr />
           <Link to="/profile/businessPage">
-            <div className="row">Tus negocios</div>
+            <div
+              className={`row ${
+                this.state.selectedItem === 1 ? `selectedItem` : null
+              }`}
+            >
+              Tus negocios
+            </div>
           </Link>
-          <hr />
           {isPremium ? (
             <Link to="/profile/manageEvents">
-              <div className="row">Eventos</div>
+              <div
+                className={`row ${
+                  this.state.selectedItem === 2 ? `selectedItem` : null
+                }`}
+              >
+                Eventos
+              </div>
             </Link>
           ) : (
             <div
@@ -66,20 +85,20 @@ class BusinessProfile extends React.PureComponent<TProps, IState> {
         </div>
         <div className="col-11">
           <Route exact path={"/profile"}>
-            <BusinessOwnerInfo />
+            <BusinessOwnerInfo setNavbar={this.setNavbar} />
           </Route>
           <Route exact path={"/profile/businessPage"}>
             {" "}
-            <BusinessPage />{" "}
+            <BusinessPage setNavbar={this.setNavbar} />{" "}
           </Route>
           <Route exact path={"/profile/editBusiness/:business_id"}>
-            <EditBusiness />
+            <EditBusiness setNavbar={this.setNavbar} />
           </Route>
           <Route exact path="/profile/manageEvents">
-            <ManageEvents />
+            <ManageEvents setNavbar={this.setNavbar} />
           </Route>
           <Route exact path="/profile/editEvent/:eventId">
-            <EditEvents />
+            <EditEvents setNavbar={this.setNavbar} />
           </Route>
         </div>
       </div>

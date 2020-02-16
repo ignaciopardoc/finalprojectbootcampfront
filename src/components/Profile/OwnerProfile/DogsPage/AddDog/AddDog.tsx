@@ -118,7 +118,7 @@ class AddDog extends React.PureComponent<TProps, IState> {
               <label className="custom-file-label">Elija una foto</label>
             </div>{" "}
             <button
-              className="btn btn-success mt-3"
+              className="customButton greenButton mt-3"
               onClick={() => this.addDog()}
             >
               Añadir mascota

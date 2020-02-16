@@ -3,6 +3,7 @@
   margin-right: 0px !important;
 }
 .row .profileNavbar {
+  padding-left: 0px !important;
   padding-top: 20px;
   height: 100vh;
   background-color: #121212;
@@ -12,6 +13,17 @@
 }
 .row .profileNavbar .row {
   color: white;
+  margin-left: 15px;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  border-left: 5px solid #121212;
+  padding-left: 12px;
+}
+.row .profileNavbar .row:hover {
+  border-left: 5px solid #33b986;
+}
+.row .profileNavbar .selectedItem {
+  border-left: 5px solid #33b986;
 }
 .row .profileNavbar a {
   text-decoration: none;
@@ -22,6 +34,7 @@
 }
 .row .profileNavbar hr {
   border-color: white;
+  margin: 0px !important;
 }
 
 body {

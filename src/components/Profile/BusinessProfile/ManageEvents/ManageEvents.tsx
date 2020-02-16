@@ -14,7 +14,9 @@ registerLocale("es", es);
 const API_GET_BUSINESS = "http://localhost:3000/business/getInfoUserBusiness";
 const API_ADD_EVENT = "http://localhost:3000/event/addEvent";
 const API_GET_EVENT = "http://localhost:3000/event/getEvent/";
-interface IProps {}
+interface IProps {
+  setNavbar(selected: number): void;
+}
 
 interface IUserEvent {
   event_id: string;
@@ -145,6 +147,7 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
       this.getBusinessInfo();
       this.getEvents();
     }, 1);
+    this.props.setNavbar(2);
   }
 
   render() {
@@ -173,7 +176,7 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
         {this.state.addEvent && (
           <div className="container">
             <div className="row mt-3">
-              <div className="col-4">
+              <div className="col-md-4 col-12">
                 <select
                   className="form-control mb-3"
                   onChange={e =>
@@ -188,7 +191,7 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
                   ))}
                 </select>
               </div>
-              <div className="col-8">
+              <div className="col-md-8 col-12">
                 <input
                   placeholder="Nombre del evento"
                   type="text"
@@ -243,7 +246,7 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
               ></textarea>
             </div>
             <button
-              className="btn btn-success mt-3"
+              className="customButton greenButton mt-3 mb-3"
               onClick={() => {
                 this.addEvent();
               }}
@@ -256,7 +259,7 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
         {!this.state.addEvent && (
           <div className="row">
             {this.state.events.map(event => (
-              <div className="col-2 mr-5" key={event.event_id}>
+              <div className="col-md-3 col-12" key={event.event_id}>
                 <div className="card businessCard">
                   <div
                     className="card-img-top divimagetop"
@@ -275,23 +278,23 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
                     </p>
 
                     <Link to={`/profile/editEvent/${event.event_id}`}>
-                      <p className="btn float-right editButton">Editar</p>
+                      <p className="customButton float-right editButton">Editar</p>
                     </Link>
                   </div>
                 </div>
               </div>
             ))}
 
-            <div className="col-2 justify-content-center">
+            <div className="col-md-3 col-12 justify-content-center">
               <div
                 onClick={() =>
                   this.setState(({ addEvent }) => ({
                     addEvent: !addEvent
                   }))
                 }
-                className="card card-body h-50 justify-content-center businessCard addBusinessCard"
+                className="card card-body h-100 justify-content-center businessCard addBusinessCard"
               >
-                <h1>+</h1>
+                <h1 className="d-flex justify-content-center">+</h1>
               </div>
             </div>
           </div>

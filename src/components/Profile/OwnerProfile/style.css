@@ -3,7 +3,7 @@
   margin-right: 0px !important;
 }
 .row .profileNavbar {
-  padding-top: 20px;
+  padding-top: 10px;
   height: 100vh;
   background-color: #121212;
   overflow: hidden;
@@ -18,6 +18,6 @@
 @media (max-width: 992px) {
   .profileNavbar {
     position: unset !important;
-    height: 15vh !important;
+    height: 22vh !important;
   }
 }

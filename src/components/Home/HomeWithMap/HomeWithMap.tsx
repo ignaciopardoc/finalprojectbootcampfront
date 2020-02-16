@@ -230,7 +230,7 @@ class HomeWithMap extends React.Component<any, IState> {
         />
 
         {this.state.businessOnMapPremium.length ? (
-          <h1 className="mt-3">Empresas destacadas</h1>
+          <h1 className="mt-4 text-center">Empresas destacadas</h1>
         ) : null}
         <div className="row mt-3">
           {this.state.businessOnMapPremium.map((business, index) => (
@@ -250,22 +250,27 @@ class HomeWithMap extends React.Component<any, IState> {
         {!this.state.seeMore &&
         this.state.businessOnMapPremium.length > 3 &&
         this.state.businessOnMapPremium.length ? (
-          <button
-            className="btn btn-success ml-3 mt-3 mb-3"
-            onClick={() => this.setState({ seeMore: true })}
-          >
-            Ver más
-          </button>
+          <div className="row d-flex justify-content-center">
+            <button
+              className="customButton greenButton ml-3 mt-3 mb-3"
+              onClick={() => this.setState({ seeMore: true })}
+            >
+              Ver más
+            </button>
+          </div>
         ) : null}
         {this.state.seeMore &&
         this.state.businessOnMapPremium.length > 3 &&
         this.state.businessOnMapPremium.length ? (
-          <button
-            className="btn btn-danger ml-3 mb-3"
-            onClick={() => this.setState({ seeMore: false })}
-          >
-            Ver menos
-          </button>
+          <div className="row d-flex justify-content-center">
+            {" "}
+            <button
+              className="customButton redButton ml-3 mb-3 mt-3"
+              onClick={() => this.setState({ seeMore: false })}
+            >
+              Ver menos
+            </button>
+          </div>
         ) : null}
 
         {/* Modal Information Business */}
@@ -324,7 +329,7 @@ class HomeWithMap extends React.Component<any, IState> {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="customButton blackButton"
                   data-dismiss="modal"
                 >
                   Cerrar
