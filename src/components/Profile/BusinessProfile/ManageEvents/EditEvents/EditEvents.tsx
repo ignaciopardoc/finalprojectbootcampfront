@@ -1,7 +1,6 @@
 import React from "react";
 import history from "../../../../../utils/history";
 import DatePicker from "react-datepicker";
-import { start } from "repl";
 import Swal from "sweetalert2";
 
 const GET_EVENT_INFO = "http://localhost:3000/event/getEventInfo/";

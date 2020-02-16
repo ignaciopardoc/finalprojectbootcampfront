@@ -1,19 +1,19 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import "./style.css";
 import pin from "../../../../../../icons/GREEN_PIN.svg";
 
-import { Map, SVGOverlay, TileLayer, Marker, Popup } from "react-leaflet";
+import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 
 interface IState {}
 
 interface IProps {
   changelatlng(lat: number, lon: number): void;
-  zoom: number | null
+  zoom: number | null;
   latlon: number[];
 }
 
- class SimpleExample extends React.Component<IProps, IState> {
+class SimpleExample extends React.Component<IProps, IState> {
   constructor(props: any) {
     super(props);
 
@@ -33,9 +33,9 @@ interface IProps {
 
     return (
       <Fragment>
-        {/* <label>
+        <label>
           Por favor, comprueba que la ubicación en el mapa es la correcta
-        </label> */}
+        </label>
         <div className="leaflet-container">
           <Map
             style={{ minHeight: "500px" }}
@@ -67,4 +67,4 @@ interface IProps {
   }
 }
 
-export default SimpleExample
+export default SimpleExample;

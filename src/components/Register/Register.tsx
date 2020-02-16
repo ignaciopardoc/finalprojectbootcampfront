@@ -1,12 +1,9 @@
 import React from "react";
 import "./style.css";
 import validate from "validate.js";
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 import history from "../../utils/history";
-
-const MySwal = withReactContent(Swal);
 
 const API_URL = "http://localhost:3000/auth/register";
 

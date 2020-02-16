@@ -2,7 +2,6 @@ import { TAction } from "./types";
 import { IUser } from "../interfaces/IToken";
 import { ILogged } from "../interfaces/ILogged";
 import { IUserInfo } from "../interfaces/IUserInfo";
-import { TableHTMLAttributes } from "react";
 
 
 export const setTokenAction = (token: IUser): TAction => ({

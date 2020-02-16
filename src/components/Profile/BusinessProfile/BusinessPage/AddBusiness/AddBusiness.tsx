@@ -1,18 +1,12 @@
 import React, { Fragment, createRef } from "react";
 import "./style.css";
-import { Map, TileLayer, Marker, Popup } from "leaflet";
-import SVGOverlayExample from "./Map/Map";
-import SimpleExample from "./Map/Map";
 import MapExample from "./Map/Map";
 import { connect } from "react-redux";
 import { IStore } from "../../../../../interfaces/IStore";
 import { IUser } from "../../../../../interfaces/IToken";
-import Swal from "sweetalert2";
 import { myFetchFiles } from "../../../../../utils/MyFetch";
-import history from "../../../../../utils/history";
 const API_URL = "http://localhost:3000/business/getCategories";
 const API_URL2 = "http://localhost:3000/business/insertBusiness";
-const GOOGLE_KEY = "AIzaSyB9kYRWo5-GTwGabX8aY33HmZ1NPjaVhkY";
 
 interface IGlobalProps {
   token: IUser;

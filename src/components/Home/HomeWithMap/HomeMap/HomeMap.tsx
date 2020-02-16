@@ -378,7 +378,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                     </p>
                     <p>{selectedBusiness.telephone}</p>
                     <p>{selectedBusiness.email}</p>
-                    <a href={selectedBusiness.instagram} target="_blank">
+                    <a href={selectedBusiness.instagram} target="_blank" rel="noopener noreferrer">
                       <img height={40} src={instagramLogo} alt="" />
                     </a>
                   </div>

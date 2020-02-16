@@ -5,7 +5,6 @@ import { ILogged } from "../../interfaces/ILogged";
 import history from "../../utils/history";
 import "./style.css";
 import BusinessProfile from "./BusinessProfile/BusinessProfile";
-import { setTokenAction } from "../../redux/actions";
 import { IUser } from "../../interfaces/IToken";
 import jwt from "jsonwebtoken";
 import OwnerProfile from "./OwnerProfile/DogOwnerProfile";
@@ -65,8 +64,6 @@ const mapStateToProps = ({ logged, token }: IStore): IGlobalProps => ({
   token
 });
 
-const mapDispatchToProps = {
-  setToken: setTokenAction
-};
+
 
 export default connect(mapStateToProps)(Profile);

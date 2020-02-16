@@ -3,7 +3,6 @@ import instagramLogo from "../../../../icons/instagram.svg";
 import { businessDB } from "../../../../interfaces/businessDB";
 import { EventDB } from "../../../../interfaces/EventDB";
 
-const URL_GET_ONEBUSINESS = "http://localhost:3000/business/getOneBusiness/";
 const URL_GET_EVENTS = "http://localhost:3000/event/getEventFromBusiness/";
 
 interface IState {
@@ -182,7 +181,7 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
                     </p>
                     <p>{this.props.business.telephone}</p>
                     <p>{this.props.business.email}</p>
-                    <a href={this.props.business.instagram} target="_blank">
+                    <a href={this.props.business.instagram} target="_blank" rel="noopener noreferrer">
                       <img height={40} src={instagramLogo} alt="" />
                     </a>
                   </div>

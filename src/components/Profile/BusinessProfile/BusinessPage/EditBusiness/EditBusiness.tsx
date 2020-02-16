@@ -1,8 +1,5 @@
 import React, { Fragment, createRef } from "react";
 import "./style.css";
-import { Map, TileLayer, Marker, Popup } from "leaflet";
-import SVGOverlayExample from "./Map/Map";
-import SimpleExample from "./Map/Map";
 import MapExample from "./Map/Map";
 import { connect } from "react-redux";
 import { IStore } from "../../../../../interfaces/IStore";

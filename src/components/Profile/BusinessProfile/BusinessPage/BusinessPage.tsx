@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { IStore } from "../../../../interfaces/IStore";
 import { IUser } from "../../../../interfaces/IToken";
-import { disconnect } from "cluster";
 import AddBusiness from "./AddBusiness/AddBusiness";
 import "./style.css";
 import { Link } from "react-router-dom";
@@ -116,7 +115,7 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
                     <p className="card-text">{b.city}</p>
                     <p className="card-text">{b.category}</p>
                     <Link to={`/profile/editBusiness/${b.id}`}>
-                      <a className="btn float-right editButton">Editar</a>
+                      <p className="btn float-right editButton">Editar</p>
                     </Link>
                   </div>
                 </div>

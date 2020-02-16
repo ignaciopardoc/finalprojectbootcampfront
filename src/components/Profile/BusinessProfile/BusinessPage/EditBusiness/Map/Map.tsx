@@ -1,13 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import "./style.css";
 import pin from "../../../../../../icons/GREEN_PIN.svg";
 
-import { Map, SVGOverlay, TileLayer, Marker, Popup } from "react-leaflet";
+import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 
-interface IState {
-  
-}
+interface IState {}
 
 interface IProps {
   changelatlng(lat: number, lon: number): void;
@@ -19,11 +17,9 @@ export default class SimpleExample extends React.PureComponent<IProps, IState> {
   constructor(props: any) {
     super(props);
 
-    this.state = {
-      
-    };
+    this.state = {};
   }
-  
+
   render() {
     const myIcon = L.icon({
       iconUrl: pin,
@@ -44,7 +40,7 @@ export default class SimpleExample extends React.PureComponent<IProps, IState> {
               this.props.changelatlng(e.latlng.lat, e.latlng.lng);
             }}
             zoom={this.props.zoom}
-            center={ this.props.latlon }
+            center={this.props.latlon}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             <Marker position={this.props.latlon} icon={myIcon}>

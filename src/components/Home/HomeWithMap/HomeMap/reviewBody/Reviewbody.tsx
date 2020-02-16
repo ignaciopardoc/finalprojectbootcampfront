@@ -1,6 +1,5 @@
 import React from "react";
 import "./style.css";
-import { throws } from "assert";
 import Rating from "react-rating";
 import { DogsDB } from "../../../../../interfaces/dogsDB";
 const GET_DOG_INFO = "http://localhost:3000/dog/getDogInfo/";

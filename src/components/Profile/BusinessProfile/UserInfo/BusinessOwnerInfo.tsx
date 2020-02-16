@@ -10,7 +10,11 @@ import jwt from "jsonwebtoken";
 import Swal from "sweetalert2";
 
 import IBAN from "iban";
-import { setUserInfoAction, setPremiumAction, setTokenAction } from "../../../../redux/actions";
+import {
+  setUserInfoAction,
+  setPremiumAction,
+  setTokenAction
+} from "../../../../redux/actions";
 import { IUserInfo } from "../../../../interfaces/IUserInfo";
 const API_GET_USER = "http://localhost:3000/auth/getInfoUser/";
 const API_UPDATE_PERSONAL =
@@ -53,7 +57,7 @@ interface IState {
 interface IProps {
   setInfo(userInfo: IUserInfo): void;
   setPremium(isPremium: boolean): void;
-  setToken(token: IUser): void
+  setToken(token: IUser): void;
 }
 
 type TProps = IGlobalProps & IProps;
@@ -143,9 +147,9 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
         password
       })
     }).then(async response => {
-      const token = await response.json()
-      localStorage.setItem("token", token)
-      this.props.setToken(token)
+      const token = await response.json();
+      localStorage.setItem("token", token);
+      this.props.setToken(token);
     });
   };
 
@@ -180,7 +184,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
           }).then(response2 => {
             console.log(response2);
             this.props.setPremium(true);
-            this.getNewToken()
+            this.getNewToken();
           });
         } else {
           Swal.fire({ title: "Contraseña incorrecta", icon: "error" });
@@ -233,7 +237,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
     const { name, surname, address, city, postcode } = this.state.user;
 
     const token = jwt.decode(this.props.token.token) as IToken;
-
+    
     {
       token.isBusiness &&
         !name &&

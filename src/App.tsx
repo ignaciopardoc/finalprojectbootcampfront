@@ -1,4 +1,4 @@
-import React, { Profiler } from "react";
+import React from "react";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Register from "./components/Register/Register";
