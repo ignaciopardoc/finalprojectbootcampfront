@@ -1,7 +1,7 @@
 .row {
   margin-left: 0px !important;
   margin-right: 0px !important;
-  
+
   .profileNavbar {
     padding-top: 20px;
     height: 100vh;
@@ -11,12 +11,11 @@
     display: block;
     .row {
       color: white;
-      
     }
-    a{
+    a {
       text-decoration: none;
-     
-      :hover{
+
+      :hover {
         transition: color 0.15s ease-in-out 0s;
         color: rgb(204, 204, 204);
       }
@@ -32,5 +31,5 @@ body {
 
 .notEnabled {
   pointer-events: none;
-    opacity: 0.4;
+  opacity: 0.4;
 }

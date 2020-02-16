@@ -33,8 +33,7 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
   };
 
   componentDidMount() {
-      this.getEvents(this.props.business.id);
-
+    this.getEvents(this.props.business.id);
   }
   componentWillUnmount() {
     this.setState({ events: [] });
@@ -42,7 +41,6 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
   render() {
     const { business } = this.props;
 
-   
     return (
       <Fragment>
         <div className="card businessCardMap" key={this.props.business.id}>
@@ -180,7 +178,11 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
                     </p>
                     <p>{this.props.business.telephone}</p>
                     <p>{this.props.business.email}</p>
-                    <a href={this.props.business.instagram} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={this.props.business.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <img height={40} src={instagramLogo} alt="" />
                     </a>
                   </div>

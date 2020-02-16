@@ -3,23 +3,22 @@ import { IUser } from "../interfaces/IToken";
 import { ILogged } from "../interfaces/ILogged";
 import { IUserInfo } from "../interfaces/IUserInfo";
 
-
 export const setTokenAction = (token: IUser): TAction => ({
-    type: "SET_TOKEN" ,
-    payload: token
-})
+  type: "SET_TOKEN",
+  payload: token
+});
 
 export const setLoggedAction = (logged: ILogged): TAction => ({
-    type: "SET_LOGGED",
-    payload: logged
-})
+  type: "SET_LOGGED",
+  payload: logged
+});
 
 export const setUserInfoAction = (UserInfo: IUserInfo): TAction => ({
-    type: "SET_INFO",
-    payload: UserInfo
-})
+  type: "SET_INFO",
+  payload: UserInfo
+});
 
 export const setPremiumAction = (isPremium: boolean): TAction => ({
-    type: "SET_PREMIUM",
-    payload: isPremium
-})
+  type: "SET_PREMIUM",
+  payload: isPremium
+});

@@ -9,13 +9,10 @@ import { IUser } from "../../interfaces/IToken";
 import jwt from "jsonwebtoken";
 import OwnerProfile from "./OwnerProfile/DogOwnerProfile";
 
-
 interface IGlobalProps {
   logged: ILogged;
   token: IUser;
 }
-
-
 
 interface IProps {}
 
@@ -39,22 +36,21 @@ class Profile extends React.PureComponent<TProps, IState> {
       if (!this.props.logged.logged) {
         history.push("/login");
       }
-      let token = localStorage.getItem("token")
-      
-      if(token){
-        const {isBusiness}: any = jwt.decode(token)
-        this.setState({isBusiness: isBusiness})
-          
+      let token = localStorage.getItem("token");
+
+      if (token) {
+        const { isBusiness }: any = jwt.decode(token);
+        this.setState({ isBusiness: isBusiness });
       }
     }, 1);
   }
   render() {
     return (
-     <div>
-       {!this.state.isBusiness && <OwnerProfile />}
-       {this.state.isBusiness && <BusinessProfile />}
-     </div>
-    )
+      <div>
+        {!this.state.isBusiness && <OwnerProfile />}
+        {this.state.isBusiness && <BusinessProfile />}
+      </div>
+    );
   }
 }
 
@@ -62,7 +58,5 @@ const mapStateToProps = ({ logged, token }: IStore): IGlobalProps => ({
   logged,
   token
 });
-
-
 
 export default connect(mapStateToProps)(Profile);

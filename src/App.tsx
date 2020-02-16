@@ -7,8 +7,13 @@ import Login from "./components/Login/Login";
 import { Switch, Route } from "react-router-dom";
 import BusinessRegister from "./components/BusinessRegister/BusinessRegister";
 import Profile from "./components/Profile/Profile";
-import { setLoggedAction, setTokenAction, setUserInfoAction, setPremiumAction } from "./redux/actions";
-import jwt from "jsonwebtoken"
+import {
+  setLoggedAction,
+  setTokenAction,
+  setUserInfoAction,
+  setPremiumAction
+} from "./redux/actions";
+import jwt from "jsonwebtoken";
 
 import { ILogged } from "./interfaces/ILogged";
 
@@ -19,48 +24,50 @@ import { IUserInfo } from "./interfaces/IUserInfo";
 import Home from "./components/Home/Home";
 
 interface IToken {
-  name: string
-  username: string
-  profilePicture: string
-  isPremium: boolean
+  name: string;
+  username: string;
+  profilePicture: string;
+  isPremium: boolean;
 }
 
-interface IGlobalProps {
-  
-}
+interface IGlobalProps {}
 
 interface IProps {
   setLogged(logged: ILogged): void;
-  setToken(token: IUser): void
-  setInfo(userInfo: IUserInfo): void
-  setPremiun(isPremium: boolean): void
+  setToken(token: IUser): void;
+  setInfo(userInfo: IUserInfo): void;
+  setPremiun(isPremium: boolean): void;
 }
 
 type TProps = IGlobalProps & IProps;
 
 class App extends React.PureComponent<TProps, any> {
   componentDidMount() {
-    let token = localStorage.getItem("token")
-    
-      if(token){
-        const {name, username, profilePicture, isPremium} = jwt.decode(token) as IToken
-        this.props.setInfo({name: name, username: username, photo: profilePicture})
-        this.props.setPremiun(isPremium)
-        this.props.setLogged({logged: true})
-        this.props.setToken({token})
-      }
-    
-    
+    let token = localStorage.getItem("token");
+
+    if (token) {
+      const { name, username, profilePicture, isPremium } = jwt.decode(
+        token
+      ) as IToken;
+      this.props.setInfo({
+        name: name,
+        username: username,
+        photo: profilePicture
+      });
+      this.props.setPremiun(isPremium);
+      this.props.setLogged({ logged: true });
+      this.props.setToken({ token });
+    }
   }
-
-
 
   render() {
     return (
       <div>
         <Navbar />
         <Switch>
-          <Route exact path="/"><Home /></Route>
+          <Route exact path="/">
+            <Home />
+          </Route>
           <Route exact path="/register">
             <Register />
           </Route>
@@ -78,9 +85,6 @@ class App extends React.PureComponent<TProps, any> {
     );
   }
 }
-
-
-
 
 const mapDispatchToProps = {
   setLogged: setLoggedAction,

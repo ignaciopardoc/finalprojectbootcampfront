@@ -7,9 +7,12 @@ import { myFetchFiles } from "../../../../utils/MyFetch";
 import PasswordForm from "./PasswordForm/PasswordForm";
 import Swal from "sweetalert2";
 import jwt from "jsonwebtoken";
+import { setUserInfoAction, setTokenAction } from "../../../../redux/actions";
+import { IUserInfo } from "../../../../interfaces/IUserInfo";
 const API_GET_USER = "http://localhost:3000/auth/getInfoUser/";
 const API_UPDATE_PERSONAL =
   "http://localhost:3000/auth/addPersonalInformation/";
+const API_UPDATE_TOKEN = "http://localhost:3000/auth/updateToken";
 
 interface IGlobalProps {
   token: IUser;
@@ -37,7 +40,10 @@ interface IState {
   editPersonalInfo: boolean;
 }
 
-interface IProps {}
+interface IProps {
+  setInfo(userInfo: IUserInfo): void;
+  setToken(token: IUser): void;
+}
 
 type TProps = IGlobalProps & IProps;
 
@@ -90,13 +96,31 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
         path: `auth/uploadAvatar/${userId}`,
         formData
       })
-        .then(() => {
-          this.getuserinfo();
+        .then(async () => {
+          await this.getuserinfo();
+          this.props.setInfo({
+            photo: this.state.user.profilePicture,
+            username: this.state.user.username,
+            name: this.state.user.name
+          });
         })
-        .then(() => {
+        .then(async () => {
           if (this.avatar.current !== null) {
             this.avatar.current.value = "";
           }
+          const token = this.props.token.token;
+          await fetch(API_UPDATE_TOKEN, {
+            method: "GET",
+            headers: new Headers({
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/x-www-form-urlencoded"
+            })
+          }).then(async responsetoken => {
+            const token = await responsetoken.json();
+
+            this.props.setToken(token);
+            localStorage.setItem("token", token);
+          });
         });
     }
   };
@@ -119,16 +143,35 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
           city,
           postcode
         })
-      }).then(response => {
-        if (response.status === 200) {
-          Swal.fire({
-            title: "Datos actualizados correctamente",
-            icon: "success"
+      })
+        .then(async response => {
+          if (response.status === 200) {
+            Swal.fire({
+              title: "Datos actualizados correctamente",
+              icon: "success"
+            });
+            this.setState({ editPersonalInfo: false });
+            await this.getuserinfo();
+            this.props.setInfo({
+              photo: this.state.user.profilePicture,
+              username: this.state.user.username,
+              name: this.state.user.name
+            });
+          }
+        })
+        .then(async () => {
+          await fetch(API_UPDATE_TOKEN, {
+            method: "GET",
+            headers: new Headers({
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/x-www-form-urlencoded"
+            })
+          }).then(async responsetoken => {
+            const token = await responsetoken.json();
+            localStorage.setItem("token", token);
+            this.props.setToken(token);
           });
-          this.setState({ editPersonalInfo: false });
-          this.getuserinfo();
-        }
-      });
+        });
     } catch (e) {
       console.log(e);
     }
@@ -325,9 +368,17 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
             ></div>
             <div className="row">
               <h3>Actualizar foto de perfil</h3>
-
-              <input type="file" id="uploadInput" ref={this.avatar} />
             </div>
+            <div className="custom-file">
+              <input
+                type="file"
+                className="custom-file-input"
+                id="customFile"
+                ref={this.avatar}
+              />
+              <label className="custom-file-label">Elija una foto</label>
+            </div>
+
             <div className="row">
               <button
                 className="btn btn-success mt-2"
@@ -346,6 +397,9 @@ const mapStateToProps = ({ token }: IStore): IGlobalProps => ({
   token
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  setInfo: setUserInfoAction,
+  setToken: setTokenAction
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DogOwnerInfo);

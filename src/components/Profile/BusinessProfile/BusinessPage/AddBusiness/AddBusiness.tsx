@@ -55,7 +55,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
       instagram: "",
       email: "",
       categories: [],
-     
+
       latlon: [],
       zoom: null,
       lat: 0,
@@ -138,7 +138,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
       `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`
     ).then(async response => {
       const json = await response.json();
-      
+
       if (this.state.zoom !== null && this.state.zoom < 17) {
         this.setState({ zoom: 17 });
       }
@@ -212,8 +212,6 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
       }
     });
   };
-
- 
 
   //Get the categories from the enum on the DB
   getCategories = async () => {
@@ -385,12 +383,13 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
           </div>
           {/* Map column */}
           <div className="col-6">
-          {this.state.zoom &&
-            <MapExample
-              changelatlng={this.changelatlng}
-              zoom={this.state.zoom}
-              latlon={this.state.latlon}
-            />}
+            {this.state.zoom && (
+              <MapExample
+                changelatlng={this.changelatlng}
+                zoom={this.state.zoom}
+                latlon={this.state.latlon}
+              />
+            )}
           </div>
           <button
             onClick={() => this.createBusiness()}

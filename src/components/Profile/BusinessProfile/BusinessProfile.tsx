@@ -78,7 +78,7 @@ class BusinessProfile extends React.PureComponent<TProps, IState> {
           <Route exact path="/profile/manageEvents">
             <ManageEvents />
           </Route>
-          <Route exact path ="/profile/editEvent/:eventId">
+          <Route exact path="/profile/editEvent/:eventId">
             <EditEvents />
           </Route>
         </div>

@@ -21,6 +21,7 @@ const API_UPDATE_PERSONAL =
   "http://localhost:3000/auth/addPersonalInformation/";
 const API_SET_IBAN = "http://localhost:3000/auth/makePremium";
 const API_GET_TOKEN = "http://localhost:3000/auth/auth";
+const API_UPDATE_TOKEN = "http://localhost:3000/auth/updateToken";
 
 interface IGlobalProps {
   token: IUser;
@@ -124,10 +125,23 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
             name: this.state.user.name
           });
         })
-        .then(() => {
+        .then(async () => {
           if (this.avatar.current !== null) {
             this.avatar.current.value = "";
           }
+          const token = this.props.token.token;
+          await fetch(API_UPDATE_TOKEN, {
+            method: "GET",
+            headers: new Headers({
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/x-www-form-urlencoded"
+            })
+          }).then(async responsetoken => {
+            const token = await responsetoken.json();
+
+            this.props.setToken(token);
+            localStorage.setItem("token", token);
+          });
         });
     }
   };
@@ -209,21 +223,35 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
           city,
           postcode
         })
-      }).then(async response => {
-        if (response.status === 200) {
-          Swal4.fire({
-            title: "Datos actualizados correctamente",
-            icon: "success"
+      })
+        .then(async response => {
+          if (response.status === 200) {
+            Swal4.fire({
+              title: "Datos actualizados correctamente",
+              icon: "success"
+            });
+            this.setState({ editPersonalInfo: false });
+            await this.getuserinfo();
+            this.props.setInfo({
+              photo: this.state.user.profilePicture,
+              username: this.state.user.username,
+              name: this.state.user.name
+            });
+          }
+        })
+        .then(async () => {
+          await fetch(API_UPDATE_TOKEN, {
+            method: "GET",
+            headers: new Headers({
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/x-www-form-urlencoded"
+            })
+          }).then(async responsetoken => {
+            const token = await responsetoken.json();
+            localStorage.setItem("token", token);
+            this.props.setToken(token);
           });
-          this.setState({ editPersonalInfo: false });
-          await this.getuserinfo();
-          this.props.setInfo({
-            photo: this.state.user.profilePicture,
-            username: this.state.user.username,
-            name: this.state.user.name
-          });
-        }
-      });
+        });
     } catch (e) {
       console.log(e);
     }

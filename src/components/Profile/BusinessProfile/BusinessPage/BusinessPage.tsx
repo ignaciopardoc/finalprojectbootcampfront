@@ -16,8 +16,6 @@ interface IProps {}
 
 type TProps = IGlobalProps & IProps;
 
-
-
 interface IState {
   business: businessDB[];
   showAddBusiness: boolean;

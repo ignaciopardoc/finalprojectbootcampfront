@@ -9,8 +9,8 @@ import { myFetchFiles } from "../../../../../utils/MyFetch";
 import history from "../../../../../utils/history";
 const API_URL = "http://localhost:3000/business/getCategories";
 const API_URL2 = "http://localhost:3000/business/updateBusiness";
-const API_GET_ONE = "http://localhost:3000/business/getOneBusiness/"
-const API_DELETE = "http://localhost:3000/business/deleteBusiness/"
+const API_GET_ONE = "http://localhost:3000/business/getOneBusiness/";
+const API_DELETE = "http://localhost:3000/business/deleteBusiness/";
 
 interface IGlobalProps {
   token: IUser;
@@ -18,11 +18,11 @@ interface IGlobalProps {
 
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
-    confirmButton: 'btn btn-success',
-    cancelButton: 'btn btn-danger'
+    confirmButton: "btn btn-success",
+    cancelButton: "btn btn-danger"
   },
   buttonsStyling: false
-})
+});
 
 interface IProps {}
 
@@ -44,7 +44,7 @@ interface IState {
   lon: number;
   completeAddress: string;
   postcode: string;
-  id: number | undefined
+  id: number | undefined;
   allFilled: boolean;
 }
 
@@ -79,7 +79,7 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
   //Send information to the database
   updateBusiness = async () => {
     const token = this.props.token.token;
-    const id = history.location.pathname.split("/").slice(-1)[0]
+    const id = history.location.pathname.split("/").slice(-1)[0];
     const {
       businessName,
       address,
@@ -116,18 +116,17 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
         })
       });
 
-      
-      this.uploadMain(id)
-      history.push("/profile/businessPage")
+      this.uploadMain(id);
+      history.push("/profile/businessPage");
     } catch (e) {
       console.log(e);
     }
   };
 
-  deleteBusiness = async (businessId: number) =>{
-    const response = await fetch(`${API_DELETE}${businessId}`)
-    const json = await response.json()
-  }
+  deleteBusiness = async (businessId: number) => {
+    const response = await fetch(`${API_DELETE}${businessId}`);
+    const json = await response.json();
+  };
 
   uploadMain(business_id: string) {
     if (this.avatar.current?.files) {
@@ -140,7 +139,6 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
         formData
       }).then(json => {
         if (json) {
-          
         }
       });
     }
@@ -183,7 +181,6 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
       });
     });
   };
-
 
   //Search addres by the input the user insert on input fields
   searchByAdress = async () => {
@@ -239,18 +236,17 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
 
   //Charge the information from the selected business
   getBusinessInfo = async () => {
-   const businessId = history.location.pathname.split("/").slice(-1)[0]
-   const response = await fetch(`${API_GET_ONE}${businessId}`)
-   const json = await response.json()
-   this.setState(this.state = json)
-   this.setState({latlon: [this.state.lat, this.state.lon]})
-   this.setState({zoom: 17})
-  }
-
+    const businessId = history.location.pathname.split("/").slice(-1)[0];
+    const response = await fetch(`${API_GET_ONE}${businessId}`);
+    const json = await response.json();
+    this.setState((this.state = json));
+    this.setState({ latlon: [this.state.lat, this.state.lon] });
+    this.setState({ zoom: 17 });
+  };
 
   componentDidMount() {
     this.getCategories();
-    this.getBusinessInfo()
+    this.getBusinessInfo();
   }
 
   render() {
@@ -308,9 +304,6 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
             </div>
             <label>Foto principal de su negocio</label>
             <input type="file" name="avatar" id="mainImage" ref={this.avatar} />
-
-            
-           
           </div>
 
           {/* Second Column */}
@@ -411,9 +404,7 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
             <MapExample
               changelatlng={this.changelatlng}
               zoom={this.state.zoom}
-              latlon={
-                this.state.latlon 
-              }
+              latlon={this.state.latlon}
             />
           </div>
           <button
@@ -423,32 +414,37 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
             Actualizar información
           </button>
           <button
-          className="btn btn-danger"
-          onClick={()=> {
-            swalWithBootstrapButtons.fire({
-              title: '¿Seguro que quieres eliminarlo?',
-              text: "La información se perderá",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonText: 'Confirmar',
-              cancelButtonText: 'Cancelar',
-              reverseButtons: true
-            }).then((result) => {
-              if (result.value) {
-                this.deleteBusiness(Number(this.state.id))
-                history.push("/profile/businessPage")
-              // } else if (
-              //   /* Read more about handling dismissals below */
-              //   result.dismiss === Swal.DismissReason.cancel
-              // ) {
-              //   swalWithBootstrapButtons.fire(
-              //     'Cancelled',
-              //     'Your imaginary file is safe :)',
-              //     'error'
-              //   )
-              }
-            })
-          }}>Eliminar empresa</button>
+            className="btn btn-danger"
+            onClick={() => {
+              swalWithBootstrapButtons
+                .fire({
+                  title: "¿Seguro que quieres eliminarlo?",
+                  text: "La información se perderá",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonText: "Confirmar",
+                  cancelButtonText: "Cancelar",
+                  reverseButtons: true
+                })
+                .then(result => {
+                  if (result.value) {
+                    this.deleteBusiness(Number(this.state.id));
+                    history.push("/profile/businessPage");
+                    // } else if (
+                    //   /* Read more about handling dismissals below */
+                    //   result.dismiss === Swal.DismissReason.cancel
+                    // ) {
+                    //   swalWithBootstrapButtons.fire(
+                    //     'Cancelled',
+                    //     'Your imaginary file is safe :)',
+                    //     'error'
+                    //   )
+                  }
+                });
+            }}
+          >
+            Eliminar empresa
+          </button>
         </div>
       </Fragment>
     );

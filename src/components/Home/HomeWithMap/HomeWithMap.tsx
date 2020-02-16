@@ -247,7 +247,9 @@ class HomeWithMap extends React.Component<any, IState> {
             </div>
           ))}
         </div>
-        {!this.state.seeMore && this.state.businessOnMapPremium.length > 3 && this.state.businessOnMapPremium.length ? (
+        {!this.state.seeMore &&
+        this.state.businessOnMapPremium.length > 3 &&
+        this.state.businessOnMapPremium.length ? (
           <button
             className="btn btn-success ml-3 mt-3 mb-3"
             onClick={() => this.setState({ seeMore: true })}
@@ -255,7 +257,9 @@ class HomeWithMap extends React.Component<any, IState> {
             Ver más
           </button>
         ) : null}
-        {this.state.seeMore && this.state.businessOnMapPremium.length > 3 && this.state.businessOnMapPremium.length ? (
+        {this.state.seeMore &&
+        this.state.businessOnMapPremium.length > 3 &&
+        this.state.businessOnMapPremium.length ? (
           <button
             className="btn btn-danger ml-3 mb-3"
             onClick={() => this.setState({ seeMore: false })}
@@ -307,7 +311,11 @@ class HomeWithMap extends React.Component<any, IState> {
                     </p>
                     <p>{selectedBusiness.telephone}</p>
                     <p>{selectedBusiness.email}</p>
-                    <a href={selectedBusiness.instagram} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={selectedBusiness.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <img height={40} src={instagramLogo} alt="" />
                     </a>
                   </div>

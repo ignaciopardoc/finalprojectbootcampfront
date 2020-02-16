@@ -15,40 +15,31 @@ interface IState {
   selectedSelection: number;
 }
 
-
-
 class OwnerProfile extends React.PureComponent<any, IState> {
-
   render() {
-
-    
     return (
       <div className="row">
         <div className="col-12 col-sm-12 col-md-12 col-lg-1 col-xl-1 "></div>
         <div className="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 profileNavbar">
           <Link to="/profile">
-          <div
-            className="row"
-            
-          >
-            Información de usuario
-          </div>
+            <div className="row">Información de usuario</div>
           </Link>
-          <hr/>
+          <hr />
           <Link to="/profile/dogsPage">
-          <div
-            className="row"
-          >
-            Perros
-          </div>
+            <div className="row">Perros</div>
           </Link>
         </div>
         <div className="col-11">
-            <Route exact path={"/profile"}><DogOwnerInfo /></Route>
-            <Route exact path={"/profile/dogsPage"}> <DogsPage /> </Route>
-            <Route exact path={"/profile/editDog/:dog_id"}>
-              <EditDog/>
-            </Route> 
+          <Route exact path={"/profile"}>
+            <DogOwnerInfo />
+          </Route>
+          <Route exact path={"/profile/dogsPage"}>
+            {" "}
+            <DogsPage />{" "}
+          </Route>
+          <Route exact path={"/profile/editDog/:dog_id"}>
+            <EditDog />
+          </Route>
         </div>
       </div>
     );

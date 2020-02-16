@@ -13,13 +13,13 @@ interface ISetLogged {
 }
 
 interface ISetUser {
-  type: "SET_INFO"
-  payload: IUserInfo
+  type: "SET_INFO";
+  payload: IUserInfo;
 }
 
 interface ISetPremium {
-  type: "SET_PREMIUM"
-  payload: boolean
+  type: "SET_PREMIUM";
+  payload: boolean;
 }
 
 export type TAction = ISetToken | ISetLogged | ISetUser | ISetPremium;

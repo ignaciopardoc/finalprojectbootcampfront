@@ -5,9 +5,6 @@ import { DogsDB } from "../../../../../interfaces/dogsDB";
 import { reviewDB } from "../../../../../interfaces/reviewDB";
 const GET_DOG_INFO = "http://localhost:3000/dog/getDogInfo/";
 
-
-
-
 interface IProps {
   review: reviewDB;
 }
@@ -60,17 +57,22 @@ class ReviewBody extends React.PureComponent<IProps, IState> {
             backgroundImage: `url(http://localhost:3000/public/dogPhoto/${this.state.dog.photo})`
           }}
         />
-          <div className="col-2">{this.state.dog.name}</div>
-          <div className="col-5">{this.props.review.review}</div>
-        <div className="col-2">{new Date(this.props.review.reviewDate).toLocaleDateString()}</div>
-        <div className="col-3 my-2"><Rating readonly
-                        className="ratingStars mr-2"
-                        emptySymbol="fa fa-star-o fa-2x"
-                        fullSymbol="fa fa-star fa-2x"
-                        fractions={2}
-                        initialRating={this.props.review.stars}  /></div>
+        <div className="col-2">{this.state.dog.name}</div>
+        <div className="col-5">{this.props.review.review}</div>
+        <div className="col-2">
+          {new Date(this.props.review.reviewDate).toLocaleDateString()}
         </div>
- 
+        <div className="col-3 my-2">
+          <Rating
+            readonly
+            className="ratingStars mr-2"
+            emptySymbol="fa fa-star-o fa-2x"
+            fullSymbol="fa fa-star fa-2x"
+            fractions={2}
+            initialRating={this.props.review.stars}
+          />
+        </div>
+      </div>
     );
   }
 }

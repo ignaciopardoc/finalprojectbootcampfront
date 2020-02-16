@@ -498,13 +498,14 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                       onChange={e =>
                         this.setState({ dog_id: e.target.value as any })
                       }
-                      
                       className="form-control mb-3"
                       value={this.state.dog_id}
                     >
                       <option value="null">Selecciona quien ha ido</option>
                       {this.state.dogs.map(dog => (
-                        <option value={dog.id} key={dog.id}>{dog.name}</option>
+                        <option value={dog.id} key={dog.id}>
+                          {dog.name}
+                        </option>
                       ))}
                     </select>
                     <Rating
@@ -516,9 +517,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                       onChange={rate => this.setState({ stars: rate })}
                     />
                     <textarea
-                      
                       className="form-control"
-                      
                       cols={30}
                       rows={10}
                       value={this.state.review}
@@ -586,7 +585,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
               </div>
               <div className="modal-body">
                 {this.state.reviews.map(review => (
-                  <ReviewBody review={review} key={review.valoration_id}/>
+                  <ReviewBody review={review} key={review.valoration_id} />
                 ))}
               </div>
               <div className="modal-footer">

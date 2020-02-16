@@ -65,7 +65,6 @@ class HomeEventList extends React.PureComponent<IProps, IState> {
                   this.getEvents(e.target.value);
                 }
               }}
-              
             >
               <option value="null">Seleccione una ciudad</option>
               {this.state.citiesWithEvents.map((city, index) => (
