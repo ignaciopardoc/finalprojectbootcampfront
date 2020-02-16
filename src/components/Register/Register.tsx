@@ -41,7 +41,7 @@ class Register extends React.PureComponent<IProps, IState> {
   }
 
   register = async (isBusiness: number) => {
-    const { email, password, username } = this.state
+    const { email, password, username } = this.state;
     try {
       const response = await fetch(API_URL, {
         method: "POST",
@@ -62,7 +62,7 @@ class Register extends React.PureComponent<IProps, IState> {
           icon: "success",
           title: "Registrado correctamente"
         });
-        history.push("/login")
+        history.push("/login");
       }
     } catch (e) {
       console.log(e);
@@ -122,7 +122,7 @@ class Register extends React.PureComponent<IProps, IState> {
               <button className="btn btn-danger">Tengo un perro</button>
             </Link>
 
-            <h1 className="">¡Regístrate USUARIO!</h1>
+            <h1>¡Regístrate USUARIO!</h1>
             <div className="formulario">
               <div className="row">
                 <div className="col">
@@ -177,7 +177,6 @@ class Register extends React.PureComponent<IProps, IState> {
                       this.setState({
                         isValidPassword: mediumRegex.test(password)
                       });
-                      console.log(mediumRegex.test(password));
                     }}
                     type="password"
                     className="form-control"

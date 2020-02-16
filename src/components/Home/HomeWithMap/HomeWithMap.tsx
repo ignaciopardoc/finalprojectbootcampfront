@@ -236,7 +236,7 @@ class HomeWithMap extends React.Component<any, IState> {
           {this.state.businessOnMapPremium.map((business, index) => (
             <div
               className="col-md-4 col-12 premiumBusinessCardContainer"
-              key={index}
+              key={business.id}
             >
               {!this.state.seeMore && index < 3 && (
                 <PremiumBusinessCard business={business} key={business.id} />
@@ -255,7 +255,7 @@ class HomeWithMap extends React.Component<any, IState> {
             Ver más
           </button>
         ) : null}
-        {this.state.seeMore && this.state.businessOnMapPremium.length ? (
+        {this.state.seeMore && this.state.businessOnMapPremium.length > 3 && this.state.businessOnMapPremium.length ? (
           <button
             className="btn btn-danger ml-3 mb-3"
             onClick={() => this.setState({ seeMore: false })}

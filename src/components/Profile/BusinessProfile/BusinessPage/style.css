@@ -28,11 +28,12 @@
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .businessCard .editButton {
-  background-color: #35C68F;
+  background-color: #35c68f;
   width: 100%;
-}
-.businessCard a {
   color: white !important;
+}
+.businessCard .editButton:hover {
+  background-color: #33b986;
 }
 .businessCard .divimagetop {
   height: 200px;

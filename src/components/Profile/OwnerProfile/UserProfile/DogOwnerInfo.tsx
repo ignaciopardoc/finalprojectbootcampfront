@@ -76,7 +76,6 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
       })
     });
     const json = await response.json();
-    console.log(json);
     this.setState({ ...this.state, user: json });
   };
 
@@ -85,7 +84,6 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
       const formData = new FormData();
       const path = this.avatar.current.files[0];
 
-      console.log(path);
       formData.append("avatar", path);
       await myFetchFiles({
         method: "POST",
@@ -160,10 +158,10 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
     }, 500);
   }
   render() {
-    const {name, surname, address, city, postcode } = this.state.user
+    const { name, surname, address, city, postcode } = this.state.user;
     return (
       <Fragment>
-        <div className="row shadow-lg pb-4 pt-4 mt-5">
+        <div className="row  pb-4 pt-4 mt-5">
           {/* Primera columna */}
           <div className="col-md-4 col-12 shadow pb-3 pt-3 ml-3 mr-3">
             <h4>Email</h4>
@@ -223,8 +221,6 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
               <input
                 className="form-control"
                 type="text"
-                name=""
-                id=""
                 value={this.state.user.name}
                 onChange={e => {
                   const newValue = e.target.value;
@@ -241,8 +237,6 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
               <input
                 className="form-control"
                 type="text"
-                name=""
-                id=""
                 value={this.state.user.surname}
                 onChange={e => {
                   const newValue = e.target.value;
@@ -259,8 +253,6 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
               <input
                 className="form-control"
                 type="text"
-                name=""
-                id=""
                 value={this.state.user.address}
                 onChange={e => {
                   const newValue = e.target.value;
@@ -276,8 +268,6 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
               <input
                 className="form-control"
                 type="text"
-                name=""
-                id=""
                 value={this.state.user.city}
                 onChange={e => {
                   const newValue = e.target.value;
@@ -293,8 +283,6 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
               <input
                 className="form-control"
                 type="text"
-                name=""
-                id=""
                 value={this.state.user.postcode}
                 onChange={e => {
                   const newValue = e.target.value;
@@ -338,7 +326,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
             <div className="row">
               <h3>Actualizar foto de perfil</h3>
 
-              <input type="file" id="uploadInput" name="" ref={this.avatar} />
+              <input type="file" id="uploadInput" ref={this.avatar} />
             </div>
             <div className="row">
               <button

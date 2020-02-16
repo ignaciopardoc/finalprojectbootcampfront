@@ -3,8 +3,8 @@ import { ILogged } from "./ILogged";
 import { IUserInfo } from "./IUserInfo";
 
 export interface IStore {
-    token: IUser
-    logged: ILogged
-    userInfo: IUserInfo
-    isPremium: boolean
+  token: IUser;
+  logged: ILogged;
+  userInfo: IUserInfo;
+  isPremium: boolean;
 }

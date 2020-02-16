@@ -49,7 +49,6 @@ class Profile extends React.PureComponent<TProps, IState> {
     }, 1);
   }
   render() {
-    console.log(`isBusiness: ${this.state.isBusiness}`)
     return (
      <div>
        {!this.state.isBusiness && <OwnerProfile />}

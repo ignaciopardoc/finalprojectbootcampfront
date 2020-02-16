@@ -52,8 +52,9 @@ class SimpleExample extends React.Component<IProps, IState> {
           >
             {" "}
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            {this.props.latlon.map(() => (
+            {this.props.latlon.map((_, index) => (
               <Marker
+              key={index}
                 position={[this.props.latlon[0], this.props.latlon[1]]}
                 icon={myIcon}
               >

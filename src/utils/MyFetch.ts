@@ -26,7 +26,6 @@ export const myFetchFiles = async ({
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
     }
-    console.log(body);
     const response = await fetch(API_URL + path, {
       method,
       headers,

@@ -56,7 +56,6 @@ class Navbar extends React.PureComponent<TProps, IState> {
       })
     });
     const json = await response.json();
-    console.log(json);
 
     if (json.name) {
       this.setState({ ...this.state, name: json.name });
@@ -80,7 +79,6 @@ class Navbar extends React.PureComponent<TProps, IState> {
   }
 
   render() {
-    console.log(this.state);
     return (
       <nav className="navbar navbar-expand-lg navbar-light navbarPersonalized sticky-top">
         <div className="container-fluid">

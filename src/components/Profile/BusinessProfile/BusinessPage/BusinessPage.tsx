@@ -58,7 +58,6 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
   };
 
   render() {
-    console.log(this.props.token.token);
     return (
       <Fragment>
         <div className="row mainContainer pl-3">
@@ -101,7 +100,7 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
         {!this.state.showAddBusiness && (
           <div className="row cardContainer container-fluid">
             {this.state.business.map(b => (
-              <div className="col-2 mr-5 container-fluid">
+              <div className="col-2 mr-5 container-fluid" key={b.id}>
                 <div className="card businessCard">
                   <div
                     className="card-img-top divimagetop"

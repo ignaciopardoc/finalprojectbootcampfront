@@ -34,7 +34,7 @@ class BusinessProfile extends React.PureComponent<TProps, IState> {
   render() {
     const { isPremium } = this.props;
     return (
-      <div className="row">
+      <div className="row navbarLeft">
         <div className="col-1"></div>{" "}
         <div className="col-1 profileNavbar">
           <Link to="/profile">

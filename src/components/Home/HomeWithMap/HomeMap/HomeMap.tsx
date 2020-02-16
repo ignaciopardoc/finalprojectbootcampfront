@@ -15,18 +15,13 @@ import ReviewBody from "./reviewBody/Reviewbody";
 import { businessDB } from "../../../../interfaces/businessDB";
 import { EventDB } from "../../../../interfaces/EventDB";
 import { DogsDB } from "../../../../interfaces/dogsDB";
+import { reviewDB } from "../../../../interfaces/reviewDB";
 const URL_GET_ONEBUSINESS = "http://localhost:3000/business/getOneBusiness/";
 const URL_GET_EVENTS = "http://localhost:3000/event/getEventFromBusiness/";
 const URL_GET_DOGS = "http://localhost:3000/dog/getDogsFromUser/";
 const URL_SEND_REVIEW = "http://localhost:3000/review/setReview";
 const URL_GET_AVERAGE = "http://localhost:3000/review/getReviewNumber/";
 const URL_GET_REVIEWS = "http://localhost:3000/review/getReviews/";
-
-
-
-
-
-
 
 interface IState {
   selectedBusiness: businessDB;
@@ -38,7 +33,7 @@ interface IState {
   dog_id: string;
   averageStars: number;
   numberOfReviews: number;
-  reviews: [];
+  reviews: reviewDB[];
 }
 
 interface IProps {
@@ -125,7 +120,6 @@ class HomeMap extends React.PureComponent<TProps, IState> {
       })
     }).then(async response => {
       const json = await response.json();
-      console.log(json);
       this.setState({
         averageStars: json.averageRate,
         numberOfReviews: json.reviewNumber
@@ -158,10 +152,8 @@ class HomeMap extends React.PureComponent<TProps, IState> {
         "Content-Type": "application/json"
       })
     }).then(async response => {
-      console.log(response);
       const json = await response.json();
       this.setState({ ...this.state, reviews: json as any });
-      console.log(this.state.reviews);
     });
   };
 
@@ -223,6 +215,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
 
             {this.props.businessOnMap.map(b => (
               <Marker
+                key={b.id}
                 onClick={() => this.getEvents(b.id)}
                 position={[b.lat, b.lon]}
                 icon={myIcon}
@@ -265,6 +258,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
             ))}
             {this.props.businessOnMapPremium.map(b => (
               <Marker
+                key={b.id}
                 onClick={() => {
                   this.getEvents(b.id);
                   this.getInfo(b.id);
@@ -298,14 +292,21 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                           data-target="#ratingModal"
                           onClick={() => this.getDogs()}
                         >
-                        {this.state.numberOfReviews !== 0 ? "¡Deja tu valoración!" : "¡Sé el primero!"}  
+                          {this.state.numberOfReviews !== 0
+                            ? "¡Deja tu valoración!"
+                            : "¡Sé el primero!"}
                         </label>
                       )}
                       <label>
                         Número de valoraciones: {this.state.numberOfReviews}{" "}
-                        {this.state.numberOfReviews !== 0 ? <i data-toggle="modal"
-                        data-target="#businessReviewsModal"
-                        onClick={() => this.getReviews(b.id)} className="far fa-eye"></i> : null}
+                        {this.state.numberOfReviews !== 0 ? (
+                          <i
+                            data-toggle="modal"
+                            data-target="#businessReviewsModal"
+                            onClick={() => this.getReviews(b.id)}
+                            className="far fa-eye"
+                          ></i>
+                        ) : null}
                       </label>
                       <button
                         type="button"
@@ -378,7 +379,11 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                     </p>
                     <p>{selectedBusiness.telephone}</p>
                     <p>{selectedBusiness.email}</p>
-                    <a href={selectedBusiness.instagram} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={selectedBusiness.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <img height={40} src={instagramLogo} alt="" />
                     </a>
                   </div>
@@ -427,7 +432,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
               </div>
               <div className="modal-body">
                 {events.map((event, index) => (
-                  <div className="row">
+                  <div className="row" key={event.event_id}>
                     <div className="col">
                       {index !== 0 ? <hr /> : null}
                       <h5>{event.event_name} </h5>
@@ -493,14 +498,13 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                       onChange={e =>
                         this.setState({ dog_id: e.target.value as any })
                       }
-                      name=""
-                      id=""
+                      
                       className="form-control mb-3"
                       value={this.state.dog_id}
                     >
                       <option value="null">Selecciona quien ha ido</option>
                       {this.state.dogs.map(dog => (
-                        <option value={dog.id}>{dog.name}</option>
+                        <option value={dog.id} key={dog.id}>{dog.name}</option>
                       ))}
                     </select>
                     <Rating
@@ -512,9 +516,9 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                       onChange={rate => this.setState({ stars: rate })}
                     />
                     <textarea
-                      name=""
+                      
                       className="form-control"
-                      id=""
+                      
                       cols={30}
                       rows={10}
                       value={this.state.review}
@@ -582,7 +586,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
               </div>
               <div className="modal-body">
                 {this.state.reviews.map(review => (
-                  <ReviewBody review={review} />
+                  <ReviewBody review={review} key={review.valoration_id}/>
                 ))}
               </div>
               <div className="modal-footer">

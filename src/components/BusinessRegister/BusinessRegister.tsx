@@ -116,7 +116,7 @@ class BusinessRegister extends React.PureComponent<IProps, IState> {
             <Link to={"/register/business"}>
               <button className="btn btn-danger">Soy empresa</button>
             </Link>
-            <h1 className="">¡Regístrate EMPRESA!</h1>
+            <h1>¡Regístrate EMPRESA!</h1>
             <div className="formulario">
               <div className="row">
                 <div className="col">
@@ -171,7 +171,6 @@ class BusinessRegister extends React.PureComponent<IProps, IState> {
                       this.setState({
                         isValidPassword: mediumRegex.test(password)
                       });
-                      console.log(mediumRegex.test(password));
                     }}
                     type="password"
                     className="form-control"

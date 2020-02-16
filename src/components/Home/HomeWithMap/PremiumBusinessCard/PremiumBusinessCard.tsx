@@ -29,11 +29,10 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
       } else {
         this.setState({ events: json });
       }
-      console.log(this.state.events);
     });
   };
 
-  componentWillMount() {
+  componentDidMount() {
       this.getEvents(this.props.business.id);
 
   }
@@ -106,7 +105,7 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
               </div>
               <div className="modal-body">
                 {this.state.events.map((event, index) => (
-                  <div className="row">
+                  <div className="row" key={event.event_id}>
                     <div className="col">
                       {index !== 0 ? <hr /> : null}
                       <h5>{event.event_name} </h5>

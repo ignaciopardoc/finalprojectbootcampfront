@@ -19,7 +19,7 @@ interface IDogsDB {
   description: string;
   photo: string;
   breed: string;
-  id: number
+  id: number;
 }
 
 type TProps = IProps & IGlobalProps;
@@ -96,10 +96,10 @@ class DogsPage extends React.PureComponent<TProps, IState> {
         )}
 
         {!this.state.showAddDogs && (
-          <div className="row cardContainer ">
+          <div className="row cardContainer">
             {this.state.dogs.map(d => (
-              <div className="col-md-3 col-12">
-                <div className="card dogCard shadow-lg">
+              <div className="col-md-3 col-12" key={d.id}>
+                <div className="card dogCard">
                   <div
                     className="card-img-top dogImage"
                     style={{
@@ -109,9 +109,8 @@ class DogsPage extends React.PureComponent<TProps, IState> {
                   <div className="card-body">
                     <h5 className="card-title">{d.name}</h5>
                     <p className="card-text">{d.description}</p>
-                    <Link to={`/profile/editDog/${d.id}`}><p className="btn btn-primary">
-                      Editar
-                    </p>
+                    <Link to={`/profile/editDog/${d.id}`}>
+                      <p className="btn btn-primary">Editar</p>
                     </Link>
                   </div>
                 </div>

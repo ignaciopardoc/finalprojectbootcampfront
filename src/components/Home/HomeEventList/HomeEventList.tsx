@@ -27,7 +27,6 @@ class HomeEventList extends React.PureComponent<IProps, IState> {
       method: "GET"
     }).then(async response => {
       const json = await response.json();
-      console.log(json);
       this.setState({ citiesWithEvents: json });
     });
   };
@@ -66,8 +65,7 @@ class HomeEventList extends React.PureComponent<IProps, IState> {
                   this.getEvents(e.target.value);
                 }
               }}
-              name=""
-              id=""
+              
             >
               <option value="null">Seleccione una ciudad</option>
               {this.state.citiesWithEvents.map((city, index) => (
@@ -104,7 +102,7 @@ class HomeEventList extends React.PureComponent<IProps, IState> {
         {this.state.events.map((event, index) => (
           <>
             <hr />
-            <div className="row">
+            <div className="row" key={event.event_id}>
               <div className="col-2 ml-1">{event.businessName}</div>
               <div className="col-2 ml-1">{event.event_name}</div>
               <div className="col-3">{event.event_description}</div>

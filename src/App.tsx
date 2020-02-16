@@ -45,7 +45,6 @@ class App extends React.PureComponent<TProps, any> {
       if(token){
         const {name, username, profilePicture, isPremium} = jwt.decode(token) as IToken
         this.props.setInfo({name: name, username: username, photo: profilePicture})
-        console.log(isPremium)
         this.props.setPremiun(isPremium)
         this.props.setLogged({logged: true})
         this.props.setToken({token})

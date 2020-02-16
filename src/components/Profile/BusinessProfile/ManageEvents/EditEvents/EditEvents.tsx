@@ -49,7 +49,6 @@ class EditEvents extends React.PureComponent<IProps, IState> {
       endDate
     } = this.state;
 
-    console.log(startDate);
     startDate = startDate
       .toLocaleDateString()
       .split("/")
@@ -60,7 +59,6 @@ class EditEvents extends React.PureComponent<IProps, IState> {
       .split("/")
       .reverse()
       .join("-") as any;
-    console.log(startDate);
     await fetch(API_UPDATE_EVENT, {
       method: "POST",
       headers: new Headers({
@@ -95,7 +93,7 @@ class EditEvents extends React.PureComponent<IProps, IState> {
           title: "Evento eliminado correctamente",
           icon: "success"
         });
-        history.push("/profile/manageEvents/")
+        history.push("/profile/manageEvents/");
       } else {
         Swal.fire({
           title: "Ha ocurrido un problema",
@@ -165,8 +163,6 @@ class EditEvents extends React.PureComponent<IProps, IState> {
             value={this.state.event_description}
             onChange={e => this.setState({ event_description: e.target.value })}
             className="form-control"
-            name=""
-            id=""
             cols={100}
             rows={10}
           ></textarea>
@@ -188,7 +184,7 @@ class EditEvents extends React.PureComponent<IProps, IState> {
         </button>
 
         <button
-        className="btn btn-warning mt-3 ml-2"
+          className="btn btn-warning mt-3 ml-2"
           onClick={() => {
             Swal.fire({
               title: "¿Quieres eliminar el evento?",
@@ -205,8 +201,9 @@ class EditEvents extends React.PureComponent<IProps, IState> {
               }
             });
           }}
-        >Eliminar evento</button>
-       
+        >
+          Eliminar evento
+        </button>
       </div>
     );
   }

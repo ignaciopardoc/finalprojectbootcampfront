@@ -94,7 +94,6 @@ class PasswordForm extends React.PureComponent<TProps, IState> {
 
   render() {
     this.checkPassword();
-    console.log(this.state);
     let mediumRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})");
     return (
       <Fragment>
@@ -102,14 +101,12 @@ class PasswordForm extends React.PureComponent<TProps, IState> {
         <input
           type="password"
           className="form-control"
-          
           onChange={e => {
             this.setState({
               isValidPassword: mediumRegex.test(this.state.password)
             });
             this.setState({ password: e.target.value });
           }}
-          id=""
         />
         {!this.state.isValidPassword && (
           <span>
@@ -121,9 +118,7 @@ class PasswordForm extends React.PureComponent<TProps, IState> {
         <input
           type="password"
           className="form-control"
-          name=""
           onChange={e => this.setState({ confirmPassword: e.target.value })}
-          id=""
         />
         {!this.state.isSame &&
           this.state.password.length > 0 &&

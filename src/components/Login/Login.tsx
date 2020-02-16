@@ -109,8 +109,6 @@ class Login extends React.PureComponent<TProps, IState> {
             placeholder="Contraseña"
             className="form-control"
             type="password"
-            name=""
-            id=""
             onChange={e => this.setState({ password: e.target.value })}
           />
           <button onClick={this.login} className="btn btn-lg btn-success">

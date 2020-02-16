@@ -5,12 +5,11 @@ import { IUser } from "../../../../../interfaces/IToken";
 import { myFetchFiles } from "../../../../../utils/MyFetch";
 const URL_INSERT_DOG = "http://localhost:3000/dog/insertDog";
 
-
 interface IState {
   name: string;
   sex: string;
   breed: string;
-  description: string
+  description: string;
 }
 
 interface IProps {}
@@ -22,7 +21,7 @@ interface IGlobalProps {
 type TProps = IProps & IGlobalProps;
 
 class AddDog extends React.PureComponent<TProps, IState> {
-    avatar: React.RefObject<HTMLInputElement>;
+  avatar: React.RefObject<HTMLInputElement>;
   constructor(props: any) {
     super(props);
     this.avatar = createRef();
@@ -33,8 +32,6 @@ class AddDog extends React.PureComponent<TProps, IState> {
       description: ""
     };
   }
-
-  
 
   addDog = async () => {
     const token = this.props.token.token;
@@ -54,32 +51,27 @@ class AddDog extends React.PureComponent<TProps, IState> {
 
     const { insertId } = await response.json();
 
-    this.setPhoto(insertId)
+    this.setPhoto(insertId);
   };
 
   setPhoto = (dogId: number) => {
     if (this.avatar.current?.files) {
-        const formData = new FormData();
-        const path = this.avatar.current.files[0];
-        
-        console.log(path);
-        formData.append("avatar", path);
-        myFetchFiles({
-          method: "POST",
-          path: `dog/setMainPhoto/${dogId}`,
-          formData
-           
-        }).then(json => {
-          if (json) {
-            
-            console.log(json);
-          }
-        });
-      }
-  }
+      const formData = new FormData();
+      const path = this.avatar.current.files[0];
+
+      formData.append("avatar", path);
+      myFetchFiles({
+        method: "POST",
+        path: `dog/setMainPhoto/${dogId}`,
+        formData
+      }).then(json => {
+        if (json) {
+        }
+      });
+    }
+  };
 
   render() {
-    console.log(this.state);
     return (
       <Fragment>
         <div className="row mt-3">
@@ -100,8 +92,6 @@ class AddDog extends React.PureComponent<TProps, IState> {
             />
             <p>Sexo de tu mascota</p>
             <select
-              name="sex"
-              id=""
               className="custom-select"
               onChange={e => this.setState({ sex: e.target.value })}
               value={this.state.sex}
@@ -118,14 +108,17 @@ class AddDog extends React.PureComponent<TProps, IState> {
               onChange={e => this.setState({ breed: e.target.value })}
               value={this.state.breed}
             />
-            <input className="mt-3" type="file" name="" ref={this.avatar} id=""/>
-            <button className="btn btn-success mt-3" onClick={() => this.addDog()}>Añadir mascota</button>
+            <input className="mt-3" type="file" ref={this.avatar} />
+            <button
+              className="btn btn-success mt-3"
+              onClick={() => this.addDog()}
+            >
+              Añadir mascota
+            </button>
           </div>
-          
-          <div className="row">
-              <div className="col-2">
 
-              </div>
+          <div className="row">
+            <div className="col-2"></div>
           </div>
         </div>
       </Fragment>

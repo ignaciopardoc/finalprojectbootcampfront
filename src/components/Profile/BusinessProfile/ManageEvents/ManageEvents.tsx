@@ -54,8 +54,6 @@ interface IState {
   events: IUserEvent[];
 }
 
-
-
 type TProps = IGlobalProps & IProps;
 
 class ManageEvents extends React.PureComponent<TProps, IState> {
@@ -88,7 +86,6 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
     const json = await response.json();
 
     this.setState({ events: json });
-    console.log(this.state.events);
   };
 
   getBusinessInfo = async () => {
@@ -151,8 +148,7 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
   }
 
   render() {
-    console.log(this.state);
-    const today = new Date()
+    const today = new Date();
     return (
       <Fragment>
         <div className="row">
@@ -179,8 +175,6 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
             <div className="row mt-3">
               <div className="col-4">
                 <select
-                  name=""
-                  id=""
                   className="form-control mb-3"
                   onChange={e =>
                     this.setState({ selectedBusiness: e.target.value })
@@ -207,7 +201,7 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
               <h3>Fecha de comienzo:</h3>
               <div className="ml-3 mr-3">
                 <DatePicker
-                minDate={today}
+                  minDate={today}
                   className="form-control"
                   dateFormat="dd/MM/yyyy"
                   selected={this.state.startDate}
@@ -223,7 +217,7 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
               <h3>Fecha de finalización:</h3>
               <div className="ml-3 mr-3">
                 <DatePicker
-                minDate={today}
+                  minDate={today}
                   className="form-control"
                   dateFormat="dd/MM/yyyy"
                   selected={this.state.endDate}
@@ -244,8 +238,6 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
               <textarea
                 onChange={e => this.setState({ description: e.target.value })}
                 className="form-control"
-                name=""
-                id=""
                 cols={100}
                 rows={10}
               ></textarea>
@@ -264,7 +256,7 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
         {!this.state.addEvent && (
           <div className="row">
             {this.state.events.map(event => (
-              <div className="col-2 mr-5 ">
+              <div className="col-2 mr-5" key={event.event_id}>
                 <div className="card businessCard">
                   <div
                     className="card-img-top divimagetop"

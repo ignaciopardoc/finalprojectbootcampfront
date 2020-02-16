@@ -1,3 +1,3 @@
 export interface ILogged {
-    logged: boolean;
+  logged: boolean;
 }

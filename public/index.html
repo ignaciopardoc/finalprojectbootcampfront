@@ -5,12 +5,11 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <script src="https://kit.fontawesome.com/86bde55c41.js" crossorigin="anonymous"></script>
-
-    <!-- Stripe -->
-    <script src="https://js.stripe.com/v3/"></script>
-    <link rel="stylesheet" href="MyCardElement.css" />
-    <!-- End of Stripe -->
+    <script
+      src="https://kit.fontawesome.com/86bde55c41.js"
+      crossorigin="anonymous"
+      SameSite="none"
+    ></script>
 
     <!-- Bootstrap -->
     <link
@@ -18,6 +17,7 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
+      SameSite="none"
     />
     <!-- End Bootstrap -->
     <!-- Leaflet files -->
@@ -25,19 +25,20 @@
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
       integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-      crossorigin=""
+      crossorigin="anonymous"
+      SameSite="none"
     />
     <script
       src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
       integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-      crossorigin=""
+      crossorigin="anonymous"
+      SameSite="none"
     ></script>
     <!-- End Leaflet files -->
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="Doggies in Town"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -68,33 +69,23 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 
-    <script>
-      // Add the following code if you want the name of the file appear on select
-      $(".custom-file-input").on("change", function() {
-        var fileName = $(this)
-          .val()
-          .split("\\")
-          .pop();
-        $(this)
-          .siblings(".custom-file-label")
-          .addClass("selected")
-          .html(fileName);
-      });
-    </script>
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
       crossorigin="anonymous"
+      SameSite="none"
     ></script>
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
       crossorigin="anonymous"
+      SameSite="none"
     ></script>
     <script
       src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"
+      SameSite="none"
     ></script>
   </body>
 </html>

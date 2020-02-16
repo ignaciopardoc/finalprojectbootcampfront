@@ -93,7 +93,6 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
       postcode,
       instagram
     } = this.state;
-    console.log(businessName);
     try {
       await fetch(API_URL2, {
         method: "POST",
@@ -128,7 +127,6 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
   deleteBusiness = async (businessId: number) =>{
     const response = await fetch(`${API_DELETE}${businessId}`)
     const json = await response.json()
-    console.log(json)
   }
 
   uploadMain(business_id: string) {
@@ -143,7 +141,6 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
       }).then(json => {
         if (json) {
           
-          console.log(json);
         }
       });
     }
@@ -158,7 +155,6 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
       `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`
     ).then(async response => {
       const json = await response.json();
-      console.log(json);
       if (this.state.zoom < 17) {
         this.setState({ zoom: 17 });
       }
@@ -192,12 +188,10 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
   //Search addres by the input the user insert on input fields
   searchByAdress = async () => {
     const address = `${this.state.address} ${this.state.city} ${this.state.postcode}`;
-    console.log(address);
     fetch(
       `https://nominatim.openstreetmap.org/search/${address}?format=json&addressdetails=1&limit=1&polygon_svg=1`
     ).then(async response => {
       const json = await response.json();
-      console.log(json);
       if (json !== undefined) {
         //Separate second length to avoid crash of the app
         if (json.length) {
@@ -246,10 +240,8 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
   //Charge the information from the selected business
   getBusinessInfo = async () => {
    const businessId = history.location.pathname.split("/").slice(-1)[0]
-   console.log(businessId)
    const response = await fetch(`${API_GET_ONE}${businessId}`)
    const json = await response.json()
-   console.log(json)
    this.setState(this.state = json)
    this.setState({latlon: [this.state.lat, this.state.lon]})
    this.setState({zoom: 17})
@@ -262,8 +254,6 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
   }
 
   render() {
-    console.log(this.state);
-
     return (
       <Fragment>
         <div className="row addBusinessContainer">

@@ -102,7 +102,6 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
       })
     });
     const json = await response.json();
-    console.log(json);
     this.setState({ ...this.state, user: json });
   };
 
@@ -111,7 +110,6 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
       const formData = new FormData();
       const path = this.avatar.current.files[0];
 
-      console.log(path);
       formData.append("avatar", path);
       await myFetchFiles({
         method: "POST",
@@ -170,7 +168,6 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
           password
         })
       }).then(async response => {
-        console.log(response);
         if (response.status === 200) {
           await fetch(API_SET_IBAN, {
             method: "POST",
@@ -182,7 +179,6 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
               iban
             })
           }).then(response2 => {
-            console.log(response2);
             this.props.setPremium(true);
             this.getNewToken();
           });
@@ -237,7 +233,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
     const { name, surname, address, city, postcode } = this.state.user;
 
     const token = jwt.decode(this.props.token.token) as IToken;
-    
+
     {
       token.isBusiness &&
         !name &&
@@ -327,8 +323,6 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                 <input
                   className="form-control"
                   type="text"
-                  name=""
-                  id=""
                   value={this.state.user.name}
                   onChange={e => {
                     const newValue = e.target.value;
@@ -345,8 +339,6 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                 <input
                   className="form-control"
                   type="text"
-                  name=""
-                  id=""
                   value={this.state.user.surname}
                   onChange={e => {
                     const newValue = e.target.value;
@@ -363,8 +355,6 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                 <input
                   className="form-control"
                   type="text"
-                  name=""
-                  id=""
                   value={this.state.user.address}
                   onChange={e => {
                     const newValue = e.target.value;
@@ -380,8 +370,6 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                 <input
                   className="form-control"
                   type="text"
-                  name=""
-                  id=""
                   value={this.state.user.city}
                   onChange={e => {
                     const newValue = e.target.value;
@@ -397,8 +385,6 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                 <input
                   className="form-control"
                   type="text"
-                  name=""
-                  id=""
                   value={this.state.user.postcode}
                   onChange={e => {
                     const newValue = e.target.value;
@@ -500,7 +486,6 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                 <h1>¡Estás a un solo paso!</h1>
                 <input
                   type="text"
-                  name=""
                   className="form-control"
                   placeholder="Introduce tu IBAN"
                   onChange={e => {
@@ -510,11 +495,9 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                     const validatedIban = IBAN.isValid(
                       e.target.value as string
                     );
-                    console.log(validatedIban);
                     this.setState({ correctIban: validatedIban });
                   }}
                   value={this.state.iban}
-                  id=""
                 />
                 <div>
                   <input

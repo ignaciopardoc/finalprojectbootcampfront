@@ -1,3 +1,3 @@
 export interface IUserReducer {
-    token: string
+  token: string;
 }

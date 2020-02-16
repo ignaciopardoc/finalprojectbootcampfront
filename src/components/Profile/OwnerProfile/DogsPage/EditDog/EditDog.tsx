@@ -5,9 +5,8 @@ import { IUser } from "../../../../../interfaces/IToken";
 import { myFetchFiles } from "../../../../../utils/MyFetch";
 import history from "../../../../../utils/history";
 
-
 const URL_UPDATE_DOG = "http://localhost:3000/dog/updateDog/";
-const API_GET_ONE = "http://localhost:3000/dog/getDogInfo/"
+const API_GET_ONE = "http://localhost:3000/dog/getDogInfo/";
 
 interface IState {
   name: string;
@@ -38,14 +37,13 @@ class EditDog extends React.PureComponent<TProps, IState> {
   }
 
   getDogInfo = async () => {
-    const businessId = history.location.pathname.split("/").slice(-1)[0]
-    const response = await fetch(`${API_GET_ONE}${businessId}`)
-    const json = await response.json()
-    console.log(json)
-    this.setState(this.state = json)
-   }
+    const businessId = history.location.pathname.split("/").slice(-1)[0];
+    const response = await fetch(`${API_GET_ONE}${businessId}`);
+    const json = await response.json();
+    this.setState((this.state = json));
+  };
 
-   updateDog = async () => {
+  updateDog = async () => {
     const token = this.props.token.token;
     const id = history.location.pathname.split("/").slice(-1)[0];
     const { name, breed, description, sex } = this.state;
@@ -84,14 +82,13 @@ class EditDog extends React.PureComponent<TProps, IState> {
         formData
       }).then(json => {
         if (json) {
-          console.log(json);
         }
       });
     }
   };
 
-  componentDidMount(){
-      this.getDogInfo()
+  componentDidMount() {
+    this.getDogInfo();
   }
 
   render() {
@@ -115,13 +112,11 @@ class EditDog extends React.PureComponent<TProps, IState> {
             />
             <p>Sexo de tu mascota</p>
             <select
-              name="sex"
-              id=""
               className="custom-select"
               onChange={e => this.setState({ sex: e.target.value })}
               value={this.state.sex}
             >
-              <option value="null" >Seleccione una opción</option>
+              <option value="null">Seleccione una opción</option>
               <option value="Macho">Macho</option>
               <option value="Hembra">Hembra</option>
               <option value="Otro">Otro</option>
@@ -134,9 +129,13 @@ class EditDog extends React.PureComponent<TProps, IState> {
               value={this.state.breed}
             />
 
-
-            <input className="mt-3" type="file" name="" ref={this.avatar} id="" />
-            <button className="btn btn-success mt-3" onClick={() => this.updateDog()}>Actualizar mascota</button>
+            <input className="mt-3" type="file" ref={this.avatar} />
+            <button
+              className="btn btn-success mt-3"
+              onClick={() => this.updateDog()}
+            >
+              Actualizar mascota
+            </button>
           </div>
 
           <div className="row">

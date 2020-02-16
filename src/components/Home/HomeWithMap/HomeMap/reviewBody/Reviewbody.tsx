@@ -2,18 +2,12 @@ import React from "react";
 import "./style.css";
 import Rating from "react-rating";
 import { DogsDB } from "../../../../../interfaces/dogsDB";
+import { reviewDB } from "../../../../../interfaces/reviewDB";
 const GET_DOG_INFO = "http://localhost:3000/dog/getDogInfo/";
 
 
 
-interface reviewDB {
-  valoration_id: number;
-  stars: number;
-  review: string;
-  reviewDate: Date;
-  dog_id: number;
-  business_id: number;
-}
+
 interface IProps {
   review: reviewDB;
 }
@@ -40,7 +34,6 @@ class ReviewBody extends React.PureComponent<IProps, IState> {
   }
   getDogInfo = async () => {
     const { dog_id } = this.props.review;
-    console.log(dog_id);
     await fetch(`${GET_DOG_INFO}${dog_id}`, {
       method: "GET",
       headers: new Headers({
@@ -49,7 +42,6 @@ class ReviewBody extends React.PureComponent<IProps, IState> {
     }).then(async response => {
       const json = await response.json();
       this.setState({ ...this.state, dog: json });
-      console.log(this.state.dog);
     });
   };
 
