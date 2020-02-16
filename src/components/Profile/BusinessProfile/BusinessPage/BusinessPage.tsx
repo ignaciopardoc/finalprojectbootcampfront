@@ -59,10 +59,10 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
     return (
       <Fragment>
         <div className="row mainContainer pl-3">
-          <div className="col-2">
+          <div className="col-md-3 col-12">
             {!this.state.showAddBusiness && (
-              <button
-                className="buttonAddBusiness"
+              <h1
+                className="addEventButton"
                 onClick={() =>
                   this.setState(({ showAddBusiness }) => ({
                     showAddBusiness: !showAddBusiness
@@ -70,7 +70,7 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
                 }
               >
                 + Añadir empresa
-              </button>
+              </h1>
             )}
 
             {/* Button to close AddBusiness */}
@@ -98,7 +98,7 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
         {!this.state.showAddBusiness && (
           <div className="row cardContainer container-fluid">
             {this.state.business.map(b => (
-              <div className="col-2 mr-5 container-fluid" key={b.id}>
+              <div className="col-md-3 col-12" key={b.id}>
                 <div className="card businessCard">
                   <div
                     className="card-img-top divimagetop"
@@ -118,16 +118,16 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
                 </div>
               </div>
             ))}
-            <div className="col-2 justify-content-center">
+            <div className="col-md-3 col-12">
               <div
                 onClick={() =>
                   this.setState(({ showAddBusiness }) => ({
                     showAddBusiness: !showAddBusiness
                   }))
                 }
-                className="card card-body h-50 justify-content-center businessCard addBusinessCard"
+                className="card card-body h-100  justify-content-center businessCard addBusinessCard"
               >
-                <h1>+</h1>
+                <h1 className="d-flex justify-content-center">+</h1>
               </div>
             </div>
           </div>

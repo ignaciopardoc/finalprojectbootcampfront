@@ -35,8 +35,8 @@ class BusinessProfile extends React.PureComponent<TProps, IState> {
     const { isPremium } = this.props;
     return (
       <div className="row navbarLeft">
-        <div className="col-1"></div>{" "}
-        <div className="col-1 profileNavbar">
+        <div className="col-md-1 col-12"></div>{" "}
+        <div className="col-md-1 col-12 profileNavbar">
           <Link to="/profile">
             <div className="row">Información de usuario</div>
           </Link>
