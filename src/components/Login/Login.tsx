@@ -111,7 +111,10 @@ class Login extends React.PureComponent<TProps, IState> {
             type="password"
             onChange={e => this.setState({ password: e.target.value })}
           />
-          <button onClick={this.login} className="customButton customButton-lg greenButton">
+          <button
+            onClick={this.login}
+            className="customButton customButton-lg greenButton"
+          >
             Enviar
           </button>
         </div>

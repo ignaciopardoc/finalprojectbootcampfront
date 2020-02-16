@@ -115,7 +115,9 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
                     <p className="card-text">{b.city}</p>
                     <p className="card-text">{b.category}</p>
                     <Link to={`/profile/editBusiness/${b.id}`}>
-                      <p className="customButton greenButton float-center text-center">Editar</p>
+                      <p className="customButton greenButton float-center text-center">
+                        Editar
+                      </p>
                     </Link>
                   </div>
                 </div>

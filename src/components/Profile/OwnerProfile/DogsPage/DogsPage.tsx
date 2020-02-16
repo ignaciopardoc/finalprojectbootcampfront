@@ -110,7 +110,9 @@ class DogsPage extends React.PureComponent<TProps, IState> {
                     <h5 className="card-title">{d.name}</h5>
                     <p className="card-text">{d.description}</p>
                     <Link to={`/profile/editDog/${d.id}`}>
-                      <p className="customButton float-right editButton">Editar</p>
+                      <p className="customButton float-right editButton">
+                        Editar
+                      </p>
                     </Link>
                   </div>
                 </div>

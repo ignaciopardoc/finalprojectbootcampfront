@@ -10,24 +10,22 @@ h1 {
   background-color: whitesmoke !important;
   min-height: 100vh;
 }
-.customButton{
+.customButton {
   border-radius: 35px;
   padding: 5px 11px 5px 11px;
   box-sizing: content-box;
 
   transition: all 0.15s ease-in-out 0s;
   background-color: white;
-  
 }
-.customButton:focus{
-  outline: none ;
+.customButton:focus {
+  outline: none;
   text-decoration: none !important;
 }
 .greenButton {
   background-color: none;
   border: 2px solid #35c68f;
   color: rgba(36, 36, 36, 0.781);
-  
 }
 .greenButton:hover {
   background-color: #35c68f;
@@ -56,10 +54,10 @@ h1 {
 
 .redButton {
   border: none;
-  background-color: grey
+  background-color: grey;
 }
 
-.redButton:hover{
+.redButton:hover {
   background-color: red;
   color: white;
 }

@@ -114,7 +114,9 @@ class BusinessRegister extends React.PureComponent<IProps, IState> {
         <div className="row">
           <div className="col-5 ">
             <Link to={"/register/business"}>
-              <button className="customButton customButton-danger">Soy empresa</button>
+              <button className="customButton customButton-danger">
+                Soy empresa
+              </button>
             </Link>
             <h1>¡Regístrate EMPRESA!</h1>
             <div className="formulario">

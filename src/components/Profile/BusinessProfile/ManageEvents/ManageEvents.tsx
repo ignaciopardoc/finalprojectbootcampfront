@@ -278,7 +278,9 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
                     </p>
 
                     <Link to={`/profile/editEvent/${event.event_id}`}>
-                      <p className="customButton float-right editButton">Editar</p>
+                      <p className="customButton float-right editButton">
+                        Editar
+                      </p>
                     </Link>
                   </div>
                 </div>
