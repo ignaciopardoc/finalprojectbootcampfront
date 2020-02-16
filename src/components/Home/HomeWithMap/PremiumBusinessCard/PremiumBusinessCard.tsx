@@ -25,15 +25,18 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
   getEvents = async (id: number) => {
     await fetch(`${URL_GET_EVENTS}${id}`).then(async response => {
       const json = await response.json();
-      this.setState({ events: json });
+      if (json.length === 0) {
+        this.setState({ events: [] });
+      } else {
+        this.setState({ events: json });
+      }
       console.log(this.state.events);
     });
   };
 
   componentWillMount() {
-    setTimeout(() => {
       this.getEvents(this.props.business.id);
-    }, 1);
+
   }
   componentWillUnmount() {
     this.setState({ events: [] });
@@ -41,10 +44,10 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
   render() {
     const { business } = this.props;
 
-    const { events } = this.state;
+   
     return (
       <Fragment>
-        <div className="card businessCardMap">
+        <div className="card businessCardMap" key={this.props.business.id}>
           <div
             className="card-img-top businessImageMap"
             style={{
@@ -103,7 +106,7 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
                 </button>
               </div>
               <div className="modal-body">
-                {events.map((event, index) => (
+                {this.state.events.map((event, index) => (
                   <div className="row">
                     <div className="col">
                       {index !== 0 ? <hr /> : null}

@@ -8,7 +8,6 @@ import PasswordForm from "./PasswordForm/PasswordForm";
 import Swal4 from "sweetalert2";
 import jwt from "jsonwebtoken";
 import Swal from "sweetalert2";
-import { Link } from "react-router-dom";
 
 import IBAN from "iban";
 import { setUserInfoAction, setPremiumAction, setTokenAction } from "../../../../redux/actions";

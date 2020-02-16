@@ -13,8 +13,6 @@ const URL_GET_ONEBUSINESS = "http://localhost:3000/business/getOneBusiness/";
 const URL_GET_MAP = "http://localhost:3000/business/getBusinessMap";
 const URL_GET_MAP_PREMIUM = "http://localhost:3000/business/getBusinessPremium";
 
-
-
 interface IState {
   businessOnMap: businessDB[];
   businessOnMapPremium: businessDB[];
@@ -28,6 +26,7 @@ interface IState {
   categories: [];
   category: string;
   selectedBusiness: businessDB;
+  seeMore: boolean;
 }
 
 class HomeWithMap extends React.Component<any, IState> {
@@ -61,7 +60,8 @@ class HomeWithMap extends React.Component<any, IState> {
       latlon: [],
       zoom: null,
       categories: [],
-      category: ""
+      category: "",
+      seeMore: false
     };
   }
 
@@ -115,7 +115,6 @@ class HomeWithMap extends React.Component<any, IState> {
     }).then(async response => {
       const json = await response.json();
       this.setState({ ...this.state, businessOnMap: json });
-
     });
 
     await fetch(URL_GET_MAP_PREMIUM, {
@@ -153,7 +152,6 @@ class HomeWithMap extends React.Component<any, IState> {
     }).then(async response1 => {
       const json1 = await response1.json();
       this.setState({ ...this.state, businessOnMap: json1 });
-
     });
 
     await fetch(URL_GET_MAP_PREMIUM, {
@@ -171,7 +169,6 @@ class HomeWithMap extends React.Component<any, IState> {
     }).then(async response2 => {
       const json2 = await response2.json();
       this.setState({ ...this.state, businessOnMapPremium: json2 });
-
     });
   };
 
@@ -190,123 +187,145 @@ class HomeWithMap extends React.Component<any, IState> {
     const { selectedBusiness } = this.state;
     return (
       <Fragment>
-        
-          
-          <div className="row">
-            <div className="col-md-9 col-12">
-              <input
-                type="text"
-                className="form-control inputHome"
-                onChange={e => this.setState({ searchInput: e.target.value })}
-                value={this.state.searchInput}
-                onKeyDown={e => {
-                  if (e.keyCode === 13) {
-                    this.searchByAdress();
-                  }
-                }}
-                placeholder="Buscar por dirección"
-              />
-            </div>
-            <div className="col-md-3 col-12">
-              <select
-                className="custom-select inputHome"
-                onChange={e => {
-                  this.setState({ category: e.target.value });
-                  setTimeout(() => {
-                    this.getBusinessesByCoordAndCategory();
-                  }, 20);
-                }}
-              >
-                <option value="null">Filtrar por categoría</option>
-                {this.state.categories.map((c, i) => (
-                  <option value={c} key={i}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            </div>
+        <div className="row">
+          <div className="col-md-9 col-12">
+            <input
+              type="text"
+              className="form-control inputHome"
+              onChange={e => this.setState({ searchInput: e.target.value })}
+              value={this.state.searchInput}
+              onKeyDown={e => {
+                if (e.keyCode === 13) {
+                  this.searchByAdress();
+                }
+              }}
+              placeholder="Buscar por dirección"
+            />
           </div>
-          <HomeMap
-            businessOnMap={this.state.businessOnMap}
-            businessOnMapPremium={this.state.businessOnMapPremium}
-            getBusinessesByCoord={this.getBusinessesByCoord}
-            latlon={this.state.latlon}
-            zoom={this.state.zoom}
-          />
-
-          {this.state.businessOnMapPremium.length ? (
-            <h1 className="mt-3">Empresas destacadas</h1>
-          ) : null}
-          <div className="row mt-3">
-            {this.state.businessOnMapPremium.map((business, index) => (
-              <div className="col-md-4 col-12 premiumBusinessCardContainer">
-                {index < 3 && <PremiumBusinessCard business={business} />}
-              </div>
-            ))}
-          </div>
-
-          {/* Modal Information Business */}
-          <div
-            className="modal fade"
-            id="homeBusiness"
-            tabIndex={-1}
-            role="dialog"
-            aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true"
-          >
-            <div
-              className="modal-dialog modal-dialog-centered modalContainer"
-              role="document"
+          <div className="col-md-3 col-12">
+            <select
+              className="custom-select inputHome"
+              onChange={e => {
+                this.setState({ category: e.target.value });
+                setTimeout(() => {
+                  this.getBusinessesByCoordAndCategory();
+                }, 20);
+              }}
             >
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="exampleModalLongTitle">
-                    {selectedBusiness.businessName}
-                  </h5>
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                  <div className="row">
-                    <div
-                      className="col-6 modalImg"
-                      style={{
-                        backgroundImage: `url(http://localhost:3000/public/avatar/${selectedBusiness.mainImagePath})`
-                      }}
-                    ></div>
-                    <div className="col-6">
-                      <p>{selectedBusiness.description}</p>
-                      <p>
-                        {selectedBusiness.address}, {selectedBusiness.postcode}{" "}
-                        {selectedBusiness.city}
-                      </p>
-                      <p>{selectedBusiness.telephone}</p>
-                      <p>{selectedBusiness.email}</p>
-                      <a href={selectedBusiness.instagram} target="_blank">
-                        <img height={40} src={instagramLogo} alt="" />
-                      </a>
-                    </div>
+              <option value="null">Filtrar por categoría</option>
+              {this.state.categories.map((c, i) => (
+                <option value={c} key={i}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <HomeMap
+          businessOnMap={this.state.businessOnMap}
+          businessOnMapPremium={this.state.businessOnMapPremium}
+          getBusinessesByCoord={this.getBusinessesByCoord}
+          latlon={this.state.latlon}
+          zoom={this.state.zoom}
+        />
+
+        {this.state.businessOnMapPremium.length ? (
+          <h1 className="mt-3">Empresas destacadas</h1>
+        ) : null}
+        <div className="row mt-3">
+          {this.state.businessOnMapPremium.map((business, index) => (
+            <div
+              className="col-md-4 col-12 premiumBusinessCardContainer"
+              key={index}
+            >
+              {!this.state.seeMore && index < 3 && (
+                <PremiumBusinessCard business={business} key={business.id} />
+              )}
+              {this.state.seeMore && (
+                <PremiumBusinessCard business={business} key={business.id} />
+              )}
+            </div>
+          ))}
+        </div>
+        {!this.state.seeMore && this.state.businessOnMapPremium.length > 3 && this.state.businessOnMapPremium.length ? (
+          <button
+            className="btn btn-success ml-3 mt-3 mb-3"
+            onClick={() => this.setState({ seeMore: true })}
+          >
+            Ver más
+          </button>
+        ) : null}
+        {this.state.seeMore && this.state.businessOnMapPremium.length ? (
+          <button
+            className="btn btn-danger ml-3 mb-3"
+            onClick={() => this.setState({ seeMore: false })}
+          >
+            Ver menos
+          </button>
+        ) : null}
+
+        {/* Modal Information Business */}
+        <div
+          className="modal fade"
+          id="homeBusiness"
+          tabIndex={-1}
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div
+            className="modal-dialog modal-dialog-centered modalContainer"
+            role="document"
+          >
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLongTitle">
+                  {selectedBusiness.businessName}
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="row">
+                  <div
+                    className="col-6 modalImg"
+                    style={{
+                      backgroundImage: `url(http://localhost:3000/public/avatar/${selectedBusiness.mainImagePath})`
+                    }}
+                  ></div>
+                  <div className="col-6">
+                    <p>{selectedBusiness.description}</p>
+                    <p>
+                      {selectedBusiness.address}, {selectedBusiness.postcode}{" "}
+                      {selectedBusiness.city}
+                    </p>
+                    <p>{selectedBusiness.telephone}</p>
+                    <p>{selectedBusiness.email}</p>
+                    <a href={selectedBusiness.instagram} target="_blank">
+                      <img height={40} src={instagramLogo} alt="" />
+                    </a>
                   </div>
                 </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    data-dismiss="modal"
-                  >
-                    Cerrar
-                  </button>
-                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  data-dismiss="modal"
+                >
+                  Cerrar
+                </button>
               </div>
             </div>
           </div>
-        
+        </div>
+
         {/* End Modal Information Business */}
       </Fragment>
     );
