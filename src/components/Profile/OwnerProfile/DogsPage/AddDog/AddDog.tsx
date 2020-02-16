@@ -108,7 +108,15 @@ class AddDog extends React.PureComponent<TProps, IState> {
               onChange={e => this.setState({ breed: e.target.value })}
               value={this.state.breed}
             />
-            <input className="mt-3" type="file" ref={this.avatar} />
+            <div className="custom-file">
+              <input
+                type="file"
+                className="custom-file-input"
+                id="customFile"
+                ref={this.avatar}
+              />
+              <label className="custom-file-label">Elija una foto</label>
+            </div>{" "}
             <button
               className="btn btn-success mt-3"
               onClick={() => this.addDog()}
