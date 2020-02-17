@@ -32,10 +32,6 @@
   transition: color 0.15s ease-in-out 0s;
   color: #cccccc;
 }
-.row .profileNavbar hr {
-  border-color: white;
-  margin: 0px !important;
-}
 
 body {
   overflow: unset;
@@ -44,4 +40,10 @@ body {
 .notEnabled {
   pointer-events: none;
   opacity: 0.4;
+}
+
+hr {
+  border-color: lightgrey;
+  margin: 0px !important;
+  width: 100%;
 }

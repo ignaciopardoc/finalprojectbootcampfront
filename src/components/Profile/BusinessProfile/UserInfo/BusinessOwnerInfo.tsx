@@ -302,7 +302,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
               <p>{this.state.user.username}</p>
               {!this.state.editPassword && (
                 <button
-                  className="customButton yellowButton"
+                  className="customButton greenButton"
                   onClick={() => this.setState({ editPassword: true })}
                 >
                   Editar contraseña
@@ -310,7 +310,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
               )}
               {this.state.editPassword && (
                 <button
-                  className="customButton customButton-danger"
+                  className="customButton redButton"
                   onClick={() => this.setState({ editPassword: false })}
                 >
                   Calcelar
@@ -330,7 +330,12 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                 <p>{this.state.user.name}</p>
                 <h4>Apellidos</h4>
                 <p>{this.state.user.surname}</p>
-                <h4>Dirección</h4>
+
+                <h4>
+                  {" "}
+                  <strong>Dirección</strong>{" "}
+                </h4>
+
                 <h5>Calle</h5>
                 <p>{this.state.user.address}</p>
                 <h5>Ciudad</h5>
@@ -338,7 +343,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                 <h5>Código postal</h5>
                 <p>{this.state.user.postcode}</p>
                 <button
-                  className="customButton yellowButton mt-2"
+                  className="customButton greenButton mt-2"
                   onClick={() => this.setState({ editPersonalInfo: true })}
                 >
                   Editar Información
@@ -380,7 +385,9 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                     }));
                   }}
                 />
-                <h4>Dirección</h4>
+                <h4>
+                  <strong>Dirección</strong>
+                </h4>
                 <h5>Calle</h5>
                 <input
                   className="form-control"
@@ -427,7 +434,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                   }}
                 />
                 <button
-                  className="customButton customButton-danger mt-2 mr-1"
+                  className="customButton yellowButton mt-2 mr-1"
                   onClick={() => {
                     this.getuserinfo();
                     this.setState({ editPersonalInfo: false });
@@ -446,7 +453,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
             )}
 
             {/* Tercera columna */}
-            <div className="col-md-4 avatarDiv col-12 shadow pb-3 pt-3 ">
+            <div className="col-md-4 avatarDiv col-12 shadow pb-3 pt-3">
               <div
                 className="avatarImgDiv"
                 style={{
@@ -459,7 +466,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                 <h3>Actualizar foto de perfil</h3>
               </div>
 
-              <div className="custom-file">
+              <div className="custom-file mt-2">
                 <input
                   type="file"
                   className="custom-file-input"
@@ -471,7 +478,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
 
               <div className="row">
                 <button
-                  className="customButton greenButton mt-2"
+                  className="customButton greenButton mt-3"
                   onClick={() => this.setPhoto(Number(this.state.user.id))}
                 >
                   Cambiar avatar
@@ -480,7 +487,8 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
             </div>
           </div>
         </div>
-
+        
+        {/* Banner Premium */}
         {!this.state.showPremium && !this.props.isPremium && (
           <div
             onClick={async () => {
@@ -490,11 +498,13 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                 }
               });
             }}
-            className="container shadow pb-3"
+            className="container shadow pb-3 PremiumBanner mb-5"
           >
-            <div className="row mt-3 pt-3">
+            <div className="row mt-3 pt-3 ">
               <div className="col-4">
-                <h1>Hazte Premium:</h1>
+                <h1>
+                  Hazte <span className="premiumColor">Premium</span>
+                </h1>
               </div>
               <div className="col-md-6 col-12 ">
                 <h1>Añade eventos</h1>
@@ -507,10 +517,12 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
         )}
 
         {this.state.showPremium && !this.props.isPremium && (
-          <div className="container shadow pb-3">
+          <div className="container shadow pb-3 mb-5">
             <div className="row mt-3 pt-3">
               <div className="col-4">
-                <h1>Hazte Premium:</h1>
+                <h1>
+                  Hazte <span className="premiumColor">Premium</span>
+                </h1>
               </div>
               <div className="col-md-6 col-12 ">
                 <h1>¡Estás a un solo paso!</h1>
@@ -529,7 +541,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                   }}
                   value={this.state.iban}
                 />
-                <div>
+                <div className="ml-4 mt-1">
                   <input
                     type="checkbox"
                     className="form-check-input"
@@ -540,9 +552,11 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                       }))
                     }
                   />{" "}
-                  <label>Acepto los términos y condiciones</label>
+                  <label className=" ">Acepto los términos y condiciones</label>
                 </div>
-                <label>Introduzca su contraseña</label>
+                <label>
+                  Introduzca su <strong>contraseña</strong>{" "}
+                </label>
                 <input
                   type="password"
                   className="form-control"
@@ -557,12 +571,12 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                     !this.state.correctIban ||
                     !this.state.password
                   }
-                  className="customButton greenButton"
+                  className="customButton greenButton mt-3"
                 >
                   Enviar
                 </button>
                 <button
-                  className="customButton customButton-danger ml-3"
+                  className="customButton yellowButton ml-3 mt-3"
                   onClick={() => this.setState({ showPremium: false })}
                 >
                   Cancelar

@@ -329,7 +329,7 @@ class HomeWithMap extends React.Component<any, IState> {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="customButton blackButton"
+                  className="customButton redButton"
                   data-dismiss="modal"
                 >
                   Cerrar

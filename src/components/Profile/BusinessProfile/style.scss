@@ -32,10 +32,6 @@
         color: rgb(204, 204, 204);
       }
     }
-    hr {
-      border-color: white;
-      margin: 0px !important;
-    }
   }
 }
 body {
@@ -45,4 +41,9 @@ body {
 .notEnabled {
   pointer-events: none;
   opacity: 0.4;
+}
+hr {
+  border-color: lightgrey;
+  margin: 0px !important;
+  width: 100%;
 }

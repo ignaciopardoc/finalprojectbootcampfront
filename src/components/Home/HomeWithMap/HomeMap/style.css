@@ -2,6 +2,7 @@
   width: 18rem;
   margin-top: 15px;
   border: none !important;
+  min-height: 400px;
 }
 .businessCardMap a {
   color: white;

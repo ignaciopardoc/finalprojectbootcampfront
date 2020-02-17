@@ -180,14 +180,14 @@ class EditEvents extends React.PureComponent<IProps, IState> {
         </button>
 
         <button
-          className="customButton customButton-danger mt-3 ml-2"
+          className="customButton yellowButton mt-3 ml-2"
           onClick={() => history.push("/profile/manageEvents")}
         >
           Cancelar
         </button>
 
         <button
-          className="customButton yellowButton mt-3 ml-2"
+          className="customButton redButton mt-3 ml-2"
           onClick={() => {
             Swal.fire({
               title: "¿Quieres eliminar el evento?",

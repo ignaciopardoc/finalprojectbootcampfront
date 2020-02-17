@@ -43,6 +43,7 @@ interface IState {
 interface IProps {
   setInfo(userInfo: IUserInfo): void;
   setToken(token: IUser): void;
+  setNavbar(selected: number): void;
 }
 
 type TProps = IGlobalProps & IProps;
@@ -181,6 +182,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
     setTimeout(() => {
       this.getuserinfo();
     }, 1);
+    this.props.setNavbar(0);
     setTimeout(() => {
       const { name, surname, address, city, postcode } = this.state.user;
 
@@ -213,7 +215,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
             <p>{this.state.user.username}</p>
             {!this.state.editPassword && (
               <button
-                className="customButton yellowButton"
+                className="customButton greenButton"
                 onClick={() => this.setState({ editPassword: true })}
               >
                 Editar contraseña
@@ -221,7 +223,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
             )}
             {this.state.editPassword && (
               <button
-                className="customButton customButton-danger"
+                className="customButton redButton"
                 onClick={() => this.setState({ editPassword: false })}
               >
                 Cancelar
@@ -241,7 +243,9 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
               <p>{this.state.user.name}</p>
               <h4>Apellidos</h4>
               <p>{this.state.user.surname}</p>
-              <h4>Dirección</h4>
+              <h4>
+                <strong>Dirección</strong>
+              </h4>
               <h5>Calle</h5>
               <p>{this.state.user.address}</p>
               <h5>Ciudad</h5>
@@ -249,7 +253,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
               <h5>Código postal</h5>
               <p>{this.state.user.postcode}</p>
               <button
-                className="customButton yellowButton mt-2"
+                className="customButton greenButton mt-2"
                 onClick={() => this.setState({ editPersonalInfo: true })}
               >
                 Editar Información
@@ -291,7 +295,9 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
                   }));
                 }}
               />
-              <h4>Dirección</h4>
+              <h4>
+                <strong>Dirección</strong>
+              </h4>
               <h5>Calle</h5>
               <input
                 className="form-control"
@@ -338,7 +344,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
                 }}
               />
               <button
-                className="customButton customButton-danger mt-2 mr-1"
+                className="customButton yellowButton mt-2 mr-1"
                 onClick={() => {
                   this.getuserinfo();
                   this.setState({ editPersonalInfo: false });

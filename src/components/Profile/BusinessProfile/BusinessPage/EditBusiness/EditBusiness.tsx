@@ -412,12 +412,12 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
           </div>
           <button
             onClick={() => this.updateBusiness()}
-            className="customButton blackButton"
+            className="customButton blueButton"
           >
             Actualizar información
           </button>
           <button
-            className="customButton customButton-danger"
+            className="customButton redButton"
             onClick={() => {
               swalWithBootstrapButtons
                 .fire({

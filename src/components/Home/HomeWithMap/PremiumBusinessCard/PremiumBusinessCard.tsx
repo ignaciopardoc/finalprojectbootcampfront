@@ -55,7 +55,7 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
             <p className="card-text">{business.description}</p>
             <button
               type="button"
-              className="customButton blackButton"
+              className="customButton blueButton leftBottomButton"
               data-toggle="modal"
               data-target={`#premiumBusinessModal${this.props.business.id}`}
             >
@@ -64,7 +64,7 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
             {this.state.events.length ? (
               <button
                 type="button"
-                className="customButton yellowButton ml-3"
+                className="customButton yellowButton rightBottomButton ml-3"
                 data-toggle="modal"
                 data-target={`#eventModalCard${this.props.business.id}`}
               >
@@ -124,7 +124,7 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="customButton blackButton"
+                  className="customButton redButton"
                   data-dismiss="modal"
                 >
                   Cerrar
@@ -191,7 +191,7 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="customButton blackButton"
+                  className="customButton redButton"
                   data-dismiss="modal"
                 >
                   Cerrar

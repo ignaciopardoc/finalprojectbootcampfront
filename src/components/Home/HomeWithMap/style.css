@@ -1,10 +1,29 @@
 h1 {
   color: #35c68f;
+  font-weight: 900;
 }
 
 .inputHome {
   margin-top: 3rem;
   margin-bottom: 1rem;
+}
+
+.leftBottomButton {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
+
+.rightBottomButton {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+
+.bottomButton {
+  position: absolute;
+  bottom: 10px;
+  width: 75%;
 }
 
 .containerHome {
@@ -14,10 +33,12 @@ h1 {
 
 .customButton {
   border-radius: 35px;
-  padding: 5px 11px 5px 11px;
+  padding: 5px 20px 5px 20px;
   box-sizing: content-box;
+  font-weight: 900;
   transition: all 0.15s ease-in-out 0s;
   background-color: white;
+  cursor: pointer;
 }
 
 .customButton:focus {
@@ -36,6 +57,15 @@ h1 {
   color: white;
 }
 
+.greenButton:focus {
+  background-color: #35c68f;
+  color: white;
+}
+
+.greenButton:disabled {
+  background-color: none !important;
+}
+
 .blackButton {
   background-color: white;
   border: 2px solid #999996;
@@ -47,22 +77,53 @@ h1 {
   color: white;
 }
 
+.blackButton:focus {
+  background-color: #999996;
+  color: white;
+}
+
+.blueButton {
+  background-color: white;
+  border: 2px solid #039be5;
+  color: black;
+}
+
+.blueButton:hover {
+  background-color: #039be5;
+  color: white;
+}
+
+.blueButton:focus {
+  background-color: #039be5;
+  color: white;
+}
+
 .yellowButton {
-  border: 2px solid #fed06a;
+  border: 2px solid #f9a825;
 }
 
 .yellowButton:hover {
-  background-color: #fed06a;
+  background-color: #f9a825;
+  color: white;
+}
+
+.yellowButton:focus {
+  background-color: #f9a825;
   color: white;
 }
 
 .redButton {
-  border: none;
-  background-color: grey;
+  border: 2px solid #d32f2f;
+  background-color: white;
 }
 
 .redButton:hover {
-  background-color: red;
+  background-color: #d32f2f;
+  color: white;
+}
+
+.redButton:focus {
+  background-color: #d32f2f;
   color: white;
 }
 

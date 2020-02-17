@@ -130,9 +130,9 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
                     showAddBusiness: !showAddBusiness
                   }))
                 }
-                className="card card-body h-100  justify-content-center businessCard addBusinessCard"
+                className="card card-body h-100  justify-content-center businessCard addBusinessCard addCard"
               >
-                <h1 className="d-flex justify-content-center">+</h1>
+                <h1 className="d-flex justify-content-center ">+</h1>
               </div>
             </div>
           </div>

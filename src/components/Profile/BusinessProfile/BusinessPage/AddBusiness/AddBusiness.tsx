@@ -393,7 +393,7 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
           </div>
           <button
             onClick={() => this.createBusiness()}
-            className="customButton blackButton mt-3 ml-3"
+            className="customButton blueButton mt-3 ml-3"
           >
             Añadir empresa
           </button>

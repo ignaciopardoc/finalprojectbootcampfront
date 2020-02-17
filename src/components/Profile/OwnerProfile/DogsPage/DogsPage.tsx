@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const URL_GET_DOG = "http://localhost:3000/dog/getDogInfo";
 
-interface IProps {}
+interface IProps {setNavbar(selected: number):void}
 
 interface IGlobalProps {
   token: IUser;
@@ -59,6 +59,7 @@ class DogsPage extends React.PureComponent<TProps, IState> {
     setTimeout(() => {
       this.getDogInfo();
     }, 1);
+    this.props.setNavbar(1)
   }
 
   render() {
@@ -110,7 +111,7 @@ class DogsPage extends React.PureComponent<TProps, IState> {
                     <h5 className="card-title">{d.name}</h5>
                     <p className="card-text">{d.description}</p>
                     <Link to={`/profile/editDog/${d.id}`}>
-                      <p className="customButton float-right editButton">
+                      <p className="customButton greenButton bottomButton float-center text-center">
                         Editar
                       </p>
                     </Link>

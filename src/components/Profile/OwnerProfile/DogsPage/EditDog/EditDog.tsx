@@ -15,7 +15,7 @@ interface IState {
   description: string;
 }
 
-interface IProps {}
+interface IProps {setNavbar(selected: number): void}
 
 interface IGlobalProps {
   token: IUser;
@@ -89,6 +89,7 @@ class EditDog extends React.PureComponent<TProps, IState> {
 
   componentDidMount() {
     this.getDogInfo();
+    this.props.setNavbar(1)
   }
 
   render() {
