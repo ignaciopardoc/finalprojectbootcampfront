@@ -257,7 +257,7 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
       <Fragment>
         <div className="row addBusinessContainer">
           {/* First column */}
-          <div className="col-3">
+          <div className="col-md-3 col-12">
             <div className="row">
               <div className="form-group">
                 <label>Nombre de la empresa</label>
@@ -278,7 +278,7 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
                 <label>Descripción</label>
                 <textarea
                   rows={5}
-                  cols={50}
+                  cols={30}
                   className="form-control"
                   value={this.state.description}
                   onChange={e => {
@@ -306,11 +306,19 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
               </div>
             </div>
             <label>Foto principal de su negocio</label>
-            <input type="file" name="avatar" id="mainImage" ref={this.avatar} />
+            <div className="custom-file">
+              <input
+                type="file"
+                className="custom-file-input"
+                id="customFile"
+                ref={this.avatar}
+              />
+              <label className="custom-file-label">Elija una foto</label>
+            </div>
           </div>
 
           {/* Second Column */}
-          <div className="col-3">
+          <div className="col-md-3 col-12">
             <div className="row">
               <div className="form-group">
                 <label>Teléfono</label>
@@ -403,7 +411,7 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
             </div>
           </div>
           {/* Map column */}
-          <div className="col-6">
+          <div className="col-md-6 col-12">
             <MapExample
               changelatlng={this.changelatlng}
               zoom={this.state.zoom}
@@ -412,12 +420,12 @@ class EditBusiness extends React.PureComponent<TProps, IState> {
           </div>
           <button
             onClick={() => this.updateBusiness()}
-            className="customButton blueButton"
+            className="customButton blueButton mt-3"
           >
             Actualizar información
           </button>
           <button
-            className="customButton redButton"
+            className="customButton redButton mt-3"
             onClick={() => {
               swalWithBootstrapButtons
                 .fire({

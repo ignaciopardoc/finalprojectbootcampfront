@@ -303,12 +303,12 @@ class HomeWithMap extends React.Component<any, IState> {
               <div className="modal-body">
                 <div className="row">
                   <div
-                    className="col-6 modalImg"
+                    className="col-md-6 col-12 modalImg"
                     style={{
                       backgroundImage: `url(http://localhost:3000/public/avatar/${selectedBusiness.mainImagePath})`
                     }}
                   ></div>
-                  <div className="col-6">
+                  <div className="col-md-6 col-12">
                     <p>{selectedBusiness.description}</p>
                     <p>
                       {selectedBusiness.address}, {selectedBusiness.postcode}{" "}

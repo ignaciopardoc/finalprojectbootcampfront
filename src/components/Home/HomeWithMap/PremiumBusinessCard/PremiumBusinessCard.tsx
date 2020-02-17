@@ -165,12 +165,12 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
               <div className="modal-body">
                 <div className="row">
                   <div
-                    className="col-6 modalImg"
+                    className="col-md-6 col-12 modalImg"
                     style={{
                       backgroundImage: `url(http://localhost:3000/public/avatar/${this.props.business.mainImagePath})`
                     }}
                   ></div>
-                  <div className="col-6">
+                  <div className="col-md-6 col-12">
                     <p>{this.props.business.description}</p>
                     <p>
                       {this.props.business.address},{" "}

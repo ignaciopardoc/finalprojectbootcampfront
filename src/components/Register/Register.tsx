@@ -114,19 +114,17 @@ class Register extends React.PureComponent<IProps, IState> {
         <div className="row">
           <div className="col-6 ">
             <Link to={"/register/business"}>
-              <button className="customButton customButton-light">
-                Soy empresa
-              </button>
+              <button className="customButton blueButton">Soy empresa</button>
             </Link>
           </div>
           <div className="col-5">
             <Link to={"/register/"}>
-              <button className="customButton customButton-danger">
+              <button className="customButton greenButton">
                 Tengo un perro
               </button>
             </Link>
 
-            <h1>¡Regístrate USUARIO!</h1>
+            <h1>¡Regístrate!</h1>
             <div className="formulario">
               <div className="row">
                 <div className="col">

@@ -41,6 +41,13 @@ h1 {
   cursor: pointer;
 }
 
+.customButton:disabled {
+  background-color: unset !important;
+  color: rgba(128, 128, 128, 0.425) !important;
+  border: grey 2px solid;
+  cursor: unset;
+}
+
 .customButton:focus {
   outline: none;
   text-decoration: none !important;
@@ -60,10 +67,6 @@ h1 {
 .greenButton:focus {
   background-color: #35c68f;
   color: white;
-}
-
-.greenButton:disabled {
-  background-color: none !important;
 }
 
 .blackButton {

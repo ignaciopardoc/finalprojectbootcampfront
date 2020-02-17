@@ -11,16 +11,16 @@ import DogOwnerInfo from "./UserProfile/DogOwnerInfo";
 // import EditBusiness from "./BusinessPage/EditBusiness/EditBusiness";
 
 interface IState {
-  selectedItem: number
+  selectedItem: number;
 }
 
 class OwnerProfile extends React.PureComponent<any, IState> {
   constructor(props: any) {
-    super(props)
+    super(props);
 
-    this.state={
+    this.state = {
       selectedItem: 0
-    }
+    };
   }
 
   setNavbar = (selected: number) => {
@@ -32,14 +32,22 @@ class OwnerProfile extends React.PureComponent<any, IState> {
         <div className="col-12 col-sm-12 col-md-12 col-lg-1 col-xl-1 "></div>
         <div className="col-12 col-sm-1 col-md-1 col-lg-1 col-xl-1 profileNavbar">
           <Link to="/profile">
-            <div className={`row ${
+            <div
+              className={`row ${
                 this.state.selectedItem === 0 ? `selectedItem` : null
-              }`}>Información de usuario</div>
+              }`}
+            >
+              Información de usuario
+            </div>
           </Link>
           <Link to="/profile/dogsPage">
-            <div className={`row ${
+            <div
+              className={`row ${
                 this.state.selectedItem === 1 ? `selectedItem` : null
-              }`}>Tus perros</div>
+              }`}
+            >
+              Tus perros
+            </div>
           </Link>
         </div>
         <div className="col-11">

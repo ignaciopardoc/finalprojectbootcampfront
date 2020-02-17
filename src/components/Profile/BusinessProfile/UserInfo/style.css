@@ -11,16 +11,20 @@
   border-radius: 100%;
 }
 
-.PremiumBanner {
+.premiumBanner {
   cursor: pointer;
+  transition: all 0.15s ease-in-out 0s;
+}
+.premiumBanner h2 {
+  color: #35c68f;
+}
+
+.premiumBanner:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
 }
 
 .premiumColor {
   color: #f9a825 !important;
-}
-
-.PremiumBanner:hover {
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .editPersonalInfoForm h4 {

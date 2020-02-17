@@ -8,7 +8,9 @@ import { Link } from "react-router-dom";
 
 const URL_GET_DOG = "http://localhost:3000/dog/getDogInfo";
 
-interface IProps {setNavbar(selected: number):void}
+interface IProps {
+  setNavbar(selected: number): void;
+}
 
 interface IGlobalProps {
   token: IUser;
@@ -59,7 +61,7 @@ class DogsPage extends React.PureComponent<TProps, IState> {
     setTimeout(() => {
       this.getDogInfo();
     }, 1);
-    this.props.setNavbar(1)
+    this.props.setNavbar(1);
   }
 
   render() {

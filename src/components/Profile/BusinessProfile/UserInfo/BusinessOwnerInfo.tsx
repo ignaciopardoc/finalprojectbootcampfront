@@ -487,7 +487,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
             </div>
           </div>
         </div>
-        
+
         {/* Banner Premium */}
         {!this.state.showPremium && !this.props.isPremium && (
           <div
@@ -498,19 +498,25 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                 }
               });
             }}
-            className="container shadow pb-3 PremiumBanner mb-5"
+            className="container  pb-3 mb-5 "
           >
-            <div className="row mt-3 pt-3 ">
-              <div className="col-4">
-                <h1>
-                  Hazte <span className="premiumColor">Premium</span>
-                </h1>
-              </div>
-              <div className="col-md-6 col-12 ">
-                <h1>Añade eventos</h1>
-                <h1>Destaca tu negocio</h1>
-                <h1>Y mucho más</h1>
-                <h1>Todo por solo 29,99€/mes</h1>
+            <div className="row mt-3 pt-3  ">
+              <div className="col-3"></div>
+              <div className="col-5 premiumBanner shadow">
+                <div className="col-12">
+                  <h1>
+                    <span className="premiumColor"> Hazte Premium</span>
+                  </h1>
+                </div>
+                <div className="col-12">
+                  <h2>Añade eventos</h2>
+                  <h2>Destaca tu negocio</h2>
+                  <h2>Y mucho más</h2>
+                  <h1>
+                    Todo por solo{" "}
+                    <span className="premiumColor">29,99€/mes</span>{" "}
+                  </h1>
+                </div>
               </div>
             </div>
           </div>
@@ -520,9 +526,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
           <div className="container shadow pb-3 mb-5">
             <div className="row mt-3 pt-3">
               <div className="col-4">
-                <h1>
-                  Hazte <span className="premiumColor">Premium</span>
-                </h1>
+                <h1 className="premiumColor">Hazte Premium</h1>
               </div>
               <div className="col-md-6 col-12 ">
                 <h1>¡Estás a un solo paso!</h1>
@@ -576,7 +580,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
                   Enviar
                 </button>
                 <button
-                  className="customButton yellowButton ml-3 mt-3"
+                  className="customButton redButton ml-3 mt-3"
                   onClick={() => this.setState({ showPremium: false })}
                 >
                   Cancelar
