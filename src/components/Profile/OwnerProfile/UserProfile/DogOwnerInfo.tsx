@@ -74,7 +74,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
     this.setState({ editPassword: false });
   };
   getuserinfo = async () => {
-    const token = this.props.token.token;
+    const token = localStorage.getItem("token");
     const response = await fetch(API_GET_USER, {
       method: "GET",
       headers: new Headers({
@@ -109,7 +109,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
           if (this.avatar.current !== null) {
             this.avatar.current.value = "";
           }
-          const token = this.props.token.token;
+          const token = localStorage.getItem("token");
           await fetch(API_UPDATE_TOKEN, {
             method: "GET",
             headers: new Headers({
@@ -119,7 +119,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
           }).then(async responsetoken => {
             const token = await responsetoken.json();
 
-            this.props.setToken(token);
+            this.props.setToken({ token: token });
             localStorage.setItem("token", token);
           });
         });
@@ -127,7 +127,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
   };
 
   addPersonalInfo = async () => {
-    const token = this.props.token.token;
+    const token = localStorage.getItem("token");
     const { name, surname, address, city, postcode } = this.state.user;
 
     try {
@@ -170,7 +170,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
           }).then(async responsetoken => {
             const token = await responsetoken.json();
             localStorage.setItem("token", token);
-            this.props.setToken(token);
+            this.props.setToken({ token: token });
           });
         });
     } catch (e) {
@@ -186,7 +186,9 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
     setTimeout(() => {
       const { name, surname, address, city, postcode } = this.state.user;
 
-      const token = jwt.decode(this.props.token.token) as IToken;
+      const token = jwt.decode(
+        localStorage.getItem("token") as string
+      ) as IToken;
       {
         !token.isBusiness &&
           !name &&
@@ -208,7 +210,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
       <Fragment>
         <div className="row  pb-4 pt-4 mt-5">
           {/* Primera columna */}
-          <div className="col-md-4 col-12 shadow pb-3 pt-3 ml-3 mr-3">
+          <div className="col-md-4 col-12 shadowProfile pb-3 pt-3 ml-3 mr-3">
             <h4>Email</h4>
             <p>{this.state.user.email}</p>
             <h4>Nombre de usuario</h4>
@@ -238,7 +240,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
 
           {/* Text information */}
           {!this.state.editPersonalInfo && (
-            <div className="col-md-3 col-12 shadow pb-3 pt-3 mr-3">
+            <div className="col-md-3 col-12 shadowProfile pb-3 pt-3 mr-3">
               <h4>Nombre</h4>
               <p>{this.state.user.name}</p>
               <h4>Apellidos</h4>
@@ -263,7 +265,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
 
           {/* Edit information */}
           {this.state.editPersonalInfo && (
-            <div className="col-md-3 col-12 editPersonalInfoForm shadow pb-3 pt-3 mr-3">
+            <div className="col-md-3 col-12 editPersonalInfoForm shadowProfile pb-3 pt-3 mr-3">
               <h4>Nombre</h4>
               <input
                 className="form-control"
@@ -344,7 +346,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
                 }}
               />
               <button
-                className="customButton yellowButton mt-2 mr-1"
+                className="customButton redButton mt-2 mr-1"
                 onClick={() => {
                   this.getuserinfo();
                   this.setState({ editPersonalInfo: false });
@@ -363,7 +365,7 @@ class DogOwnerInfo extends React.PureComponent<TProps, IState> {
           )}
 
           {/* Tercera columna */}
-          <div className="col-md-4 avatarDiv col-12 shadow pb-3 pt-3 ">
+          <div className="col-md-4 avatarDiv col-12 shadowProfile pb-3 pt-3 ">
             <div
               className="avatarImgDiv"
               style={{

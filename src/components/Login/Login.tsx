@@ -14,6 +14,7 @@ import { IStore } from "../../interfaces/IStore";
 import history from "../../utils/history";
 import jwt from "jsonwebtoken";
 import { IUserInfo } from "../../interfaces/IUserInfo";
+import { Link } from "react-router-dom";
 
 const API_URL = "http://localhost:3000/auth/auth";
 
@@ -117,6 +118,9 @@ class Login extends React.PureComponent<TProps, IState> {
           >
             Enviar
           </button>
+          <Link to="/register">
+            <label className="ml-5">¿No tienes una cuenta? ¡Regístrate!</label>
+          </Link>
         </div>
       </div>
     );

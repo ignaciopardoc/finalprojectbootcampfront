@@ -108,7 +108,7 @@ class AddDog extends React.PureComponent<TProps, IState> {
               onChange={e => this.setState({ breed: e.target.value })}
               value={this.state.breed}
             />
-            <div className="custom-file">
+            <div className="custom-file mt-3">
               <input
                 type="file"
                 className="custom-file-input"

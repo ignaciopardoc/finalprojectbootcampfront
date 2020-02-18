@@ -86,7 +86,7 @@ class DogsPage extends React.PureComponent<TProps, IState> {
                 showAddDogs: !showAddDogs
               }))
             }
-            className="customButton customButton-danger"
+            className="customButton redButton"
           >
             Cerrar
           </button>

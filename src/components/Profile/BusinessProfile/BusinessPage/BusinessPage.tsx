@@ -62,7 +62,7 @@ class BusinessPage extends React.PureComponent<TProps, IState> {
     return (
       <Fragment>
         <div className="row mainContainer pl-3">
-          <div className="col-md-3 col-12">
+          <div className="col-md-4 col-12">
             {!this.state.showAddBusiness && (
               <h1
                 className="addEventButton"

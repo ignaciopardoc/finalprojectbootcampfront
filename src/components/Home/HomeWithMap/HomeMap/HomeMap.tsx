@@ -216,12 +216,15 @@ class HomeMap extends React.PureComponent<TProps, IState> {
             {this.props.businessOnMap.map(b => (
               <Marker
                 key={b.id}
-                onClick={() => this.getEvents(b.id)}
+                onClick={() => {
+                  this.getEvents(b.id);
+                  this.getInfo(b.id);
+                }}
                 position={[b.lat, b.lon]}
                 icon={myIcon}
               >
                 <Popup>
-                  <div className="card businessCardMap">
+                  <div className="card businessCardMap" key={b.id}>
                     <div
                       className="card-img-top businessImageMap"
                       style={{
@@ -230,7 +233,41 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                     />
                     <div className="card-body">
                       <h5 className="card-title">{b.businessName}</h5>
-                      <p className="card-text">{b.description}</p>
+                      <p className="card-text">{`${b.description.substr(
+                        0,
+                        80
+                      )}${b.description.length > 80 ? `...` : ""}`}</p>
+                      <Rating
+                        readonly
+                        className="ratingStars mr-2"
+                        emptySymbol="fa fa-star-o fa-2x"
+                        fullSymbol="fa fa-star fa-2x"
+                        fractions={2}
+                        initialRating={this.state.averageStars}
+                      />
+                      {!this.state.isBusiness && this.props.logged.logged && (
+                        <label
+                          className="valorationMessage"
+                          data-toggle="modal"
+                          data-target="#ratingModal"
+                          onClick={() => this.getDogs()}
+                        >
+                          {this.state.numberOfReviews !== 0
+                            ? "¡Deja tu valoración!"
+                            : "¡Sé el primero!"}
+                        </label>
+                      )}
+                      <label className="mb-4">
+                        Número de valoraciones: {this.state.numberOfReviews}{" "}
+                        {this.state.numberOfReviews !== 0 ? (
+                          <i
+                            data-toggle="modal"
+                            data-target="#businessReviewsModal"
+                            onClick={() => this.getReviews(b.id)}
+                            className="far fa-eye"
+                          ></i>
+                        ) : null}
+                      </label>
                       <button
                         type="button"
                         className="customButton blueButton leftBottomButton"
@@ -276,7 +313,10 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                     />
                     <div className="card-body">
                       <h5 className="card-title">{b.businessName}</h5>
-                      <p className="card-text">{b.description}</p>
+                      <p className="card-text">{`${b.description.substr(
+                        0,
+                        80
+                      )}${b.description.length > 80 ? `...` : ""}`}</p>
                       <Rating
                         readonly
                         className="ratingStars mr-2"
@@ -297,7 +337,7 @@ class HomeMap extends React.PureComponent<TProps, IState> {
                             : "¡Sé el primero!"}
                         </label>
                       )}
-                      <label>
+                      <label className="mb-4">
                         Número de valoraciones: {this.state.numberOfReviews}{" "}
                         {this.state.numberOfReviews !== 0 ? (
                           <i

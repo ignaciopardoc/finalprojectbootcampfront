@@ -95,7 +95,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
     this.setState({ editPassword: false });
   };
   getuserinfo = async () => {
-    const token = this.props.token.token;
+    const token = localStorage.getItem("token");
     const response = await fetch(API_GET_USER, {
       method: "GET",
       headers: new Headers({
@@ -130,7 +130,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
           if (this.avatar.current !== null) {
             this.avatar.current.value = "";
           }
-          const token = this.props.token.token;
+          const token = localStorage.getItem("token");
           await fetch(API_UPDATE_TOKEN, {
             method: "GET",
             headers: new Headers({
@@ -140,7 +140,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
           }).then(async responsetoken => {
             const token = await responsetoken.json();
 
-            this.props.setToken(token);
+            this.props.setToken({ token: token });
             localStorage.setItem("token", token);
           });
         });
@@ -162,13 +162,13 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
     }).then(async response => {
       const token = await response.json();
       localStorage.setItem("token", token);
-      this.props.setToken(token);
+      this.props.setToken({ token: token });
     });
   };
 
   // Make send iban after check it
   makePremium = async () => {
-    const token = this.props.token.token;
+    const token = localStorage.getItem("token");
     const { iban, password } = this.state;
     const { username } = this.state.user;
 
@@ -196,6 +196,11 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
           }).then(response2 => {
             this.props.setPremium(true);
             this.getNewToken();
+            Swal.fire({
+              title: "Pago procesado correctamente",
+              text: "Ya puedes disfutar de todas las ventajas",
+              icon: "success"
+            });
           });
         } else {
           Swal.fire({ title: "Contraseña incorrecta", icon: "error" });
@@ -207,7 +212,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
   };
 
   addPersonalInfo = async () => {
-    const token = this.props.token.token;
+    const token = localStorage.getItem("token");
     const { name, surname, address, city, postcode } = this.state.user;
 
     try {
@@ -250,7 +255,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
           }).then(async responsetoken => {
             const token = await responsetoken.json();
             localStorage.setItem("token", token);
-            this.props.setToken(token);
+            this.props.setToken({ token: token });
           });
         });
     } catch (e) {
@@ -261,7 +266,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
   checkUserInfo = async () => {
     const { name, surname, address, city, postcode } = this.state.user;
 
-    const token = jwt.decode(this.props.token.token) as IToken;
+    const token = jwt.decode(localStorage.getItem("token") as string) as IToken;
 
     {
       token.isBusiness &&
@@ -295,7 +300,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
         <div className="container-fluid">
           <div className="row pb-4 pt-4 mt-3">
             {/* Primera columna */}
-            <div className="col-md-4 col-12 shadow pb-3 pt-3 ml-3 mr-3">
+            <div className="col-md-4 col-12 shadowProfile pb-3 pt-3 ml-3 mr-3">
               <h4>Email</h4>
               <p>{this.state.user.email}</p>
               <h4>Nombre de usuario</h4>
@@ -325,7 +330,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
 
             {/* Text information */}
             {!this.state.editPersonalInfo && (
-              <div className="col-md-3 col-12 shadow pb-3 pt-3 mr-3">
+              <div className="col-md-3 col-12 shadowProfile pb-3 pt-3 mr-3">
                 <h4>Nombre</h4>
                 <p>{this.state.user.name}</p>
                 <h4>Apellidos</h4>
@@ -353,7 +358,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
 
             {/* Edit information */}
             {this.state.editPersonalInfo && (
-              <div className="col-md-3 col-12 editPersonalInfoForm shadow pb-3 pt-3 mr-3">
+              <div className="col-md-3 col-12 editPersonalInfoForm shadowProfile pb-3 pt-3 mr-3">
                 <h4>Nombre</h4>
                 <input
                   className="form-control"
@@ -453,7 +458,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
             )}
 
             {/* Tercera columna */}
-            <div className="col-md-4 avatarDiv col-12 shadow pb-3 pt-3">
+            <div className="col-md-4 avatarDiv col-12 shadowProfile pb-3 pt-3">
               <div
                 className="avatarImgDiv"
                 style={{
@@ -523,7 +528,7 @@ class BusinessOwnerInfo extends React.PureComponent<TProps, IState> {
         )}
 
         {this.state.showPremium && !this.props.isPremium && (
-          <div className="container shadow pb-3 mb-5">
+          <div className="container shadowProfile pb-3 mb-5">
             <div className="row mt-3 pt-3">
               <div className="col-4">
                 <h1 className="premiumColor">Hazte Premium</h1>

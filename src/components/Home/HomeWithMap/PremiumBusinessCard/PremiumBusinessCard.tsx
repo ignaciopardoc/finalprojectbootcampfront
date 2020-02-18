@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import instagramLogo from "../../../../icons/instagram.svg";
 import { businessDB } from "../../../../interfaces/businessDB";
 import { EventDB } from "../../../../interfaces/EventDB";
+import { Transition } from "react-transition-group";
 
 const URL_GET_EVENTS = "http://localhost:3000/event/getEventFromBusiness/";
 
@@ -52,7 +53,10 @@ class PremiumBusinessCard extends React.PureComponent<IProps, IState> {
           />
           <div className="card-body">
             <h5 className="card-title">{business.businessName}</h5>
-            <p className="card-text">{business.description}</p>
+            <p className="card-text mb-5">{`${business.description.substr(
+                        0,
+                        80
+                      )}${business.description.length > 80 ? `...` : ""}`}</p>
             <button
               type="button"
               className="customButton blueButton leftBottomButton"

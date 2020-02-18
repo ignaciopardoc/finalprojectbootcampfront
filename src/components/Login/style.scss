@@ -14,4 +14,11 @@
   button {
     margin-top: 30px;
   }
+  a {
+    text-decoration: none;
+    color: grey;
+    :hover {
+      cursor: pointer;
+    }
+  }
 }

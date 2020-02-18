@@ -19,7 +19,7 @@ interface IGlobalProps {
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
     confirmButton: "customButton greenButton",
-    cancelButton: "customButton customButton-danger"
+    cancelButton: "customButton redButton"
   },
   buttonsStyling: false
 });

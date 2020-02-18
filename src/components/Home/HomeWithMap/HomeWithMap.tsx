@@ -8,6 +8,8 @@ import instagramLogo from "../../../icons/instagram.svg";
 import PremiumBusinessCard from "./PremiumBusinessCard/PremiumBusinessCard";
 import { businessDB } from "../../../interfaces/businessDB";
 
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+
 const API_CATEGORIES = "http://localhost:3000/business/getCategories";
 const URL_GET_ONEBUSINESS = "http://localhost:3000/business/getOneBusiness/";
 const URL_GET_MAP = "http://localhost:3000/business/getBusinessMap";
@@ -239,10 +241,31 @@ class HomeWithMap extends React.Component<any, IState> {
               key={business.id}
             >
               {!this.state.seeMore && index < 3 && (
-                <PremiumBusinessCard business={business} key={business.id} />
+                <TransitionGroup>
+                  <CSSTransition
+                    in={true}
+                    classNames="cardHome"
+                    key={business.id}
+                    appear={true}
+                    timeout={300}
+                  >
+                    <PremiumBusinessCard
+                      business={business}
+                      key={business.id}
+                    />
+                  </CSSTransition>
+                </TransitionGroup>
               )}
               {this.state.seeMore && (
-                <PremiumBusinessCard business={business} key={business.id} />
+                <CSSTransition
+                  in={true}
+                  key={business.id}
+                  classNames="cardHome"
+                  appear={true}
+                  timeout={300}
+                >
+                  <PremiumBusinessCard business={business} key={business.id} />
+                </CSSTransition>
               )}
             </div>
           ))}

@@ -154,7 +154,7 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
     const today = new Date();
     return (
       <Fragment>
-        <div className="row">
+        <div className="row mainContainer pl-3">
           {!this.state.addEvent && (
             <h1
               className="addEventButton"
@@ -173,6 +173,8 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
             </h1>
           )}
         </div>
+
+        {/* Add event  */}
         {this.state.addEvent && (
           <div className="container">
             <div className="row mt-3">
@@ -246,6 +248,13 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
               ></textarea>
             </div>
             <button
+              disabled={
+                this.state.selectedBusiness === "null" ||
+                !this.state.description ||
+                !this.state.startDate ||
+                !this.state.endDate ||
+                !this.state.eventName
+              }
               className="customButton greenButton mt-3 mb-3"
               onClick={() => {
                 this.addEvent();
@@ -255,7 +264,7 @@ class ManageEvents extends React.PureComponent<TProps, IState> {
             </button>
           </div>
         )}
-
+        {/* Card Container  */}
         {!this.state.addEvent && (
           <div className="row">
             {this.state.events.map(event => (

@@ -23,12 +23,45 @@ h1 {
 .bottomButton {
   position: absolute;
   bottom: 10px;
-  width: 75%;
+  width: 70%;
 }
 
 .containerHome {
   background-color: whitesmoke !important;
   min-height: 100vh;
+}
+
+.cardHome-appear {
+  opacity: 0;
+  z-index: 1;
+}
+
+.cardHome-appear.cardHome-appear-active {
+  opacity: 1;
+  transition: opacity 300ms linear;
+}
+
+.cardHome-enter {
+  opacity: 1;
+  z-index: 1;
+}
+
+.cardHome-enter.cardHome-enter-active {
+  opacity: 1;
+  transition: opacity 300ms linear;
+}
+
+.cardHome-exit {
+  opacity: 1;
+}
+
+.cardHome-exit.cardHome-exit-active {
+  opacity: 0;
+  transition: opacity 300ms linear;
+}
+
+.cardHome-exit-home {
+  opacity: 0;
 }
 
 .customButton {

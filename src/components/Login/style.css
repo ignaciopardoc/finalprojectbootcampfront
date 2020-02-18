@@ -13,3 +13,10 @@
 .login button {
   margin-top: 30px;
 }
+.login a {
+  text-decoration: none;
+  color: grey;
+}
+.login a :hover {
+  cursor: pointer;
+}

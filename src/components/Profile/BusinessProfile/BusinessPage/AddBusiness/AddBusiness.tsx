@@ -394,6 +394,19 @@ class AddBusiness extends React.PureComponent<TProps, IState> {
           <button
             onClick={() => this.createBusiness()}
             className="customButton blueButton mt-3 ml-3"
+            disabled={
+              !this.state.address ||
+              !this.state.businessName ||
+              this.state.category === "null" ||
+              !this.state.category ||
+              !this.state.city ||
+              !this.state.description ||
+              !this.state.email ||
+              !this.state.lat ||
+              !this.state.lon ||
+              !this.state.postcode ||
+              !this.state.telephone
+            }
           >
             Añadir empresa
           </button>

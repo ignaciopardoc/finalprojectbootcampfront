@@ -62,7 +62,7 @@ class BusinessRegister extends React.PureComponent<IProps, IState> {
           icon: "success",
           title: "Registrado correctamente"
         });
-        history.push("/");
+        history.push("/login");
       }
     } catch (e) {
       console.log(e);
