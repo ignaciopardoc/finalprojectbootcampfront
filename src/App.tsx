@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Navbar from "./components/Navbar/Navbar";
+
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
 
@@ -22,6 +22,7 @@ import { IUser } from "./interfaces/IToken";
 
 import { IUserInfo } from "./interfaces/IUserInfo";
 import Home from "./components/Home/Home";
+import Navbar from "./components/navbar/Navbar";
 
 interface IToken {
   name: string;
