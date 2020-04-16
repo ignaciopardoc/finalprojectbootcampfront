@@ -8,7 +8,7 @@ It is necesary to have installed Node.js globally.
 
 When you have everything setted up just execute npm install on the folder you have cloned this repository and npm start to start the back server.
 
-###IMPORTANT
+##IMPORTANT
 
 Always remember to execute first the back server first
 
